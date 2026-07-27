@@ -5,27 +5,30 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
+ * DIVUS — Design System
+ * Maison de collection · Paris · Amsterdam · MMXXV
  *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
+ * Palette héritée du dossier de marque :
+ *   Travertin — ivoire chaud, fond principal
+ *   Pierre    — gris minéral, séparations et textes secondaires
+ *   Terre     — brun tanné, cuir des étiquettes
+ *   Cyprès    — vert profond, sceau de cire, accent silencieux
+ *   Charbon   — noir doux, encre principale
  *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Typographies :
+ *   Display  — Cormorant Garamond (serif, empattements romains)
+ *   Sans     — Inter (labels majuscules, corps de texte discret)
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,91 +48,66 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-travertin: var(--travertin);
+  --color-pierre: var(--pierre);
+  --color-terre: var(--terre);
+  --color-cypres: var(--cypres);
+  --color-charbon: var(--charbon);
+  --color-ivory: var(--ivory);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --radius: 0px;
+
+  /* DIVUS palette */
+  --travertin: oklch(0.945 0.014 82);
+  --ivory: oklch(0.965 0.010 85);
+  --pierre: oklch(0.78 0.010 80);
+  --terre: oklch(0.42 0.035 55);
+  --cypres: oklch(0.32 0.028 145);
+  --charbon: oklch(0.19 0.008 60);
+
+  /* Semantic */
+  --background: var(--travertin);
+  --foreground: var(--charbon);
+  --card: var(--ivory);
+  --card-foreground: var(--charbon);
+  --popover: var(--ivory);
+  --popover-foreground: var(--charbon);
+  --primary: var(--charbon);
+  --primary-foreground: var(--travertin);
+  --secondary: var(--pierre);
+  --secondary-foreground: var(--charbon);
+  --muted: oklch(0.90 0.012 82);
+  --muted-foreground: oklch(0.42 0.012 70);
+  --accent: var(--cypres);
+  --accent-foreground: var(--travertin);
+  --destructive: oklch(0.45 0.12 25);
+  --destructive-foreground: var(--travertin);
+  --border: oklch(0.82 0.010 80);
+  --input: oklch(0.82 0.010 80);
+  --ring: var(--charbon);
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --background: var(--charbon);
+  --foreground: var(--travertin);
+  --card: oklch(0.23 0.008 60);
+  --card-foreground: var(--travertin);
+  --popover: oklch(0.23 0.008 60);
+  --popover-foreground: var(--travertin);
+  --primary: var(--travertin);
+  --primary-foreground: var(--charbon);
+  --secondary: oklch(0.30 0.010 70);
+  --secondary-foreground: var(--travertin);
+  --muted: oklch(0.24 0.008 60);
+  --muted-foreground: oklch(0.70 0.010 80);
+  --accent: var(--cypres);
+  --accent-foreground: var(--travertin);
+  --border: oklch(0.30 0.008 60);
+  --input: oklch(0.30 0.008 60);
+  --ring: var(--travertin);
 }
 
 @layer base {
@@ -137,8 +115,81 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    font-weight: 300;
+    letter-spacing: 0.005em;
   }
+
+  ::selection {
+    background: var(--charbon);
+    color: var(--travertin);
+  }
+}
+
+@utility label {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+@utility label-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.625rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  line-height: 0.95;
+}
+
+@utility rule {
+  height: 1px;
+  background: var(--color-border);
+  width: 100%;
+}
+
+@utility fade-up {
+  animation: fade-up 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee {
+  animation: marquee 60s linear infinite;
 }
