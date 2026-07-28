@@ -5,23 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * DIVUS — Design System
- * Maison de collection · Paris · Amsterdam · MMXXV
+ * DIVUS — Design System · Édition Paris
+ * Direction : silence, précision, respiration.
  *
- * Palette héritée du dossier de marque :
- *   Travertin — ivoire chaud, fond principal
- *   Pierre    — gris minéral, séparations et textes secondaires
- *   Terre     — brun tanné, cuir des étiquettes
- *   Cyprès    — vert profond, sceau de cire, accent silencieux
- *   Charbon   — noir doux, encre principale
- *
- * Typographies :
- *   Display  — Cormorant Garamond (serif, empattements romains)
- *   Sans     — Inter (labels majuscules, corps de texte discret)
+ * Typographies
+ *   Display  — Fraunces (serif moderne, contraste maîtrisé, poids 400/500)
+ *   Sans     — Inter (labels, corps de texte, poids 400/500)
  */
 
 @theme inline {
-  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-display: "Fraunces", "Cormorant Garamond", "Times New Roman", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --radius-sm: 0px;
@@ -55,59 +48,55 @@
   --color-cypres: var(--cypres);
   --color-charbon: var(--charbon);
   --color-ivory: var(--ivory);
+  --color-blanc: var(--blanc);
 }
 
 :root {
   --radius: 0px;
 
   /* DIVUS palette */
-  --travertin: oklch(0.945 0.014 82);
-  --ivory: oklch(0.965 0.010 85);
+  --blanc: oklch(0.995 0 0);
+  --travertin: oklch(0.965 0.010 82);
+  --ivory: oklch(0.985 0.006 85);
   --pierre: oklch(0.78 0.010 80);
   --terre: oklch(0.42 0.035 55);
   --cypres: oklch(0.32 0.028 145);
-  --charbon: oklch(0.19 0.008 60);
+  --charbon: oklch(0.16 0.006 60);
 
-  /* Semantic */
-  --background: var(--travertin);
+  /* Semantic — fond quasi blanc, encre charbon */
+  --background: var(--blanc);
   --foreground: var(--charbon);
-  --card: var(--ivory);
+  --card: var(--blanc);
   --card-foreground: var(--charbon);
-  --popover: var(--ivory);
+  --popover: var(--blanc);
   --popover-foreground: var(--charbon);
   --primary: var(--charbon);
-  --primary-foreground: var(--travertin);
-  --secondary: var(--pierre);
+  --primary-foreground: var(--blanc);
+  --secondary: var(--travertin);
   --secondary-foreground: var(--charbon);
-  --muted: oklch(0.90 0.012 82);
-  --muted-foreground: oklch(0.42 0.012 70);
+  --muted: oklch(0.96 0.006 82);
+  --muted-foreground: oklch(0.48 0.008 70);
   --accent: var(--cypres);
-  --accent-foreground: var(--travertin);
+  --accent-foreground: var(--blanc);
   --destructive: oklch(0.45 0.12 25);
-  --destructive-foreground: var(--travertin);
-  --border: oklch(0.82 0.010 80);
-  --input: oklch(0.82 0.010 80);
+  --destructive-foreground: var(--blanc);
+  --border: oklch(0.90 0.006 80);
+  --input: oklch(0.90 0.006 80);
   --ring: var(--charbon);
 }
 
 .dark {
   --background: var(--charbon);
   --foreground: var(--travertin);
-  --card: oklch(0.23 0.008 60);
+  --card: oklch(0.20 0.006 60);
   --card-foreground: var(--travertin);
-  --popover: oklch(0.23 0.008 60);
-  --popover-foreground: var(--travertin);
+  --border: oklch(0.28 0.006 60);
+  --input: oklch(0.28 0.006 60);
+  --ring: var(--travertin);
   --primary: var(--travertin);
   --primary-foreground: var(--charbon);
-  --secondary: oklch(0.30 0.010 70);
-  --secondary-foreground: var(--travertin);
-  --muted: oklch(0.24 0.008 60);
-  --muted-foreground: oklch(0.70 0.010 80);
-  --accent: var(--cypres);
-  --accent-foreground: var(--travertin);
-  --border: oklch(0.30 0.008 60);
-  --input: oklch(0.30 0.008 60);
-  --ring: var(--travertin);
+  --muted: oklch(0.22 0.006 60);
+  --muted-foreground: oklch(0.72 0.008 80);
 }
 
 @layer base {
@@ -126,38 +115,47 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.005em;
+    font-feature-settings: "ss01", "cv11";
   }
 
   ::selection {
     background: var(--charbon);
-    color: var(--travertin);
+    color: var(--blanc);
   }
 }
 
 @utility label {
   font-family: var(--font-sans);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.6875rem;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
 }
 
 @utility label-sm {
   font-family: var(--font-sans);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.625rem;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.36em;
   text-transform: uppercase;
 }
 
 @utility display {
   font-family: var(--font-display);
-  font-weight: 300;
-  letter-spacing: -0.015em;
-  line-height: 0.95;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 30, "WONK" 0, "opsz" 96;
+  letter-spacing: -0.012em;
+  line-height: 1;
+}
+
+@utility display-italic {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-variation-settings: "SOFT" 40, "opsz" 96;
+  letter-spacing: -0.008em;
 }
 
 @utility rule {
@@ -167,13 +165,13 @@
 }
 
 @utility fade-up {
-  animation: fade-up 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
+  animation: fade-up 1.4s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -181,15 +179,28 @@
   }
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+@utility btn-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 2.25rem;
+  border: 1px solid var(--color-foreground);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  transition:
+    background-color 500ms ease,
+    color 500ms ease;
+  background: transparent;
+  cursor: pointer;
 }
 
-@utility marquee {
-  animation: marquee 60s linear infinite;
+@utility btn-line-hover {
+  &:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
 }

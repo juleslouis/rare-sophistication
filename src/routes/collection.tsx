@@ -10,13 +10,13 @@ import piece04 from "@/assets/piece-04.jpg";
 export const Route = createFileRoute("/collection")({
   head: () => ({
     meta: [
-      { title: "Collection — Trouver une pièce · DIVUS" },
+      { title: "Collection — DIVUS Paris" },
       {
         name: "description",
         content:
-          "Rechercher une pièce DIVUS par édition, matière ou numéro de série. Éditions muséales strictement numérotées, confection haute couture à Paris.",
+          "Rechercher une pièce DIVUS par édition, matière ou numéro de série. Éditions strictement numérotées, confection haute couture parisienne.",
       },
-      { property: "og:title", content: "Collection — Trouver une pièce · DIVUS" },
+      { property: "og:title", content: "Collection — DIVUS Paris" },
       {
         property: "og:description",
         content:
@@ -310,7 +310,7 @@ function PieceCard({ piece }: { piece: Piece }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-ivory">
+      <div className="relative aspect-[4/5] overflow-hidden bg-blanc">
         {/* Année en filigrane, style Patek */}
         <span
           aria-hidden

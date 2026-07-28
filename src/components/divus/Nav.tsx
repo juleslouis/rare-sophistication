@@ -3,16 +3,15 @@ import { useEffect, useState } from "react";
 
 /**
  * DIVUS — Navigation
- * Composition tripartite héritée des maisons horlogères :
- *   Menu (gauche) · Monogramme (centre) · Icônes (droite)
- * Silencieuse, fine, jamais opaque au-dessus du hero.
+ * Menu ultra-minimal. Trois zones : Menu · Logo · Recherche.
+ * Silencieux, discret, jamais concurrent du contenu.
  */
 export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 40);
+    const on = () => setScrolled(window.scrollY > 30);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
@@ -32,11 +31,12 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,color] duration-700 ease-out ${
           solid
-            ? "bg-background/90 backdrop-blur-md border-b border-border/60 text-foreground"
-            : "bg-transparent border-b border-transparent text-travertin"
+            ? "bg-background/95 backdrop-blur-md border-b border-border/60 text-foreground"
+            : "bg-transparent border-b border-transparent text-foreground"
         }`}
       >
-        <div className="mx-auto grid h-16 max-w-[1600px] grid-cols-3 items-center px-5 md:h-20 md:px-10">
+        <div className="mx-auto grid h-20 max-w-[1600px] grid-cols-3 items-center px-6 md:h-24 md:px-12">
+          {/* Menu */}
           <div className="flex items-center">
             <button
               onClick={() => setOpen(true)}
@@ -44,48 +44,39 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
               aria-label="Ouvrir le menu"
             >
               <span className="flex flex-col gap-[5px]" aria-hidden>
-                <span className="block h-px w-5 bg-current transition-all duration-500 group-hover:w-6" />
-                <span className="block h-px w-5 bg-current transition-all duration-500 group-hover:w-4" />
-                <span className="block h-px w-5 bg-current transition-all duration-500 group-hover:w-6" />
+                <span className="block h-px w-5 bg-current" />
+                <span className="block h-px w-5 bg-current" />
               </span>
               <span className="label hidden md:inline">Menu</span>
             </button>
           </div>
 
+          {/* Logo — DIVUS Paris uniquement */}
           <Link
             to="/"
             className="justify-self-center text-center"
-            aria-label="DIVUS — Accueil"
+            aria-label="DIVUS Paris — Accueil"
           >
-            <span className="display block text-[1.25rem] leading-none tracking-[0.34em] md:text-[1.5rem]">
+            <span className="display block text-[1.35rem] leading-none tracking-[0.28em] md:text-[1.6rem]">
               DIVUS
             </span>
-            <span className="label-sm mt-1 hidden opacity-70 md:block">
-              Paris · Amsterdam
+            <span className="mt-1.5 block text-[0.55rem] font-medium tracking-[0.42em] text-muted-foreground md:text-[0.6rem]">
+              PARIS
             </span>
           </Link>
 
-          <div className="flex items-center justify-end gap-6 md:gap-8">
+          {/* Recherche */}
+          <div className="flex items-center justify-end gap-7 md:gap-9">
             <Link
               to="/collection"
               className="opacity-90 transition-opacity hover:opacity-60"
-              aria-label="Trouver une pièce"
+              aria-label="Rechercher"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <circle cx="11" cy="11" r="7" />
                 <path d="m20 20-3.5-3.5" strokeLinecap="round" />
               </svg>
             </Link>
-            <button
-              className="opacity-90 transition-opacity hover:opacity-60"
-              aria-label="Cercle privé"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6" strokeLinecap="round" />
-              </svg>
-            </button>
-            <button className="label hidden md:inline">Panier · 0</button>
           </div>
         </div>
       </header>
@@ -96,40 +87,44 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className="mx-auto flex h-full max-w-[1600px] flex-col px-6 py-6 md:px-10 md:py-8">
+        <div className="mx-auto flex h-full max-w-[1600px] flex-col px-6 py-7 md:px-12 md:py-9">
           <div className="grid grid-cols-3 items-center">
             <button
               onClick={() => setOpen(false)}
               className="label flex items-center gap-3 justify-self-start"
               aria-label="Fermer"
             >
-              <span aria-hidden className="text-lg leading-none">×</span> Fermer
+              <span aria-hidden className="text-xl leading-none font-light">×</span> Fermer
             </button>
-            <p className="display justify-self-center text-[1.25rem] tracking-[0.34em] md:text-[1.5rem]">
-              DIVUS
-            </p>
+            <Link to="/" onClick={() => setOpen(false)} className="justify-self-center text-center">
+              <span className="display block text-[1.35rem] leading-none tracking-[0.28em] md:text-[1.6rem]">
+                DIVUS
+              </span>
+              <span className="mt-1.5 block text-[0.55rem] font-medium tracking-[0.42em] text-muted-foreground md:text-[0.6rem]">
+                PARIS
+              </span>
+            </Link>
             <span className="label-sm hidden justify-self-end text-muted-foreground md:block">
               MMXXV
             </span>
           </div>
 
-          <nav className="mt-auto grid gap-4 pb-16 md:grid-cols-12 md:gap-x-10">
-            <ul className="col-span-8 space-y-3">
+          <nav className="mt-auto grid gap-4 pb-20 md:grid-cols-12 md:gap-x-10">
+            <ul className="col-span-8 space-y-2">
               {[
                 { to: "/", label: "Accueil" },
-                { to: "/collection", label: "Trouver une pièce" },
-                { to: "/", label: "Manifeste", hash: "#manifeste" },
-                { to: "/", label: "Journal", hash: "#journal" },
-                { to: "/", label: "Certification", hash: "#certification" },
-                { to: "/", label: "Cercle privé", hash: "#cercle" },
-                { to: "/", label: "Contact", hash: "#contact" },
-              ].map((item) => (
-                <li key={item.label}>
+                { to: "/collection", label: "Collection" },
+                { to: "/philosophie", label: "Philosophie" },
+                { to: "/philosophie", label: "Atelier", hash: "atelier" },
+                { to: "/philosophie", label: "Certification", hash: "certification" },
+                { to: "/philosophie", label: "Contact", hash: "contact" },
+              ].map((item, i) => (
+                <li key={`${item.label}-${i}`}>
                   <Link
                     to={item.to}
-                    hash={item.hash?.slice(1)}
+                    hash={item.hash}
                     onClick={() => setOpen(false)}
-                    className="display block text-5xl leading-[1.05] transition-opacity duration-500 hover:opacity-50 md:text-7xl"
+                    className="display block text-4xl leading-[1.1] transition-opacity duration-500 hover:opacity-50 md:text-6xl"
                   >
                     {item.label}
                   </Link>
@@ -138,8 +133,8 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             </ul>
             <div className="col-span-8 md:col-span-3 md:col-start-10 mt-10 md:mt-0 self-end">
               <p className="label text-muted-foreground">Maison</p>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Paris · Amsterdam<br />
+              <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                Paris<br />
                 Fabricatum in Gallia<br />
                 MMXXV
               </p>
