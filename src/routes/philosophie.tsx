@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
+import { NfcScan } from "@/components/divus/NfcScan";
 import atelier from "@/assets/atelier.jpg";
 import piece02 from "@/assets/piece-02.jpg";
 
@@ -115,18 +116,52 @@ function PhilosophiePage() {
 
         {/* ————— CERTIFICATION ————— */}
         <section id="certification" className="border-t border-border">
-          <div className="mx-auto max-w-3xl px-6 py-32 text-center md:px-12 md:py-48">
-            <p className="label text-muted-foreground">Certification</p>
-            <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-              Une identité chiffrée.
-            </h2>
-            <p className="mt-12 text-base leading-relaxed text-muted-foreground md:text-lg">
-              Une puce NFC NTAG424 non clonable, chiffrement AES-128, est intégrée à
-              chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel.
-              Elle inscrit l'objet dans une histoire vérifiable et transmissible.
-            </p>
+          <div className="mx-auto max-w-[1600px] px-6 py-32 md:px-12 md:py-48">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="label text-muted-foreground">Certification</p>
+              <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
+                Une identité chiffrée.
+              </h2>
+              <p className="mt-12 text-base leading-relaxed text-muted-foreground md:text-lg">
+                Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue
+                dans la doublure de chaque pièce. Elle atteste de l'origine, de la série
+                et du numéro individuel — et inscrit l'objet dans une archive vérifiable
+                et transmissible.
+              </p>
+            </div>
+
+            <NfcScan />
+
+            <div className="mx-auto mt-24 grid max-w-4xl gap-12 md:mt-32 md:grid-cols-3 md:gap-16">
+              {[
+                {
+                  n: "01",
+                  t: "Approchez",
+                  d: "Placez votre téléphone à moins de deux centimètres de la doublure. La puce s'active sans contact, sans application.",
+                },
+                {
+                  n: "02",
+                  t: "Lecture chiffrée",
+                  d: "Chaque lecture génère une signature unique (AES-128 · SUN). Aucune donnée n'est copiable, aucune session n'est rejouable.",
+                },
+                {
+                  n: "03",
+                  t: "Archive Maison",
+                  d: "Le certificat s'ouvre sur nos serveurs, horodaté. La provenance de la pièce est inscrite dans notre registre privé.",
+                },
+              ].map((s) => (
+                <div key={s.n}>
+                  <p className="label text-muted-foreground">{s.n}</p>
+                  <p className="display mt-6 text-2xl md:text-3xl">{s.t}</p>
+                  <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+                    {s.d}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
+
 
         {/* ————— ÉDITIONS ————— */}
         <section className="border-t border-border">
