@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
@@ -305,13 +305,14 @@ function PieceCard({ piece }: { piece: Piece }) {
   const surListe = piece.statut === "Sur liste";
 
   return (
-    <article
-      className="group relative"
+    <Link
+      to="/piece/$ref"
+      params={{ ref: piece.ref }}
+      className="group relative block"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-blanc">
-        {/* Année en filigrane, style Patek */}
         <span
           aria-hidden
           className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rotate-90 origin-center label-sm text-muted-foreground/70"
@@ -353,6 +354,6 @@ function PieceCard({ piece }: { piece: Piece }) {
           </p>
         )}
       </div>
-    </article>
+    </Link>
   );
 }
