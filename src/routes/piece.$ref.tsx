@@ -106,7 +106,7 @@ function PiecePage() {
 
             {gallery.length > 1 && (
               <div className="mt-4 grid grid-cols-4 gap-3 md:gap-4">
-                {gallery.map((src, i) => (
+                {gallery.map((src: string, i: number) => (
                   <button
                     key={`${src}-${i}`}
                     onClick={() => setActive(i)}
@@ -223,7 +223,7 @@ function PiecePage() {
               </div>
 
               <dl className="md:col-span-8 md:col-start-5 divide-y divide-border border-y border-border">
-                {piece.details.map((d) => (
+                {piece.details.map((d: { label: string; value: string }) => (
                   <div
                     key={d.label}
                     className="grid grid-cols-3 gap-6 py-5 md:grid-cols-4"
