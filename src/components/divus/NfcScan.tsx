@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "@/lib/i18n";
 
 const CERT_LINES = [
   "— CERTIFICAT D'AUTHENTICITÉ —",
@@ -21,6 +22,7 @@ const CERT_LINES = [
 ];
 
 export function NfcScan() {
+  const { t } = useLang();
   const [scanning, setScanning] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [typed, setTyped] = useState<string[]>([]);
@@ -67,7 +69,7 @@ export function NfcScan() {
       <div className="flex flex-col items-center">
         <div
           className="relative aspect-square w-full max-w-sm overflow-hidden border border-border bg-[color:var(--ivory)]"
-          aria-label="Simulateur de scan NFC"
+          aria-label={t("Simulateur de scan NFC")}
         >
           {/* Concentric rings */}
           <div className="absolute inset-0 flex items-center justify-center">
@@ -117,10 +119,10 @@ export function NfcScan() {
           {/* Status */}
           <p className="label absolute bottom-6 left-0 right-0 text-center text-[0.6rem] text-muted-foreground">
             {scanning
-              ? "Lecture en cours…"
+              ? t("Lecture en cours…")
               : revealed
-                ? "Authentifié"
-                : "En attente d'un contact"}
+                ? t("Authentifié")
+                : t("En attente d'un contact")}
           </p>
         </div>
 
@@ -131,7 +133,7 @@ export function NfcScan() {
             disabled={scanning}
             className="btn-line btn-line-hover disabled:cursor-wait disabled:opacity-50"
           >
-            {revealed ? "Rejouer le scan" : "Approcher la pièce"}
+            {revealed ? t("Rejouer le scan") : t("Approcher la pièce")}
           </button>
           {revealed && (
             <button
@@ -139,7 +141,7 @@ export function NfcScan() {
               onClick={reset}
               className="label text-muted-foreground underline-offset-4 hover:underline"
             >
-              Réinitialiser
+              {t("Réinitialiser")}
             </button>
           )}
         </div>
@@ -149,7 +151,7 @@ export function NfcScan() {
       <div className="flex">
         <div className="relative w-full border border-border bg-background p-8 text-left md:p-10">
           <div className="flex items-center justify-between">
-            <p className="label text-muted-foreground">Certificat · Aperçu</p>
+            <p className="label text-muted-foreground">{t("Certificat · Aperçu")}</p>
             <span
               className={`inline-block h-1.5 w-1.5 rounded-full ${
                 revealed
@@ -164,7 +166,7 @@ export function NfcScan() {
           <pre className="mt-8 min-h-[22rem] whitespace-pre-wrap font-mono text-[0.72rem] leading-[1.75] text-foreground/90 md:text-[0.78rem]">
             {revealed ? (
               <>
-                {typed.join("\n")}
+                {typed.map((l) => t(l)).join("\n")}
                 {typed.length < CERT_LINES.length && (
                   <span className="inline-block w-1.5 animate-pulse bg-foreground/70">&nbsp;</span>
                 )}
@@ -172,8 +174,8 @@ export function NfcScan() {
             ) : (
               <span className="text-muted-foreground">
                 {scanning
-                  ? "Déchiffrement du contenu chiffré AES-128…"
-                  : "Le certificat s'affichera après lecture de la puce."}
+                  ? t("Déchiffrement du contenu chiffré AES-128…")
+                  : t("Le certificat s'affichera après lecture de la puce.")}
               </span>
             )}
           </pre>

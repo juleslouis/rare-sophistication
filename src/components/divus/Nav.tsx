@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useLang } from "@/lib/i18n";
 
 /**
  * DIVUS — Navigation
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
  * Silencieux, discret, jamais concurrent du contenu.
  */
 export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
+  const { t } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -41,13 +43,13 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             <button
               onClick={() => setOpen(true)}
               className="group flex items-center gap-3"
-              aria-label="Ouvrir le menu"
+              aria-label={t("Ouvrir le menu")}
             >
               <span className="flex flex-col gap-[5px]" aria-hidden>
                 <span className="block h-px w-5 bg-current" />
                 <span className="block h-px w-5 bg-current" />
               </span>
-              <span className="label hidden md:inline">Menu</span>
+              <span className="label hidden md:inline">{t("Menu")}</span>
             </button>
           </div>
 
@@ -55,7 +57,7 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
           <Link
             to="/"
             className="justify-self-center text-center"
-            aria-label="DIVUS Paris — Accueil"
+            aria-label={t("DIVUS Paris — Accueil")}
           >
             <span className="display block text-[1.35rem] leading-none tracking-[0.28em] md:text-[1.6rem]">
               DIVUS
@@ -70,7 +72,7 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             <Link
               to="/collection"
               className="opacity-90 transition-opacity hover:opacity-60"
-              aria-label="Rechercher"
+              aria-label={t("Rechercher")}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <circle cx="11" cy="11" r="7" />
@@ -92,9 +94,9 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             <button
               onClick={() => setOpen(false)}
               className="label flex items-center gap-3 justify-self-start"
-              aria-label="Fermer"
+              aria-label={t("Fermer")}
             >
-              <span aria-hidden className="text-xl leading-none font-light">×</span> Fermer
+              <span aria-hidden className="text-xl leading-none font-light">×</span> {t("Fermer")}
             </button>
             <Link to="/" onClick={() => setOpen(false)} className="justify-self-center text-center">
               <span className="display block text-[1.35rem] leading-none tracking-[0.28em] md:text-[1.6rem]">
@@ -126,13 +128,13 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
                     onClick={() => setOpen(false)}
                     className="display block text-4xl leading-[1.1] transition-opacity duration-500 hover:opacity-50 md:text-6xl"
                   >
-                    {item.label}
+                    {t(item.label)}
                   </Link>
                 </li>
               ))}
             </ul>
             <div className="col-span-8 md:col-span-3 md:col-start-10 mt-10 md:mt-0 self-end">
-              <p className="label text-muted-foreground">Maison</p>
+              <p className="label text-muted-foreground">{t("Maison")}</p>
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
                 Paris<br />
                 Fabricatum in Gallia<br />

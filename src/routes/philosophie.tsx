@@ -4,6 +4,7 @@ import { Footer } from "@/components/divus/Footer";
 import { NfcScan } from "@/components/divus/NfcScan";
 import atelier from "@/assets/atelier.jpg";
 import piece02 from "@/assets/piece-02.jpg";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/philosophie")({
   head: () => ({
@@ -28,6 +29,8 @@ export const Route = createFileRoute("/philosophie")({
 });
 
 function PhilosophiePage() {
+  const { t } = useLang();
+
   return (
     <>
       <Nav variant="solid" />
@@ -36,14 +39,14 @@ function PhilosophiePage() {
         {/* ————— OUVERTURE ————— */}
         <section className="pt-40 pb-24 md:pt-56 md:pb-32">
           <div className="mx-auto max-w-[1600px] px-6 text-center md:px-12">
-            <p className="label text-muted-foreground">Philosophie</p>
+            <p className="label text-muted-foreground">{t("Philosophie")}</p>
             <h1 className="display mx-auto mt-10 max-w-4xl text-[2.5rem] leading-[1.05] md:text-[5.5rem]">
-              La rareté héritée.
+              {t("La rareté héritée.")}
             </h1>
             <p className="mx-auto mt-12 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              DIVUS est une maison de collection française. Chaque édition est confectionnée
-              à la main dans un atelier de haute couture parisien, en séries strictement
-              numérotées, chacune scellée par une puce NFC chiffrée.
+              {t(
+                "DIVUS est une maison de collection française. Chaque édition est confectionnée à la main dans un atelier de haute couture parisien, en séries strictement numérotées, chacune scellée par une puce NFC chiffrée.",
+              )}
             </p>
           </div>
         </section>
@@ -54,7 +57,7 @@ function PhilosophiePage() {
             <div className="md:col-span-7">
               <img
                 src={atelier}
-                alt="Atelier haute couture parisien"
+                alt={t("Atelier haute couture parisien")}
                 loading="lazy"
                 width={1600}
                 height={1600}
@@ -62,19 +65,20 @@ function PhilosophiePage() {
               />
             </div>
             <div className="md:col-span-5">
-              <p className="label text-muted-foreground">L'atelier</p>
+              <p className="label text-muted-foreground">{t("L'atelier")}</p>
               <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                Fabricatum in Gallia.
+                {t("Fabricatum in Gallia.")}
               </h2>
               <div className="mt-10 space-y-6 text-base leading-relaxed text-muted-foreground">
                 <p>
-                  Chaque pièce naît d'un atelier de haute couture parisien. Les coutures
-                  chevauchées sont exécutées au fil doré. Les finitions demandent quarante
-                  heures de main d'œuvre.
+                  {t(
+                    "Chaque pièce naît d'un atelier de haute couture parisien. Les coutures chevauchées sont exécutées au fil doré. Les finitions demandent quarante heures de main d'œuvre.",
+                  )}
                 </p>
                 <p>
-                  Cette lenteur n'est pas un choix : c'est une contrainte que nous refusons
-                  de contourner.
+                  {t(
+                    "Cette lenteur n'est pas un choix : c'est une contrainte que nous refusons de contourner.",
+                  )}
                 </p>
               </div>
             </div>
@@ -87,7 +91,7 @@ function PhilosophiePage() {
             <div className="md:col-span-5 md:order-2">
               <img
                 src={piece02}
-                alt="Pièce Primus — Travertin"
+                alt={t("Pièce Primus — Travertin")}
                 loading="lazy"
                 width={1408}
                 height={1760}
@@ -95,19 +99,20 @@ function PhilosophiePage() {
               />
             </div>
             <div className="md:col-span-6 md:col-start-1 md:row-start-1">
-              <p className="label text-muted-foreground">Rareté contractuelle</p>
+              <p className="label text-muted-foreground">{t("Rareté contractuelle")}</p>
               <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                Le nombre est dicté, jamais choisi.
+                {t("Le nombre est dicté, jamais choisi.")}
               </h2>
               <div className="mt-10 space-y-6 text-base leading-relaxed text-muted-foreground">
                 <p>
-                  Chaque série DIVUS célèbre un objet existant, documenté publiquement.
-                  Le nombre de pièces produites répond exactement au nombre d'exemplaires
-                  du sujet hommagé.
+                  {t(
+                    "Chaque série DIVUS célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé.",
+                  )}
                 </p>
                 <p>
-                  Ce principe rend impossible toute réédition. Il transforme chaque pièce
-                  en pièce d'archive dès sa livraison.
+                  {t(
+                    "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.",
+                  )}
                 </p>
               </div>
             </div>
@@ -118,15 +123,14 @@ function PhilosophiePage() {
         <section id="certification" className="border-t border-border">
           <div className="mx-auto max-w-[1600px] px-6 py-32 md:px-12 md:py-48">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="label text-muted-foreground">Certification</p>
+              <p className="label text-muted-foreground">{t("Certification")}</p>
               <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                Une identité chiffrée.
+                {t("Une identité chiffrée.")}
               </h2>
               <p className="mt-12 text-base leading-relaxed text-muted-foreground md:text-lg">
-                Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue
-                dans la doublure de chaque pièce. Elle atteste de l'origine, de la série
-                et du numéro individuel — et inscrit l'objet dans une archive vérifiable
-                et transmissible.
+                {t(
+                  "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure de chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel — et inscrit l'objet dans une archive vérifiable et transmissible.",
+                )}
               </p>
             </div>
 
@@ -152,9 +156,9 @@ function PhilosophiePage() {
               ].map((s) => (
                 <div key={s.n}>
                   <p className="label text-muted-foreground">{s.n}</p>
-                  <p className="display mt-6 text-2xl md:text-3xl">{s.t}</p>
+                  <p className="display mt-6 text-2xl md:text-3xl">{t(s.t)}</p>
                   <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                    {s.d}
+                    {t(s.d)}
                   </p>
                 </div>
               ))}
@@ -167,9 +171,9 @@ function PhilosophiePage() {
         <section className="border-t border-border">
           <div className="mx-auto max-w-[1600px] px-6 py-32 md:px-12 md:py-48">
             <div className="text-center">
-              <p className="label text-muted-foreground">Éditions</p>
+              <p className="label text-muted-foreground">{t("Éditions")}</p>
               <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                Trois séries, une seule maison.
+                {t("Trois séries, une seule maison.")}
               </h2>
             </div>
             <div className="mt-20 grid gap-16 md:mt-28 md:grid-cols-3 md:gap-12">
@@ -192,10 +196,10 @@ function PhilosophiePage() {
               ].map((s) => (
                 <div key={s.n} className="text-center">
                   <p className="display text-6xl text-muted-foreground md:text-7xl">{s.n}</p>
-                  <p className="label mt-6">Série {s.n}</p>
+                  <p className="label mt-6">{t("Série")} {s.n}</p>
                   <p className="display mt-4 text-2xl md:text-3xl">{s.nom}</p>
                   <p className="mx-auto mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
-                    {s.desc}
+                    {t(s.desc)}
                   </p>
                 </div>
               ))}
@@ -206,9 +210,9 @@ function PhilosophiePage() {
         {/* ————— CONTACT ————— */}
         <section id="contact" className="border-t border-border">
           <div className="mx-auto max-w-3xl px-6 py-32 text-center md:px-12 md:py-48">
-            <p className="label text-muted-foreground">Contact</p>
+            <p className="label text-muted-foreground">{t("Contact")}</p>
             <p className="display mt-10 text-3xl leading-[1.15] md:text-5xl">
-              Pour les demandes de cercle privé, de presse ou d'archives.
+              {t("Pour les demandes de cercle privé, de presse ou d'archives.")}
             </p>
             <a
               href="mailto:maison@divus.paris"

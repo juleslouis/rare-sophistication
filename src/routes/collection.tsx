@@ -6,6 +6,7 @@ import piece01 from "@/assets/piece-01.jpg";
 import piece02 from "@/assets/piece-02.jpg";
 import piece03 from "@/assets/piece-03.jpg";
 import piece04 from "@/assets/piece-04.jpg";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/collection")({
   head: () => ({
@@ -175,6 +176,7 @@ const FILTRES = [
 type FiltreKey = (typeof FILTRES)[number]["key"];
 
 function CollectionPage() {
+  const { t, lang } = useLang();
   const [query, setQuery] = useState("");
   const [filtre, setFiltre] = useState<FiltreKey>("toutes");
 
@@ -207,9 +209,9 @@ function CollectionPage() {
         {/* ——— HEADER ——— */}
         <section className="pt-40 pb-16 md:pt-52 md:pb-20">
           <div className="mx-auto max-w-[1600px] px-6 text-center md:px-10">
-            <p className="label text-muted-foreground">Collection</p>
+            <p className="label text-muted-foreground">{t("Collection")}</p>
             <h1 className="display mt-8 text-[2.5rem] leading-[1.02] tracking-[0.02em] md:text-[4.5rem] lg:text-[5.5rem]">
-              Trouver une pièce
+              {t("Trouver une pièce")}
             </h1>
 
             <form
@@ -220,12 +222,12 @@ function CollectionPage() {
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Rechercher par édition, matière ou référence"
+                placeholder={t("Rechercher par édition, matière ou référence")}
                 className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground focus:outline-none md:text-lg"
               />
               <button
                 type="submit"
-                aria-label="Rechercher"
+                aria-label={t("Rechercher")}
                 className="ml-4 text-muted-foreground transition-opacity hover:opacity-60"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
@@ -247,7 +249,7 @@ function CollectionPage() {
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {f.label}
+                  {t(f.label)}
                 </button>
               ))}
             </div>
@@ -256,7 +258,7 @@ function CollectionPage() {
               <span className="text-foreground text-base font-normal tracking-normal">
                 {filtered.length}
               </span>{" "}
-              {filtered.length > 1 ? "pièces disponibles." : "pièce disponible."}
+              {filtered.length > 1 ? t("pièces disponibles.") : t("pièce disponible.")}
             </p>
           </div>
         </section>
@@ -265,15 +267,15 @@ function CollectionPage() {
         <section className="mx-auto max-w-[1600px] px-6 pb-32 md:px-10 md:pb-48">
           {filtered.length === 0 ? (
             <div className="border-y border-border py-24 text-center">
-              <p className="display text-3xl">Aucune pièce ne correspond.</p>
+              <p className="display text-3xl">{t("Aucune pièce ne correspond.")}</p>
               <p className="mt-4 text-sm text-muted-foreground">
-                Essayez « Drop III » ou « Cyprès ».
+                {t("Essayez « Drop III » ou « Cyprès ».")}
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-x-6 gap-y-16 md:grid-cols-3 md:gap-x-10 md:gap-y-24 lg:grid-cols-4">
               {filtered.map((p) => (
-                <PieceCard key={p.ref} piece={p} />
+                <PieceCard key={p.ref} piece={p} t={t} lang={lang} />
               ))}
             </div>
           )}
@@ -282,12 +284,12 @@ function CollectionPage() {
         {/* ——— NOTE DE BAS DE COLLECTION ——— */}
         <section className="border-t border-border">
           <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-32 text-center">
-            <p className="label text-muted-foreground">Note de la maison</p>
+            <p className="label text-muted-foreground">{t("Note de la maison")}</p>
             <p className="display mx-auto mt-8 max-w-3xl text-3xl leading-[1.2] md:text-5xl">
-              Chaque pièce est confectionnée à la main en atelier de haute couture parisien.
+              {t("Chaque pièce est confectionnée à la main en atelier de haute couture parisien.")}
               <span className="italic text-muted-foreground">
                 {" "}
-                La rareté n'est jamais créée — elle est héritée.
+                {t("La rareté n'est jamais créée — elle est héritée.")}
               </span>
             </p>
           </div>
@@ -299,7 +301,15 @@ function CollectionPage() {
   );
 }
 
-function PieceCard({ piece }: { piece: Piece }) {
+function PieceCard({
+  piece,
+  t,
+  lang,
+}: {
+  piece: Piece;
+  t: (fr: string) => string;
+  lang: string;
+}) {
   const [hover, setHover] = useState(false);
   const soldOut = piece.statut === "Sold out";
   const surListe = piece.statut === "Sur liste";
@@ -323,7 +333,7 @@ function PieceCard({ piece }: { piece: Piece }) {
 
         <img
           src={piece.image}
-          alt={`${piece.hommage} — ${piece.couleur}`}
+          alt={`${t(piece.hommage)} — ${t(piece.couleur)}`}
           loading="lazy"
           width={1200}
           height={1500}
@@ -334,23 +344,23 @@ function PieceCard({ piece }: { piece: Piece }) {
 
         {soldOut && (
           <span className="absolute left-3 top-3 label-sm text-muted-foreground">
-            Sold out
+            {t("Sold out")}
           </span>
         )}
         {surListe && (
           <span className="absolute left-3 top-3 label-sm text-accent">
-            Sur liste
+            {t("Sur liste")}
           </span>
         )}
       </div>
 
       <div className="mt-5 text-center">
         <p className="label-sm text-muted-foreground">{piece.ref}</p>
-        <p className="display mt-2 text-lg leading-tight md:text-xl">{piece.hommage}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{piece.couleur}</p>
+        <p className="display mt-2 text-lg leading-tight md:text-xl">{t(piece.hommage)}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t(piece.couleur)}</p>
         {piece.prix > 0 && (
           <p className="label-sm mt-3 text-muted-foreground">
-            {piece.prix.toLocaleString("fr-FR")} €
+            {piece.prix.toLocaleString(lang === "en" ? "en-GB" : "fr-FR")} €
           </p>
         )}
       </div>

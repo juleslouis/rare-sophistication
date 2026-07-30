@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
 import { PIECES, findPiece, type Piece } from "@/lib/pieces";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/piece/$ref")({
   loader: ({ params }) => {
@@ -38,17 +39,19 @@ export const Route = createFileRoute("/piece/$ref")({
 });
 
 function PieceNotFound() {
+  const { t } = useLang();
+
   return (
     <>
       <Nav variant="solid" />
       <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 py-40 text-center">
         <p className="label text-muted-foreground">404</p>
-        <h1 className="display mt-8 text-5xl md:text-6xl">Pièce introuvable</h1>
+        <h1 className="display mt-8 text-5xl md:text-6xl">{t("Pièce introuvable")}</h1>
         <p className="mt-6 text-sm text-muted-foreground">
-          Cette référence n'appartient à aucune édition de la Maison.
+          {t("Cette référence n'appartient à aucune édition de la Maison.")}
         </p>
         <Link to="/collection" className="btn-line btn-line-hover mt-12">
-          Retour à la collection
+          {t("Retour à la collection")}
         </Link>
       </main>
       <Footer />
@@ -57,6 +60,7 @@ function PieceNotFound() {
 }
 
 function PiecePage() {
+  const { t, lang } = useLang();
   const { piece } = Route.useLoaderData();
   const [active, setActive] = useState(0);
   const soldOut = piece.statut === "Sold out";
@@ -75,9 +79,9 @@ function PiecePage() {
         {/* Fil d'Ariane */}
         <div className="mx-auto max-w-[1600px] px-6 pt-32 md:px-10 md:pt-40">
           <nav className="label-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground">Accueil</Link>
+            <Link to="/" className="hover:text-foreground">{t("Accueil")}</Link>
             <span className="mx-3">·</span>
-            <Link to="/collection" className="hover:text-foreground">Collection</Link>
+            <Link to="/collection" className="hover:text-foreground">{t("Collection")}</Link>
             <span className="mx-3">·</span>
             <span className="text-foreground">{piece.serie}</span>
           </nav>
@@ -97,7 +101,7 @@ function PiecePage() {
               </span>
               <img
                 src={gallery[active]}
-                alt={`${piece.hommage} — ${piece.couleur}`}
+                alt={`${t(piece.hommage)} — ${t(piece.couleur)}`}
                 className="h-full w-full object-cover"
                 width={1600}
                 height={2000}
@@ -110,7 +114,7 @@ function PiecePage() {
                   <button
                     key={`${src}-${i}`}
                     onClick={() => setActive(i)}
-                    aria-label={`Vue ${i + 1}`}
+                    aria-label={`${t("Vue")} ${i + 1}`}
                     className={`relative aspect-[4/5] overflow-hidden bg-secondary transition-opacity duration-500 ${
                       active === i ? "opacity-100" : "opacity-60 hover:opacity-90"
                     }`}
@@ -129,36 +133,38 @@ function PiecePage() {
           <aside className="md:col-span-5 lg:col-span-4 md:sticky md:top-32 md:self-start">
             <p className="label-sm text-muted-foreground">{piece.serie} · {piece.ref}</p>
             <h1 className="display mt-6 text-[2.25rem] leading-[1.05] md:text-[3rem]">
-              {piece.hommage}
+              {t(piece.hommage)}
             </h1>
-            <p className="mt-3 text-base text-muted-foreground">{piece.couleur}</p>
+            <p className="mt-3 text-base text-muted-foreground">{t(piece.couleur)}</p>
 
             <div className="mt-10 h-px w-full bg-border" />
 
             <dl className="mt-8 space-y-4 text-sm">
               <div className="flex items-baseline justify-between gap-6">
-                <dt className="label text-muted-foreground">Édition</dt>
+                <dt className="label text-muted-foreground">{t("Édition")}</dt>
                 <dd className="text-right">
-                  {piece.edition > 0 ? `${piece.edition} exemplaires` : "À révéler"}
+                  {piece.edition > 0
+                    ? `${piece.edition} ${t("exemplaires")}`
+                    : t("À révéler")}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-6">
-                <dt className="label text-muted-foreground">Matière</dt>
-                <dd className="text-right">{piece.matiere}</dd>
+                <dt className="label text-muted-foreground">{t("Matière")}</dt>
+                <dd className="text-right">{t(piece.matiere)}</dd>
               </div>
               <div className="flex items-baseline justify-between gap-6">
-                <dt className="label text-muted-foreground">Statut</dt>
+                <dt className="label text-muted-foreground">{t("Statut")}</dt>
                 <dd className="text-right">
-                  {piece.statut === "Sold out" && <span>Sold out</span>}
-                  {piece.statut === "En cours" && <span>En cours</span>}
-                  {piece.statut === "Sur liste" && <span className="text-accent">Sur liste</span>}
+                  {piece.statut === "Sold out" && <span>{t("Sold out")}</span>}
+                  {piece.statut === "En cours" && <span>{t("En cours")}</span>}
+                  {piece.statut === "Sur liste" && <span className="text-accent">{t("Sur liste")}</span>}
                 </dd>
               </div>
               {piece.prix > 0 && (
                 <div className="flex items-baseline justify-between gap-6">
-                  <dt className="label text-muted-foreground">Prix</dt>
+                  <dt className="label text-muted-foreground">{t("Prix")}</dt>
                   <dd className="text-right text-base">
-                    {piece.prix.toLocaleString("fr-FR")} €
+                    {piece.prix.toLocaleString(lang === "en" ? "en-GB" : "fr-FR")} €
                   </dd>
                 </div>
               )}
@@ -170,15 +176,15 @@ function PiecePage() {
                   disabled
                   className="btn-line w-full cursor-not-allowed opacity-60"
                 >
-                  Édition épuisée
+                  {t("Édition épuisée")}
                 </button>
               ) : surListe ? (
                 <Link to="/philosophie" hash="contact" className="btn-line btn-line-hover w-full">
-                  Rejoindre la liste
+                  {t("Rejoindre la liste")}
                 </Link>
               ) : (
                 <Link to="/philosophie" hash="contact" className="btn-line btn-line-hover w-full">
-                  Demander cette pièce
+                  {t("Demander cette pièce")}
                 </Link>
               )}
               <Link
@@ -186,12 +192,12 @@ function PiecePage() {
                 hash="contact"
                 className="block w-full text-center label text-muted-foreground pt-4 hover:text-foreground transition-colors"
               >
-                Prendre rendez-vous à Paris
+                {t("Prendre rendez-vous à Paris")}
               </Link>
             </div>
 
             <p className="mt-12 text-[13px] leading-relaxed text-muted-foreground">
-              {piece.description}
+              {t(piece.description)}
             </p>
           </aside>
         </section>
@@ -199,9 +205,9 @@ function PiecePage() {
         {/* ——— MANIFESTE PIÈCE ——— */}
         <section className="border-t border-border">
           <div className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
-            <p className="label text-muted-foreground">Hommage · {piece.hommage}</p>
+            <p className="label text-muted-foreground">{t("Hommage")} · {t(piece.hommage)}</p>
             <p className="display mt-8 text-3xl leading-[1.25] md:text-4xl">
-              {piece.description}
+              {t(piece.description)}
             </p>
           </div>
         </section>
@@ -211,14 +217,14 @@ function PiecePage() {
           <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-32">
             <div className="grid gap-12 md:grid-cols-12">
               <div className="md:col-span-4">
-                <p className="label text-muted-foreground">Fiche technique</p>
+                <p className="label text-muted-foreground">{t("Fiche technique")}</p>
                 <h2 className="display mt-6 text-3xl md:text-4xl">
-                  Précision de la Maison
+                  {t("Précision de la Maison")}
                 </h2>
                 <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                  Chaque pièce est confectionnée à la main dans notre atelier
-                  parisien. Le grammage, la doublure, le fil, la coupe — chaque
-                  paramètre est consigné et gravé sur la puce de certification.
+                  {t(
+                    "Chaque pièce est confectionnée à la main dans notre atelier parisien. Le grammage, la doublure, le fil, la coupe — chaque paramètre est consigné et gravé sur la puce de certification.",
+                  )}
                 </p>
               </div>
 
@@ -228,8 +234,8 @@ function PiecePage() {
                     key={d.label}
                     className="grid grid-cols-3 gap-6 py-5 md:grid-cols-4"
                   >
-                    <dt className="label text-muted-foreground col-span-1">{d.label}</dt>
-                    <dd className="col-span-2 text-sm md:col-span-3">{d.value}</dd>
+                    <dt className="label text-muted-foreground col-span-1">{t(d.label)}</dt>
+                    <dd className="col-span-2 text-sm md:col-span-3">{t(d.value)}</dd>
                   </div>
                 ))}
               </dl>
@@ -241,20 +247,21 @@ function PiecePage() {
         <section className="border-t border-border bg-secondary">
           <div className="mx-auto grid max-w-[1600px] gap-10 px-6 py-24 md:grid-cols-2 md:gap-16 md:px-10 md:py-32">
             <div>
-              <p className="label text-muted-foreground">Certification</p>
+              <p className="label text-muted-foreground">{t("Certification")}</p>
               <h2 className="display mt-6 text-3xl md:text-4xl">
-                Une pièce, une identité, une trace.
+                {t("Une pièce, une identité, une trace.")}
               </h2>
             </div>
             <div className="text-sm leading-relaxed text-muted-foreground">
               <p>
-                Chaque exemplaire porte une puce NFC chiffrée, cousue dans la
-                doublure. Elle atteste de la référence, du numéro d'édition, de
-                la date de confection et du nom de son premier propriétaire.
+                {t(
+                  "Chaque exemplaire porte une puce NFC chiffrée, cousue dans la doublure. Elle atteste de la référence, du numéro d'édition, de la date de confection et du nom de son premier propriétaire.",
+                )}
               </p>
               <p className="mt-4">
-                La pièce peut être transmise. La certification, elle, ne s'efface
-                pas.
+                {t(
+                  "La pièce peut être transmise. La certification, elle, ne s'efface pas.",
+                )}
               </p>
             </div>
           </div>
@@ -266,14 +273,14 @@ function PiecePage() {
             <div className="mx-auto max-w-[1600px] px-6 py-24 md:px-10 md:py-32">
               <div className="mb-14 flex items-end justify-between">
                 <div>
-                  <p className="label text-muted-foreground">Dans la même série</p>
+                  <p className="label text-muted-foreground">{t("Dans la même série")}</p>
                   <h2 className="display mt-4 text-2xl md:text-3xl">{piece.serie}</h2>
                 </div>
                 <Link
                   to="/collection"
                   className="label text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Voir la collection
+                  {t("Voir la collection")}
                 </Link>
               </div>
 
@@ -288,15 +295,15 @@ function PiecePage() {
                     <div className="relative aspect-[4/5] overflow-hidden bg-secondary">
                       <img
                         src={p.image}
-                        alt={`${p.hommage} — ${p.couleur}`}
+                        alt={`${t(p.hommage)} — ${t(p.couleur)}`}
                         loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
                       />
                     </div>
                     <p className="label-sm mt-5 text-center text-muted-foreground">{p.ref}</p>
-                    <p className="display mt-2 text-center text-lg">{p.hommage}</p>
+                    <p className="display mt-2 text-center text-lg">{t(p.hommage)}</p>
                     <p className="mt-1 text-center text-sm text-muted-foreground">
-                      {p.couleur}
+                      {t(p.couleur)}
                     </p>
                   </Link>
                 ))}

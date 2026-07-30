@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
+import { useLang } from "@/lib/i18n";
 import heroImg from "@/assets/hero.jpg";
 import piece01 from "@/assets/piece-01.jpg";
 import piece02 from "@/assets/piece-02.jpg";
@@ -37,6 +38,8 @@ const pieces = [
 ];
 
 function Home() {
+  const { t } = useLang();
+
   return (
     <>
       <Nav />
@@ -53,12 +56,12 @@ function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/20" />
           <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-end px-6 pb-24 text-center md:pb-32">
-            <p className="label-sm text-muted-foreground">Série I · Primus · MMXXV</p>
+            <p className="label-sm text-muted-foreground">{t("Série I · Primus · MMXXV")}</p>
             <h1 className="display mt-8 text-[3rem] leading-[1] tracking-[-0.015em] md:text-[6rem]">
-              La rareté héritée.
+              {t("La rareté héritée.")}
             </h1>
             <Link to="/collection" className="btn-line btn-line-hover mt-14">
-              Découvrir la collection
+              {t("Découvrir la collection")}
             </Link>
           </div>
         </section>
@@ -66,9 +69,9 @@ function Home() {
         {/* ————— LES PIÈCES DU MOMENT ————— */}
         <section className="bg-background">
           <div className="mx-auto max-w-[1600px] px-6 pt-32 pb-16 text-center md:px-12 md:pt-48 md:pb-24">
-            <p className="label text-muted-foreground">Les pièces du moment</p>
+            <p className="label text-muted-foreground">{t("Les pièces du moment")}</p>
             <h2 className="display mx-auto mt-10 max-w-3xl text-[2.25rem] leading-[1.05] md:text-[3.75rem]">
-              Édition Primus.
+              {t("Édition Primus.")}
             </h2>
           </div>
 
@@ -83,7 +86,7 @@ function Home() {
                   <div className="relative aspect-[4/5] w-full overflow-hidden bg-blanc">
                     <img
                       src={p.image}
-                      alt={`${p.ref} — ${p.couleur}`}
+                      alt={`${p.ref} — ${t(p.couleur)}`}
                       loading="lazy"
                       width={1408}
                       height={1760}
@@ -92,7 +95,7 @@ function Home() {
                   </div>
                   <div className="mt-6 text-center">
                     <p className="label-sm text-muted-foreground">{p.ref}</p>
-                    <p className="display mt-3 text-lg md:text-xl">{p.couleur}</p>
+                    <p className="display mt-3 text-lg md:text-xl">{t(p.couleur)}</p>
                   </div>
                 </Link>
               ))}
@@ -100,7 +103,7 @@ function Home() {
 
             <div className="mt-24 flex justify-center md:mt-32">
               <Link to="/collection" className="btn-line btn-line-hover">
-                Voir toute la collection
+                {t("Voir toute la collection")}
               </Link>
             </div>
           </div>
@@ -109,10 +112,10 @@ function Home() {
         {/* ————— SIGNATURE ————— */}
         <section className="border-t border-border bg-background">
           <div className="mx-auto max-w-4xl px-6 py-40 text-center md:px-12 md:py-56">
-            <p className="label text-muted-foreground">Signature</p>
+            <p className="label text-muted-foreground">{t("Signature")}</p>
             <p className="display mt-10 text-[1.85rem] leading-[1.25] md:text-[3rem]">
-              La rareté n'est jamais créée —{" "}
-              <span className="display-italic text-muted-foreground">elle est héritée.</span>
+              {t("La rareté n'est jamais créée —")}{" "}
+              <span className="display-italic text-muted-foreground">{t("elle est héritée.")}</span>
             </p>
           </div>
         </section>
