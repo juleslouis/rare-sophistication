@@ -238,7 +238,15 @@ export function LangProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (fr: string) => (lang === "en" ? (EN[fr] ?? fr) : fr),
+    (fr: string) => {
+      if (lang !== "en") return fr;
+      const direct = EN[fr];
+      if (direct) return direct;
+      // Chaînes dynamiques (ex. « 963 exemplaires numérotés »)
+      const numbered = fr.match(/^(\d+) exemplaires numérotés$/);
+      if (numbered) return `${numbered[1]} numbered examples`;
+      return fr;
+    },
     [lang],
   );
 
