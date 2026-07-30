@@ -150,7 +150,7 @@ function PiecePage() {
               </div>
               <div className="flex items-baseline justify-between gap-6">
                 <dt className="label text-muted-foreground">{t("Matière")}</dt>
-                <dd className="text-right">{piece.matiere}</dd>
+                <dd className="text-right">{t(piece.matiere)}</dd>
               </div>
               <div className="flex items-baseline justify-between gap-6">
                 <dt className="label text-muted-foreground">{t("Statut")}</dt>
@@ -197,7 +197,7 @@ function PiecePage() {
             </div>
 
             <p className="mt-12 text-[13px] leading-relaxed text-muted-foreground">
-              {piece.description}
+              {t(piece.description)}
             </p>
           </aside>
         </section>
@@ -207,7 +207,7 @@ function PiecePage() {
           <div className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
             <p className="label text-muted-foreground">{t("Hommage")} · {t(piece.hommage)}</p>
             <p className="display mt-8 text-3xl leading-[1.25] md:text-4xl">
-              {piece.description}
+              {t(piece.description)}
             </p>
           </div>
         </section>

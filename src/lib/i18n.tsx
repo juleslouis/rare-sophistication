@@ -168,6 +168,39 @@ const EN: Record<string, string> = {
     "The piece can be passed on. The certification never fades.",
   "Dans la même série": "In the same series",
   "Voir la collection": "View the collection",
+  // ——— Données pièces
+  "Cachemire · Supima": "Cashmere · Supima",
+  "Cachemire · Supima · 380 g/m²": "Cashmere · Supima · 380 g/m²",
+  "Cachemire · Supima · 390 g/m²": "Cashmere · Supima · 390 g/m²",
+  "Cachemire · Supima · 400 g/m²": "Cashmere · Supima · 400 g/m²",
+  Composition: "Composition",
+  Coloris: "Colour",
+  Confection: "Making",
+  "Atelier haute couture, Paris": "Haute couture atelier, Paris",
+  "Puce NFC chiffrée, cousue en doublure":
+    "Encrypted NFC chip, sewn into the lining",
+  Année: "Year",
+  Livraison: "Delivery",
+  "Écrin de bois massif, main propre":
+    "Solid wood case, hand-delivered",
+  "La première pièce de la Maison. Coupe oversized, épaules tombées, coutures rabattues à la main. Une déclaration silencieuse — la genèse d'un vocabulaire.":
+    "The Maison's first piece. Oversized cut, dropped shoulders, hand-folded seams. A silent statement — the genesis of a vocabulary.",
+  "Déclinaison claire de l'édition fondatrice. Le travertin, patiné, absorbe la lumière comme la pierre romaine dont il tire son nom.":
+    "The pale variation of the founding edition. Travertine, patinated, absorbs light like the Roman stone it takes its name from.",
+  "Un vert profond, hérité des cadrans d'horlogerie viennoise. La matière tombe droite, sans effort — comme une aiguille qui trouve sa seconde.":
+    "A deep green, inherited from Viennese watch dials. The fabric falls straight, effortlessly — like a hand finding its second.",
+  "Terre cuite, brûlée par le temps. Une chaleur mate qui rappelle le cuir des bracelets patinés par des décennies de poignets.":
+    "Terracotta, burnt by time. A matte warmth recalling straps patinated by decades of wrists.",
+  "963 exemplaires, comme les 963 chevaux du moteur. Un hommage à la mécanique italienne, coulé dans la douceur du cachemire parisien.":
+    "963 examples, as the engine's 963 horses. A homage to Italian mechanics, cast in the softness of Parisian cashmere.",
+  "Le charbon profond du Drop III — absolue matité, presque une absence. La pièce se lit à la main, jamais à l'œil.":
+    "The deep charcoal of Drop III — absolute matteness, almost an absence. The piece is read by hand, never by eye.",
+  "Vert cyprès, hommage aux jardins de la Villa d'Este. Une pièce contemplative, taillée pour la lumière méridionale.":
+    "Cypress green, a homage to the gardens of Villa d'Este. A contemplative piece, cut for southern light.",
+  "Terre profonde et minérale, presque bronze. La dernière déclinaison du Drop III, réservée aux commandes tardives.":
+    "Deep, mineral earth, almost bronze. The final variation of Drop III, reserved for late orders.",
+  "L'édition suivante ne sera pas annoncée. Elle sera reçue — par lettre, en écrin scellé.":
+    "The next edition will not be announced. It will be received — by letter, in a sealed case.",
   Vue: "View",
 };
 
