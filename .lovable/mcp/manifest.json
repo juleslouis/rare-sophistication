@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "atrium-lux",
+      "version": "0.1.0",
+      "title": "Atrium Lux"
+    },
+    "tools": [
+      {
+        "name": "list_pieces",
+        "title": "Lister les pièces",
+        "description": "Liste le catalogue public DIVUS PARIS (référence, série, coloris, édition, prix, statut). Filtres optionnels par série ou par statut.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "drop": {
+              "description": "Filtrer par série : I, II ou III.",
+              "type": "string",
+              "enum": [
+                "I",
+                "II",
+                "III"
+              ]
+            },
+            "statut": {
+              "description": "Filtrer par statut de disponibilité.",
+              "type": "string",
+              "enum": [
+                "Sold out",
+                "En cours",
+                "Sur liste"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_piece",
+        "title": "Détail d'une pièce",
+        "description": "Retourne la fiche complète d'une pièce DIVUS PARIS à partir de sa référence (ex. DVS-III-963-I) : description, fiche technique, édition, prix et statut.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "ref": {
+              "type": "string",
+              "description": "Référence de la pièce, ex. DVS-III-963-I."
+            }
+          },
+          "required": [
+            "ref"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "maison_info",
+        "title": "La Maison",
+        "description": "Présente la Maison DIVUS PARIS : philosophie, rareté contractuelle des séries, certification NFC chiffrée et pages du site.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
