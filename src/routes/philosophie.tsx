@@ -215,10 +215,10 @@ function PhilosophiePage() {
               {t("Pour les demandes de cercle privé, de presse ou d'archives.")}
             </p>
             <a
-              href="mailto:maison@divus.paris"
+              href="mailto:contact@maisondivus.com"
               className="mt-16 inline-block border-b border-foreground pb-1 text-base tracking-wider md:text-lg"
             >
-              maison@divus.paris
+              contact@maisondivus.com
             </a>
           </div>
         </section>
