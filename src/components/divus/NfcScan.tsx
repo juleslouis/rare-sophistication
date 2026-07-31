@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLang } from "@/lib/i18n";
 
 const CERT_LINES = [
@@ -28,7 +28,14 @@ export function NfcScan() {
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0, active: false });
+  const glareRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // cible / valeur courante — animées hors du cycle React pour éviter les saccades
+  const target = useRef({ x: 0, y: 0 });
+  const current = useRef({ x: 0, y: 0 });
+  const dragging = useRef(false);
+  const scrollTilt = useRef(0);
 
   const clearTimers = () => {
     timers.current.forEach((id) => window.clearTimeout(id));
@@ -37,41 +44,91 @@ export function NfcScan() {
 
   useEffect(() => () => clearTimers(), []);
 
-  /* ————— Inclinaison au scroll (tactile) ————— */
+  /* ————— Boucle d'animation unique (lerp) ————— */
   useEffect(() => {
-    if (window.matchMedia("(pointer: fine)").matches) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const coarse = !window.matchMedia("(pointer: fine)").matches;
     let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = window.requestAnimationFrame(() => {
-        raf = 0;
-        const el = wrapRef.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const center = r.top + r.height / 2;
-        const p = (center - window.innerHeight / 2) / (window.innerHeight / 2);
-        setTilt({ x: Math.max(-1, Math.min(1, p)) * -7, y: 0, active: true });
-      });
+    let alive = true;
+
+    const paint = () => {
+      const c = current.current;
+      const tt = target.current;
+      const ease = reduce ? 1 : 0.11;
+      c.x += (tt.x - c.x) * ease;
+      c.y += (tt.y - c.y) * ease;
+
+      const card = cardRef.current;
+      if (card) {
+        card.style.transform = `rotateX(${c.x.toFixed(3)}deg) rotateY(${c.y.toFixed(3)}deg)`;
+        card.style.boxShadow = `${(-c.y * 2).toFixed(1)}px ${(18 + c.x * 1.5).toFixed(1)}px 60px -30px color-mix(in oklab, var(--charbon) 45%, transparent)`;
+      }
+      if (glareRef.current) {
+        const g = 50 + c.y * 2.2;
+        glareRef.current.style.background = `linear-gradient(${(100 + c.y * 1.5).toFixed(1)}deg, transparent ${g - 34}%, color-mix(in oklab, var(--blanc) 85%, transparent) ${g}%, transparent ${g + 34}%)`;
+      }
+      if (contentRef.current) {
+        // parallax léger du contenu, dans le sens inverse de l'inclinaison
+        contentRef.current.style.transform = `translate3d(${(c.y * 0.6).toFixed(2)}px, ${(-c.x * 0.6).toFixed(2)}px, 30px)`;
+      }
+      if (alive) raf = window.requestAnimationFrame(paint);
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    raf = window.requestAnimationFrame(paint);
+
+    /* Défilement : inclinaison continue selon la position dans la fenêtre (tactile) */
+    let scrollRaf = 0;
+    const readScroll = () => {
+      scrollRaf = 0;
+      const el = wrapRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      const p = (center - window.innerHeight / 2) / (window.innerHeight / 2);
+      scrollTilt.current = Math.max(-1, Math.min(1, p)) * -6;
+      if (!dragging.current) {
+        target.current.x = scrollTilt.current;
+        target.current.y = Math.max(-1, Math.min(1, p)) * 2.5;
+      }
+    };
+    const onScroll = () => {
+      if (!scrollRaf) scrollRaf = window.requestAnimationFrame(readScroll);
+    };
+
+    if (coarse) {
+      readScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+    }
+
     return () => {
+      alive = false;
+      window.cancelAnimationFrame(raf);
+      if (scrollRaf) window.cancelAnimationFrame(scrollRaf);
       window.removeEventListener("scroll", onScroll);
-      if (raf) window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
-  /* ————— Inclinaison à la souris ————— */
-  const onMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const el = cardRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
+  /* ————— Pointeur : souris ET toucher (le scroll reste natif) ————— */
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    if (e.pointerType === "touch") dragging.current = true;
+    const r = card.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ x: -py * 12, y: px * 14, active: true });
-  }, []);
+    const amp = e.pointerType === "touch" ? 9 : 12;
+    target.current = { x: -py * amp, y: px * (amp + 2) };
+  };
 
-  const onLeave = useCallback(() => setTilt({ x: 0, y: 0, active: false }), []);
+  const onPointerEnd = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "touch") {
+      dragging.current = false;
+      target.current = { x: scrollTilt.current, y: 0 };
+    } else {
+      target.current = { x: 0, y: 0 };
+    }
+  };
 
   const launch = () => {
     clearTimers();
@@ -99,40 +156,34 @@ export function NfcScan() {
     setTyped([]);
   };
 
-  const glare = 50 + tilt.y * 2.2;
-
   return (
     <div ref={wrapRef} className="mx-auto mt-20 max-w-2xl md:mt-28">
       <div
-        className="[perspective:1600px]"
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
+        className="touch-pan-y [perspective:1600px]"
+        onPointerMove={onPointerMove}
+        onPointerLeave={onPointerEnd}
+        onPointerUp={onPointerEnd}
+        onPointerCancel={onPointerEnd}
       >
         <div
           ref={cardRef}
-          className="relative aspect-[1.6/1] w-full origin-center border border-border bg-[color:var(--ivory)] [transform-style:preserve-3d]"
-          style={{
-            transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(0)`,
-            transition: tilt.active
-              ? "transform 220ms cubic-bezier(0.19,1,0.22,1)"
-              : "transform 1400ms cubic-bezier(0.19,1,0.22,1)",
-            boxShadow: `${-tilt.y * 2}px ${18 + tilt.x * 1.5}px 60px -30px color-mix(in oklab, var(--charbon) 45%, transparent)`,
-          }}
+          className="relative aspect-[1.6/1] w-full origin-center border border-border bg-[color:var(--ivory)] [backface-visibility:hidden] [transform-style:preserve-3d] [will-change:transform]"
           aria-label={t("Simulateur de scan NFC")}
         >
           {/* Reflet — lumière rasante d'atelier */}
           <div
-            className="pointer-events-none absolute inset-0 opacity-70"
-            style={{
-              background: `linear-gradient(${100 + tilt.y * 1.5}deg, transparent ${glare - 34}%, color-mix(in oklab, var(--blanc) 85%, transparent) ${glare}%, transparent ${glare + 34}%)`,
-            }}
+            ref={glareRef}
+            className="pointer-events-none absolute inset-0 opacity-70 [will-change:background]"
           />
 
           {/* Filet intérieur */}
           <span className="pointer-events-none absolute inset-3 border border-foreground/10" />
 
           {/* Contenu */}
-          <div className="relative flex h-full flex-col justify-between p-6 md:p-10 [transform:translateZ(28px)]">
+          <div
+            ref={contentRef}
+            className="relative flex h-full flex-col justify-between p-6 md:p-10 [will-change:transform]"
+          >
             <div className="flex items-start justify-between gap-6">
               <div>
                 <p className="label text-[0.58rem] text-muted-foreground">
@@ -169,7 +220,7 @@ export function NfcScan() {
                       key={d}
                       className={`absolute h-16 w-16 rounded-full border border-foreground/20 ${
                         scanning
-                          ? `animate-[nfc-pulse_1.8s_ease-out_infinite]`
+                          ? "animate-[nfc-pulse_1.8s_ease-out_infinite]"
                           : "opacity-0"
                       }`}
                       style={{ animationDelay: `${d}s`, borderWidth: 1 - i * 0.2 }}
