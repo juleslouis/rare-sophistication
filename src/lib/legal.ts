@@ -33,9 +33,4 @@ export const LEGAL_DOCS: LegalDoc[] = [
     description:
       "Conditions de retour et de remboursement des pièces DIVUS Paris.",
   },
-  {
-    handle: "subscription-policy",
-    fr: "Abonnements",
-    description: "Conditions applicables aux abonnements DIVUS Paris.",
-  },
 ];
