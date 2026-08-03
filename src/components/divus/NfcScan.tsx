@@ -255,7 +255,7 @@ export function NfcScan() {
 
             <div className="flex items-end justify-between gap-6">
               <p className="label text-[0.55rem] text-muted-foreground">
-                {revealed ? "042 / 963" : t("NTAG424 DNA · AES-128")}
+                {revealed ? "000 / 000" : t("NTAG424 DNA · AES-128")}
               </p>
               <p className="display-italic text-sm text-muted-foreground">
                 {revealed ? t("Inscrit à l'archive") : "MMXXVI"}

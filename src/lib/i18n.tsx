@@ -60,10 +60,6 @@ const EN: Record<string, string> = {
   "Adresse trop longue.": "Address too long.",
   "Inscription enregistrée. Vous disposerez d'un accès prioritaire à l'ouverture — aucune communication superflue avant cela.": "You are on the list. You will have priority access at opening — no unnecessary communication before then.",
   "La rareté héritée.": "Rarity, inherited.",
-  "Découvrir la collection": "Discover the collection",
-  "Les pièces du moment": "Pieces of the moment",
-  "Édition Primus.": "Primus edition.",
-  "Voir toute la collection": "View the entire collection",
   Signature: "Signature",
   "La rareté n'est jamais créée —": "Rarity is never created —",
   "elle est héritée.": "it is inherited.",
@@ -82,7 +78,6 @@ const EN: Record<string, string> = {
   "pièces disponibles.": "pieces available.",
   "pièce disponible.": "piece available.",
   "Aucune pièce ne correspond.": "No piece matches.",
-  "Essayez « Drop III » ou « Cyprès ».": "Try “Drop III” or “Cypress”.",
   "Note de la maison": "A note from the Maison",
   "Chaque pièce est confectionnée à la main en atelier de haute couture parisien.":
     "Every piece is hand-crafted in a Parisian haute couture atelier.",
@@ -107,7 +102,6 @@ const EN: Record<string, string> = {
     "This slowness is not a choice: it is a constraint we refuse to circumvent.",
   "Rareté contractuelle": "Contractual rarity",
   "Le nombre est dicté, jamais choisi.": "The number is dictated, never chosen.",
-  "Pièce Primus — Travertin": "Primus piece — Travertine",
   "Chaque série DIVUS célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé.":
     "Each DIVUS series celebrates an existing, publicly documented object. The number of pieces produced matches exactly the number of examples of the subject honoured.",
   "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.":
@@ -125,14 +119,11 @@ const EN: Record<string, string> = {
   "Le certificat s'ouvre sur nos serveurs, horodaté. La provenance de la pièce est inscrite dans notre registre privé.":
     "The certificate opens on our servers, timestamped. The provenance of the piece is inscribed in our private register.",
   Éditions: "Editions",
-  "Trois séries, une seule maison.": "Three series, a single Maison.",
   Série: "Series",
   "L'édition fondatrice. Point de départ, sans partenaire, se légitime par elle-même.":
     "The founding edition. A point of departure, without partner, legitimised by itself.",
   "Le savoir-faire. Une collaboration avec un horloger indépendant français, à tirage documenté.":
     "The savoir-faire. A collaboration with an independent French watchmaker, in a documented run.",
-  "L'hommage. 963 exemplaires, en écho au flagship célébré. Livraison MMXXVI.":
-    "The homage. 963 examples, echoing the flagship celebrated. Delivery MMXXVI.",
   "Pour les demandes de cercle privé, de presse ou d'archives.":
     "For private circle, press or archive enquiries.",
 
@@ -150,10 +141,6 @@ const EN: Record<string, string> = {
   "Le certificat s'affichera après lecture de la puce.":
     "The certificate will appear once the chip has been read.",
   "— CERTIFICAT D'AUTHENTICITÉ —": "— CERTIFICATE OF AUTHENTICITY —",
-  "Série       : DROP III · SVJ · ULTIMA":
-    "Series      : DROP III · SVJ · ULTIMA",
-  "Référence   : DVS-III-963-II": "Reference   : DVS-III-963-II",
-  "Numéro      : 042 / 963": "Number      : 042 / 963",
   "Matière     : Cachemire · Supima 400 g/m²":
     "Material    : Cashmere · Supima 400 g/m²",
   "Coloris     : Charbon": "Colour      : Charcoal",
@@ -212,14 +199,8 @@ const EN: Record<string, string> = {
     "A deep green, inherited from Viennese watch dials. The fabric falls straight, effortlessly — like a hand finding its second.",
   "Terre cuite, brûlée par le temps. Une chaleur mate qui rappelle le cuir des bracelets patinés par des décennies de poignets.":
     "Terracotta, burnt by time. A matte warmth recalling straps patinated by decades of wrists.",
-  "963 exemplaires, comme les 963 chevaux du moteur. Un hommage à la mécanique italienne, coulé dans la douceur du cachemire parisien.":
-    "963 examples, as the engine's 963 horses. A homage to Italian mechanics, cast in the softness of Parisian cashmere.",
-  "Le charbon profond du Drop III — absolue matité, presque une absence. La pièce se lit à la main, jamais à l'œil.":
-    "The deep charcoal of Drop III — absolute matteness, almost an absence. The piece is read by hand, never by eye.",
   "Vert cyprès, hommage aux jardins de la Villa d'Este. Une pièce contemplative, taillée pour la lumière méridionale.":
     "Cypress green, a homage to the gardens of Villa d'Este. A contemplative piece, cut for southern light.",
-  "Terre profonde et minérale, presque bronze. La dernière déclinaison du Drop III, réservée aux commandes tardives.":
-    "Deep, mineral earth, almost bronze. The final variation of Drop III, reserved for late orders.",
   "L'édition suivante ne sera pas annoncée. Elle sera reçue — par lettre, en écrin scellé.":
     "The next edition will not be announced. It will be received — by letter, in a sealed case.",
   Vue: "View",
@@ -280,7 +261,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
       if (lang !== "en") return fr;
       const direct = EN[fr];
       if (direct) return direct;
-      // Chaînes dynamiques (ex. « 963 exemplaires numérotés »)
+      // Chaînes dynamiques (ex. « N exemplaires numérotés »)
       const numbered = fr.match(/^(\d+) exemplaires numérotés$/);
       if (numbered) return `${numbered[1]} numbered examples`;
       return fr;
