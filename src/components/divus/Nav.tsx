@@ -68,13 +68,20 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             </span>
           </Link>
 
-          {/* Liste d'attente */}
+          {/* Liste d'attente — indicateur discret sur mobile, libellé sur desktop */}
           <div className="col-start-3 flex items-center justify-end">
             <Link
               to="/collection"
-              className="label-sm shrink-0 whitespace-nowrap text-[0.55rem] tracking-[0.16em] transition-opacity hover:opacity-60 md:text-[0.65rem] md:tracking-[0.22em]"
+              aria-label={t("Liste d'attente")}
+              className="group flex items-center justify-end gap-2 transition-opacity hover:opacity-60"
             >
-              {t("Liste d'attente")}
+              <span className="label-sm hidden whitespace-nowrap text-[0.55rem] tracking-[0.16em] md:inline md:text-[0.65rem] md:tracking-[0.22em]">
+                {t("Liste d'attente")}
+              </span>
+              <span className="relative flex h-2 w-2 md:hidden" aria-hidden>
+                <span className="absolute inset-0 rounded-full bg-current opacity-20" />
+                <span className="relative block h-2 w-2 rounded-full bg-current" />
+              </span>
             </Link>
           </div>
         </div>
