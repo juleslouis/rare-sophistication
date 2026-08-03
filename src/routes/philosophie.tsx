@@ -3,7 +3,6 @@ import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
 import { NfcScan } from "@/components/divus/NfcScan";
 import atelier from "@/assets/atelier.jpg";
-import piece02 from "@/assets/piece-02.jpg";
 import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/philosophie")({
