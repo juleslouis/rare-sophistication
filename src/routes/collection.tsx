@@ -18,7 +18,7 @@ export const Route = createFileRoute("/collection")({
       {
         name: "description",
         content:
-          "Une première série DIVUS Paris arrive. Inscrivez-vous pour un accès prioritaire à l'ouverture — aucune communication superflue avant cela.",
+          "Une première série DIVUS Paris arrive. Inscrivez-vous pour un accès prioritaire à l'ouverture.",
       },
       { property: "og:title", content: "Accès anticipé — DIVUS Paris" },
       {
@@ -147,7 +147,7 @@ function WaitlistPage() {
                 </p>
                 <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
                   {t(
-                    "Inscription enregistrée. Vous disposerez d'un accès prioritaire à l'ouverture — aucune communication superflue avant cela.",
+                    "Inscription enregistrée. Vous disposerez d'un accès prioritaire à l'ouverture.",
                   )}
                 </p>
               </div>
