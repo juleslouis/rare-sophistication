@@ -17,6 +17,7 @@ import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as LegalHandleRouteImport } from './routes/legal.$handle'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as ApiPublicWaitlistCountRouteImport } from './routes/api/public/waitlist-count'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const PhilosophieRoute = PhilosophieRouteImport.update({
@@ -61,6 +62,11 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicWaitlistCountRoute = ApiPublicWaitlistCountRouteImport.update({
+  id: '/api/public/waitlist-count',
+  path: '/api/public/waitlist-count',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/legal/$handle': typeof LegalHandleRoute
   '/legal/': typeof LegalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/waitlist-count': typeof ApiPublicWaitlistCountRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/legal/$handle': typeof LegalHandleRoute
   '/legal': typeof LegalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/waitlist-count': typeof ApiPublicWaitlistCountRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/legal/$handle': typeof LegalHandleRoute
   '/legal/': typeof LegalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/waitlist-count': typeof ApiPublicWaitlistCountRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/legal/$handle'
     | '/legal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/waitlist-count'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/legal/$handle'
     | '/legal'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/waitlist-count'
   id:
     | '__root__'
     | '/'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/legal/$handle'
     | '/legal/'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/waitlist-count'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -148,6 +160,7 @@ export interface RootRouteChildren {
   LegalHandleRoute: typeof LegalHandleRoute
   LegalIndexRoute: typeof LegalIndexRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPublicWaitlistCountRoute: typeof ApiPublicWaitlistCountRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/waitlist-count': {
+      id: '/api/public/waitlist-count'
+      path: '/api/public/waitlist-count'
+      fullPath: '/api/public/waitlist-count'
+      preLoaderRoute: typeof ApiPublicWaitlistCountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -229,6 +249,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalHandleRoute: LegalHandleRoute,
   LegalIndexRoute: LegalIndexRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPublicWaitlistCountRoute: ApiPublicWaitlistCountRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
