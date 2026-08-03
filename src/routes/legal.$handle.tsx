@@ -54,7 +54,8 @@ function LegalPage() {
             {doc?.numeral}
           </p>
           <h1 className="display mx-auto mt-6 max-w-[22ch] text-[2.1rem] leading-[1.1] tracking-[0.02em] md:text-[3.2rem]">
-            {doc?.fr ? t(doc.fr) : policy.title}
+            {doc?.fr ? t(doc.fr) : t("Informations légales")}
+
           </h1>
           {doc?.summary ? (
             <p className="mx-auto mt-10 max-w-lg text-xs leading-relaxed text-muted-foreground md:text-sm">
