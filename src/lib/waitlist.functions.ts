@@ -75,5 +75,37 @@ export const joinWaitlist = createServerFn({ method: "POST" })
       return { ok: false as const };
     }
 
-    return { ok: true as const, alreadyRegistered: Boolean(error) };
+    // Miroir dans la base clients Shopify (consentement e-mail, étiquette waitlist).
+    if (!error) {
+      const { createWaitlistCustomer } = await import("./shopify.server");
+      await createWaitlistCustomer(data.email, data.locale);
+    }
+
+    const { count } = await supabaseAdmin
+      .from("waitlist_signups")
+      .select("id", { count: "exact", head: true });
+
+    return {
+      ok: true as const,
+      alreadyRegistered: Boolean(error),
+      count: count ?? 0,
+    };
   });
+
+/** Nombre total d'inscriptions (public, agrégat seul — aucun e-mail exposé). */
+export const getWaitlistCount = createServerFn({ method: "GET" }).handler(
+  async () => {
+    const { supabaseAdmin } = await import(
+      "@/integrations/supabase/client.server"
+    );
+    const { count, error } = await supabaseAdmin
+      .from("waitlist_signups")
+      .select("id", { count: "exact", head: true });
+
+    if (error) {
+      console.error("[waitlist] count failed", error.message);
+      return { count: 0 };
+    }
+    return { count: count ?? 0 };
+  },
+);
