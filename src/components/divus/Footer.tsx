@@ -41,6 +41,21 @@ export function Footer() {
           ))}
         </nav>
 
+        {/* ————— Documents légaux (rédigés dans Shopify) ————— */}
+        <nav className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-10">
+          {LEGAL_DOCS.map((d) => (
+            <Link
+              key={d.handle}
+              to="/legal/$handle"
+              params={{ handle: d.handle }}
+              className="label-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {t(d.fr)}
+            </Link>
+          ))}
+        </nav>
+
+
         <div className="mt-16 flex flex-col items-center gap-3 border-t border-border pt-8 text-center md:flex-row md:justify-between md:text-left">
           <p className="label-sm text-muted-foreground">
             {t("© MMXXV · Fabricatum in Gallia")}
