@@ -56,7 +56,7 @@ export const joinWaitlist = createServerFn({ method: "POST" })
     if (suspicious) {
       console.warn("[waitlist] submission blocked (anti-bot)");
       // Réponse neutre : ne pas indiquer au bot qu'il a été filtré.
-      return { ok: true as const, alreadyRegistered: false };
+      return { ok: true as const, alreadyRegistered: false, count: null };
     }
 
     const { supabaseAdmin } = await import(
@@ -88,7 +88,7 @@ export const joinWaitlist = createServerFn({ method: "POST" })
     return {
       ok: true as const,
       alreadyRegistered: Boolean(error),
-      count: count ?? 0,
+      count: (count ?? 0) as number | null,
     };
   });
 
