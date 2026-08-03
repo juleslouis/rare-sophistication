@@ -55,6 +55,9 @@ const emailSchema = z
   .max(255, { message: "Adresse trop longue." })
   .email({ message: "Adresse e-mail invalide." });
 
+const CONSENT_TEXT =
+  "J'accepte de recevoir les communications de la maison DIVUS Paris à l'adresse indiquée. Je peux retirer mon consentement à tout moment.";
+
 function WaitlistPage() {
   const { t, lang } = useLang();
   const { count: initialCount } = Route.useLoaderData();
@@ -68,6 +71,7 @@ function WaitlistPage() {
   const startedRef = useRef(false);
   const renderedAtRef = useRef(0);
   const [honeypot, setHoneypot] = useState("");
+  const [consent, setConsent] = useState(false);
 
   useEffect(() => {
     renderedAtRef.current = Date.now();
@@ -99,6 +103,8 @@ function WaitlistPage() {
           email: email.trim(),
           locale: lang,
           company: honeypot,
+          marketingConsent: consent,
+          consentText: consent ? CONSENT_TEXT : "",
           renderedAt: renderedAtRef.current,
         },
       });
@@ -210,6 +216,23 @@ function WaitlistPage() {
                 >
                   {error ? t(error) : "\u00A0"}
                 </p>
+                <label
+                  htmlFor="waitlist-consent"
+                  className="mt-8 flex w-full cursor-pointer items-start gap-4 text-left"
+                >
+                  <input
+                    id="waitlist-consent"
+                    name="consent"
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-[0.2rem] h-3 w-3 shrink-0 appearance-none border border-border bg-transparent transition-colors checked:border-foreground checked:bg-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/40"
+                  />
+                  <span className="text-[0.7rem] leading-relaxed tracking-[0.02em] text-muted-foreground">
+                    {t(CONSENT_TEXT)}
+                  </span>
+                </label>
+
                 <button
                   type="submit"
                   disabled={pending}

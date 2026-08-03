@@ -19,6 +19,8 @@ const STORAGE_KEY = "divus-lang";
  */
 const EN: Record<string, string> = {
   // ——— Navigation & Footer
+  "J'accepte de recevoir les communications de la maison DIVUS Paris à l'adresse indiquée. Je peux retirer mon consentement à tout moment.":
+    "I agree to receive communications from Maison DIVUS Paris at the address provided. I may withdraw my consent at any time.",
   "Ouvrir le menu": "Open menu",
   Menu: "Menu",
   "DIVUS Paris — Accueil": "DIVUS Paris — Home",
