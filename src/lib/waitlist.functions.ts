@@ -1,19 +1,64 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP, getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
 
 const signupSchema = z.object({
   email: z.string().trim().toLowerCase().max(255).email(),
   locale: z.enum(["fr", "en"]).default("fr"),
+  /** Champ leurre (honeypot) : toujours vide pour un humain. */
+  company: z.string().max(255).optional().default(""),
+  /** Horodatage d'affichage du formulaire (ms epoch, côté client). */
+  renderedAt: z.number().int().nonnegative().optional().default(0),
 });
+
+/** Délai minimal humain entre l'affichage du formulaire et l'envoi. */
+const MIN_ELAPSED_MS = 1500;
+/** Au-delà, le jeton de temps est considéré comme rejoué. */
+const MAX_ELAPSED_MS = 2 * 60 * 60 * 1000;
+
+/** Limitation simple par IP (fenêtre glissante, mémoire de l'instance). */
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const hits = new Map<string, number[]>();
+
+function rateLimited(key: string) {
+  const now = Date.now();
+  const recent = (hits.get(key) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS,
+  );
+  recent.push(now);
+  hits.set(key, recent);
+  if (hits.size > 5000) hits.clear();
+  return recent.length > RATE_LIMIT_MAX;
+}
 
 /**
  * Enregistre une inscription à la liste d'attente (e-mail + horodatage).
- * Écriture côté serveur uniquement : la table n'est accessible ni en lecture
- * ni en écriture depuis le navigateur.
+ * Écriture côté serveur uniquement, précédée d'un filtrage anti-bot invisible
+ * (honeypot, cadence de saisie, limitation par IP). Les soumissions suspectes
+ * renvoient une réponse indistinguable d'un succès mais ne sont pas stockées.
  */
 export const joinWaitlist = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => signupSchema.parse(data))
   .handler(async ({ data }) => {
+    const ip = getRequestIP({ xForwardedFor: true }) ?? "unknown";
+    const ua = getRequestHeader("user-agent") ?? "";
+    const elapsed = data.renderedAt ? Date.now() - data.renderedAt : 0;
+
+    const suspicious =
+      data.company.trim().length > 0 ||
+      !data.renderedAt ||
+      elapsed < MIN_ELAPSED_MS ||
+      elapsed > MAX_ELAPSED_MS ||
+      ua.trim().length === 0 ||
+      rateLimited(ip);
+
+    if (suspicious) {
+      console.warn("[waitlist] submission blocked (anti-bot)");
+      // Réponse neutre : ne pas indiquer au bot qu'il a été filtré.
+      return { ok: true as const, alreadyRegistered: false };
+    }
+
     const { supabaseAdmin } = await import(
       "@/integrations/supabase/client.server"
     );
