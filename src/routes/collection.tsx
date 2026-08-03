@@ -48,6 +48,7 @@ export const Route = createFileRoute("/collection")({
 const emailSchema = z
   .string()
   .trim()
+  .nonempty({ message: "Renseignez une adresse e-mail." })
   .max(255, { message: "Adresse trop longue." })
   .email({ message: "Adresse e-mail invalide." });
 
@@ -56,21 +57,30 @@ function WaitlistPage() {
   const submitSignup = useServerFn(joinWaitlist);
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [touched, setTouched] = useState(false);
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
 
+  const validate = (value: string) => {
+    const parsed = emailSchema.safeParse(value);
+    return parsed.success
+      ? null
+      : (parsed.error.issues[0]?.message ?? "Adresse e-mail invalide.");
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const parsed = emailSchema.safeParse(email);
-    if (!parsed.success) {
-      setError(parsed.error.issues[0]?.message ?? "Adresse e-mail invalide.");
+    setTouched(true);
+    const message = validate(email);
+    if (message) {
+      setError(message);
       return;
     }
     setError(null);
     setPending(true);
     try {
       const result = await submitSignup({
-        data: { email: parsed.data, locale: lang },
+        data: { email: email.trim(), locale: lang },
       });
       if (!result.ok) {
         setError("Inscription momentanément indisponible. Réessayez.");
@@ -83,7 +93,6 @@ function WaitlistPage() {
       setPending(false);
     }
   };
-
 
   return (
     <>
@@ -103,38 +112,64 @@ function WaitlistPage() {
             )}
           </p>
 
-          <div className="mt-20 w-full max-w-md">
+          <div className="mt-20 w-full max-w-md" aria-live="polite">
             {done ? (
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {t(
-                  "Inscription enregistrée. Vous disposerez d'un accès prioritaire à l'ouverture — aucune communication superflue avant cela.",
-                )}
-              </p>
+              <div className="fade-up flex flex-col items-center">
+                <span className="rule max-w-[3rem]" />
+                <p className="label mt-8 text-muted-foreground">
+                  {t("Inscription confirmée")}
+                </p>
+                <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+                  {t(
+                    "Inscription enregistrée. Vous disposerez d'un accès prioritaire à l'ouverture — aucune communication superflue avant cela.",
+                  )}
+                </p>
+              </div>
             ) : (
-              <form onSubmit={submit} className="flex flex-col items-center">
+              <form
+                onSubmit={submit}
+                noValidate
+                className="flex flex-col items-center"
+              >
                 <label htmlFor="waitlist-email" className="sr-only">
                   {t("Adresse e-mail")}
                 </label>
                 <input
                   id="waitlist-email"
                   type="email"
-                  required
+                  inputMode="email"
+                  autoComplete="email"
                   maxLength={255}
                   value={email}
+                  aria-invalid={error ? true : undefined}
+                  aria-describedby={error ? "waitlist-error" : undefined}
+                  onBlur={() => {
+                    setTouched(true);
+                    setError(validate(email));
+                  }}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    setError(null);
+                    if (touched) setError(validate(e.target.value));
                   }}
                   placeholder={t("Adresse e-mail")}
-                  className="w-full border-b border-border bg-transparent pb-3 text-center text-base text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+                  className={`w-full border-b bg-transparent pb-3 text-center text-base text-foreground placeholder:text-muted-foreground focus:outline-none ${
+                    error
+                      ? "border-foreground/60"
+                      : "border-border focus:border-foreground"
+                  }`}
                 />
-                {error && (
-                  <p className="mt-4 text-xs text-muted-foreground">{t(error)}</p>
-                )}
+                <p
+                  id="waitlist-error"
+                  className={`mt-4 text-xs transition-opacity duration-500 ${
+                    error ? "opacity-100" : "opacity-0"
+                  } text-muted-foreground`}
+                >
+                  {error ? t(error) : "\u00A0"}
+                </p>
                 <button
                   type="submit"
                   disabled={pending}
-                  className="btn-line btn-line-hover mt-12 disabled:opacity-40"
+                  className="btn-line btn-line-hover mt-10 disabled:opacity-40"
                 >
                   {t(pending ? "Envoi…" : "S'inscrire")}
                 </button>
@@ -147,4 +182,5 @@ function WaitlistPage() {
       <Footer />
     </>
   );
+
 }
