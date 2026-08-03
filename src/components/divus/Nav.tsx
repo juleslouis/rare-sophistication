@@ -38,9 +38,9 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             : "bg-transparent border-b border-transparent text-foreground"
         }`}
       >
-        <div className="mx-auto grid h-20 max-w-[1600px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 md:h-24 md:grid-cols-3 md:gap-6 md:px-12">
+        <div className="relative mx-auto grid h-20 max-w-[1600px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 md:h-24 md:grid-cols-3 md:gap-6 md:px-12">
           {/* Menu */}
-          <div className="flex items-center">
+          <div className="col-start-1 flex items-center">
             <button
               onClick={() => setOpen(true)}
               className="group flex shrink-0 items-center gap-3"
@@ -54,10 +54,10 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             </button>
           </div>
 
-          {/* Logo — DIVUS Paris uniquement */}
+          {/* Logo — DIVUS Paris uniquement, centré visuellement sur mobile */}
           <Link
             to="/"
-            className="justify-self-center text-center"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center md:static md:col-start-2 md:translate-x-0 md:translate-y-0 md:justify-self-center"
             aria-label={t("DIVUS Paris — Accueil")}
           >
             <span className="display block text-[1.2rem] leading-none tracking-[0.24em] md:text-[1.6rem] md:tracking-[0.28em]">
@@ -68,8 +68,8 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             </span>
           </Link>
 
-          {/* Accès anticipé */}
-          <div className="flex items-center justify-end">
+          {/* Liste d'attente */}
+          <div className="col-start-3 flex items-center justify-end">
             <Link
               to="/collection"
               className="label-sm shrink-0 whitespace-nowrap text-[0.55rem] tracking-[0.16em] transition-opacity hover:opacity-60 md:text-[0.65rem] md:tracking-[0.22em]"
@@ -77,8 +77,6 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
               {t("Liste d'attente")}
             </Link>
           </div>
-
-
         </div>
       </header>
 
