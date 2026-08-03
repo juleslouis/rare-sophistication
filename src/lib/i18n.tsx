@@ -42,6 +42,26 @@ const EN: Record<string, string> = {
   "Inscription momentanément indisponible. Réessayez.":
     "Signup temporarily unavailable. Please try again.",
   "Informations légales": "Legal information",
+  "Commande, paiement, transfert de propriété et responsabilités de la maison.":
+    "Order, payment, transfer of ownership and the maison's responsibilities.",
+  "Données collectées, finalités, durée de conservation et exercice de vos droits.":
+    "Data collected, purposes, retention periods and how to exercise your rights.",
+  "Acheminement assuré, délais indicatifs et remise en main propre des pièces.":
+    "Insured shipping, indicative lead times and hand delivery of the pieces.",
+  "Droit de rétractation, état de restitution et modalités de remboursement.":
+    "Right of withdrawal, condition on return and refund terms.",
+  "Sommaire":
+    "Contents",
+  "Les engagements écrits de la maison. Quatre documents, tenus à jour et rédigés sans détour.":
+    "The maison's written commitments. Four documents, kept current and written plainly.",
+  "Lire":
+    "Read",
+  "Une question sur ces documents ?":
+    "A question about these documents?",
+  "Écrire à la maison":
+    "Write to the maison",
+  "Retour au sommaire":
+    "Back to contents",
   "Conditions générales de vente": "Terms of sale",
   "Politique de confidentialité": "Privacy policy",
   Livraison: "Shipping",
