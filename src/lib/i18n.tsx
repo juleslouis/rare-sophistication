@@ -199,7 +199,6 @@ const EN: Record<string, string> = {
   "Puce NFC chiffrée, cousue en doublure":
     "Encrypted NFC chip, sewn into the lining",
   Année: "Year",
-  Livraison: "Delivery",
   "Écrin de bois massif, main propre":
     "Solid wood case, hand-delivered",
   "La première pièce de la Maison. Coupe oversized, épaules tombées, coutures rabattues à la main. Une déclaration silencieuse — la genèse d'un vocabulaire.":
