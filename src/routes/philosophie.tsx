@@ -117,7 +117,7 @@ function PhilosophiePage() {
               </h2>
               <p className="mt-12 text-base leading-relaxed text-muted-foreground md:text-lg">
                 {t(
-                  "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure de chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel — et inscrit l'objet dans une archive vérifiable et transmissible.",
+                  "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure de chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel, et inscrit l'objet dans une archive vérifiable et transmissible.",
                 )}
               </p>
             </div>
