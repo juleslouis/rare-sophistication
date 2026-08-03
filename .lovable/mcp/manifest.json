@@ -74,7 +74,7 @@
       {
         "name": "maison_info",
         "title": "La Maison",
-        "description": "Présente la Maison DIVUS PARIS : philosophie, rareté contractuelle des séries, certification NFC chiffrée et pages du site.",
+        "description": "Présente la Maison DIVUS PARIS : philosophie, principe de rareté héritée, certification NFC chiffrée et pages du site.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
