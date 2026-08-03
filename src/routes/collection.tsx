@@ -2,11 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
-import piece01 from "@/assets/piece-01.jpg";
-import piece02 from "@/assets/piece-02.jpg";
-import piece03 from "@/assets/piece-03.jpg";
-import piece04 from "@/assets/piece-04.jpg";
+import { PIECES, type Piece } from "@/lib/pieces";
 import { useLang } from "@/lib/i18n";
+import { getShopifyProducts, type ShopifyProductNode } from "@/lib/shopify.functions";
+import { queryOptions } from "@tanstack/react-query";
+
+const productsQueryOptions = queryOptions({
+  queryKey: ["shopify-products"],
+  queryFn: () => getShopifyProducts(),
+});
 
 export const Route = createFileRoute("/collection")({
   head: () => ({
@@ -27,142 +31,15 @@ export const Route = createFileRoute("/collection")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQueryOptions),
   component: CollectionPage,
 });
 
-type Piece = {
-  ref: string;
-  serie: string;
-  drop: "I" | "II" | "III";
-  hommage: string;
-  matiere: string;
-  couleur: string;
-  edition: number;
-  prix: number;
-  statut: "Sold out" | "En cours" | "Sur liste";
-  image: string;
-  year: string;
+type EnrichedPiece = Piece & {
+  shopify?: ShopifyProductNode;
+  variant?: ShopifyProductNode["variants"]["edges"][number]["node"];
+  availableForSale?: boolean;
 };
-
-const PIECES: Piece[] = [
-  {
-    ref: "DVS-I-100",
-    serie: "Drop I",
-    drop: "I",
-    hommage: "Édition fondatrice",
-    matiere: "Cachemire · Supima",
-    couleur: "Charbon",
-    edition: 100,
-    prix: 1300,
-    statut: "Sold out",
-    image: piece01,
-    year: "MMXXV",
-  },
-  {
-    ref: "DVS-I-100-IV",
-    serie: "Drop I",
-    drop: "I",
-    hommage: "Édition fondatrice",
-    matiere: "Cachemire · Supima",
-    couleur: "Travertin",
-    edition: 100,
-    prix: 1300,
-    statut: "Sold out",
-    image: piece02,
-    year: "MMXXV",
-  },
-  {
-    ref: "DVS-II-250-C",
-    serie: "Drop II",
-    drop: "II",
-    hommage: "Horlogerie",
-    matiere: "Cachemire · Supima",
-    couleur: "Cyprès",
-    edition: 250,
-    prix: 1400,
-    statut: "Sold out",
-    image: piece03,
-    year: "MMXXV",
-  },
-  {
-    ref: "DVS-II-250-T",
-    serie: "Drop II",
-    drop: "II",
-    hommage: "Horlogerie",
-    matiere: "Cachemire · Supima",
-    couleur: "Terre",
-    edition: 250,
-    prix: 1400,
-    statut: "Sold out",
-    image: piece04,
-    year: "MMXXV",
-  },
-  {
-    ref: "DVS-III-963-I",
-    serie: "Drop III",
-    drop: "III",
-    hommage: "Lamborghini SVJ",
-    matiere: "Cachemire · Supima · 400 g/m²",
-    couleur: "Travertin",
-    edition: 963,
-    prix: 1490,
-    statut: "En cours",
-    image: piece02,
-    year: "MMXXVI",
-  },
-  {
-    ref: "DVS-III-963-II",
-    serie: "Drop III",
-    drop: "III",
-    hommage: "Lamborghini SVJ",
-    matiere: "Cachemire · Supima · 400 g/m²",
-    couleur: "Charbon",
-    edition: 963,
-    prix: 1490,
-    statut: "En cours",
-    image: piece01,
-    year: "MMXXVI",
-  },
-  {
-    ref: "DVS-III-963-III",
-    serie: "Drop III",
-    drop: "III",
-    hommage: "Lamborghini SVJ",
-    matiere: "Cachemire · Supima · 400 g/m²",
-    couleur: "Cyprès",
-    edition: 963,
-    prix: 1490,
-    statut: "En cours",
-    image: piece03,
-    year: "MMXXVI",
-  },
-  {
-    ref: "DVS-III-963-IV",
-    serie: "Drop III",
-    drop: "III",
-    hommage: "Lamborghini SVJ",
-    matiere: "Cachemire · Supima · 400 g/m²",
-    couleur: "Terre",
-    edition: 963,
-    prix: 1490,
-    statut: "En cours",
-    image: piece04,
-    year: "MMXXVI",
-  },
-  {
-    ref: "DVS-IV",
-    serie: "Drop IV",
-    drop: "III",
-    hommage: "À révéler",
-    matiere: "—",
-    couleur: "—",
-    edition: 0,
-    prix: 0,
-    statut: "Sur liste",
-    image: piece02,
-    year: "MMXXVI",
-  },
-];
 
 const FILTRES = [
   { key: "toutes", label: "Toutes" },
@@ -179,9 +56,31 @@ function CollectionPage() {
   const { t, lang } = useLang();
   const [query, setQuery] = useState("");
   const [filtre, setFiltre] = useState<FiltreKey>("toutes");
+  const shopifyEdges = Route.useLoaderData();
+
+  const shopifyByHandle = useMemo(() => {
+    const map = new Map<string, ShopifyProductNode>();
+    for (const edge of shopifyEdges) {
+      if (edge?.node?.handle) map.set(edge.node.handle, edge.node);
+    }
+    return map;
+  }, [shopifyEdges]);
+
+  const enrichedPieces: EnrichedPiece[] = useMemo(() => {
+    return PIECES.map((piece) => {
+      const shopify = piece.shopifyHandle ? shopifyByHandle.get(piece.shopifyHandle) : undefined;
+      const variant = shopify?.variants.edges[0]?.node;
+      return {
+        ...piece,
+        shopify,
+        variant,
+        availableForSale: variant?.availableForSale ?? piece.statut === "En cours",
+      };
+    });
+  }, [shopifyByHandle]);
 
   const filtered = useMemo(() => {
-    return PIECES.filter((p) => {
+    return enrichedPieces.filter((p) => {
       const q = query.trim().toLowerCase();
       const matchQ =
         !q ||
@@ -199,7 +98,7 @@ function CollectionPage() {
               : p.drop === filtre;
       return matchQ && matchF;
     });
-  }, [query, filtre]);
+  }, [enrichedPieces, query, filtre]);
 
   return (
     <>
@@ -306,13 +205,16 @@ function PieceCard({
   t,
   lang,
 }: {
-  piece: Piece;
+  piece: EnrichedPiece;
   t: (fr: string) => string;
   lang: string;
 }) {
   const [hover, setHover] = useState(false);
-  const soldOut = piece.statut === "Sold out";
+  const soldOut = piece.statut === "Sold out" || !piece.availableForSale;
   const surListe = piece.statut === "Sur liste";
+  const price = piece.variant?.price
+    ? parseFloat(piece.variant.price.amount)
+    : piece.prix;
 
   return (
     <Link
@@ -358,9 +260,9 @@ function PieceCard({
         <p className="label-sm text-muted-foreground">{piece.ref}</p>
         <p className="display mt-2 text-lg leading-tight md:text-xl">{t(piece.hommage)}</p>
         <p className="mt-1 text-sm text-muted-foreground">{t(piece.couleur)}</p>
-        {piece.prix > 0 && (
+        {price > 0 && (
           <p className="label-sm mt-3 text-muted-foreground">
-            {piece.prix.toLocaleString(lang === "en" ? "en-GB" : "fr-FR")} €
+            {price.toLocaleString(lang === "en" ? "en-GB" : "fr-FR")} {"€"}
           </p>
         )}
       </div>

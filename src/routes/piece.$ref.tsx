@@ -4,12 +4,26 @@ import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
 import { PIECES, findPiece, type Piece } from "@/lib/pieces";
 import { useLang } from "@/lib/i18n";
+import { useCartStore } from "@/lib/cartStore";
+import { getShopifyProductByHandle, type ShopifyProductNode } from "@/lib/shopify.functions";
+import { Loader2 } from "lucide-react";
+import { queryOptions } from "@tanstack/react-query";
+
+const productQueryOptions = (handle: string) =>
+  queryOptions({
+    queryKey: ["shopify-product", handle],
+    queryFn: () => getShopifyProductByHandle({ data: { handle } }),
+  });
 
 export const Route = createFileRoute("/piece/$ref")({
-  loader: ({ params }) => {
+  loader: async ({ params, context }) => {
     const piece = findPiece(params.ref);
     if (!piece) throw notFound();
-    return { piece };
+    let shopify: ShopifyProductNode | null = null;
+    if (piece.shopifyHandle) {
+      shopify = await context.queryClient.ensureQueryData(productQueryOptions(piece.shopifyHandle));
+    }
+    return { piece, shopify };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -61,15 +75,41 @@ function PieceNotFound() {
 
 function PiecePage() {
   const { t, lang } = useLang();
-  const { piece } = Route.useLoaderData();
+  const { piece, shopify } = Route.useLoaderData();
   const [active, setActive] = useState(0);
-  const soldOut = piece.statut === "Sold out";
+  const addItem = useCartStore((state) => state.addItem);
+  const isCartLoading = useCartStore((state) => state.isLoading);
+
+  const variant = shopify?.variants.edges[0]?.node;
+  const soldOut = piece.statut === "Sold out" || !variant?.availableForSale;
   const surListe = piece.statut === "Sur liste";
   const gallery = piece.gallery.length ? piece.gallery : [piece.image];
+
+  const price = variant?.price
+    ? parseFloat(variant.price.amount)
+    : piece.prix;
+  const currency = variant?.price?.currencyCode || "EUR";
 
   const otherPieces: Piece[] = PIECES.filter(
     (p) => p.ref !== piece.ref && p.serie === piece.serie,
   ).slice(0, 4);
+
+  const handleAddToCart = async () => {
+    if (!variant) return;
+    await addItem({
+      product: {
+        id: shopify?.id ?? "",
+        title: shopify?.title ?? piece.hommage,
+        handle: piece.shopifyHandle ?? "",
+        imageUrl: shopify?.images.edges[0]?.node.url ?? piece.image,
+      },
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions,
+    });
+  };
 
   return (
     <>
@@ -155,16 +195,16 @@ function PiecePage() {
               <div className="flex items-baseline justify-between gap-6">
                 <dt className="label text-muted-foreground">{t("Statut")}</dt>
                 <dd className="text-right">
-                  {piece.statut === "Sold out" && <span>{t("Sold out")}</span>}
-                  {piece.statut === "En cours" && <span>{t("En cours")}</span>}
-                  {piece.statut === "Sur liste" && <span className="text-accent">{t("Sur liste")}</span>}
+                  {soldOut && <span>{t("Sold out")}</span>}
+                  {surListe && <span className="text-accent">{t("Sur liste")}</span>}
+                  {!soldOut && !surListe && <span>{t("En cours")}</span>}
                 </dd>
               </div>
-              {piece.prix > 0 && (
+              {price > 0 && (
                 <div className="flex items-baseline justify-between gap-6">
                   <dt className="label text-muted-foreground">{t("Prix")}</dt>
                   <dd className="text-right text-base">
-                    {piece.prix.toLocaleString(lang === "en" ? "en-GB" : "fr-FR")} €
+                    {price.toLocaleString(lang === "en" ? "en-GB" : "fr-FR")} {currency}
                   </dd>
                 </div>
               )}
@@ -182,6 +222,18 @@ function PiecePage() {
                 <Link to="/philosophie" hash="contact" className="btn-line btn-line-hover w-full">
                   {t("Rejoindre la liste")}
                 </Link>
+              ) : variant ? (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isCartLoading}
+                  className="btn-line btn-line-hover w-full inline-flex items-center justify-center gap-2"
+                >
+                  {isCartLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    t("Ajouter à ma sélection")
+                  )}
+                </button>
               ) : (
                 <Link to="/philosophie" hash="contact" className="btn-line btn-line-hover w-full">
                   {t("Demander cette pièce")}

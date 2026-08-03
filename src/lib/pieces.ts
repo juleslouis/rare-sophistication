@@ -18,6 +18,7 @@ export type Piece = {
   year: string;
   description: string;
   details: { label: string; value: string }[];
+  shopifyHandle?: string;
 };
 
 const baseDetails = (p: {
@@ -57,6 +58,7 @@ export const PIECES: Piece[] = [
     description:
       "La première pièce de la Maison. Coupe oversized, épaules tombées, coutures rabattues à la main. Une déclaration silencieuse — la genèse d'un vocabulaire.",
     details: [],
+    shopifyHandle: "drop-i-charbon",
   },
   {
     ref: "DVS-I-100-IV",
@@ -74,6 +76,7 @@ export const PIECES: Piece[] = [
     description:
       "Déclinaison claire de l'édition fondatrice. Le travertin, patiné, absorbe la lumière comme la pierre romaine dont il tire son nom.",
     details: [],
+    shopifyHandle: "drop-i-travertin",
   },
   {
     ref: "DVS-II-250-C",
@@ -91,6 +94,7 @@ export const PIECES: Piece[] = [
     description:
       "Un vert profond, hérité des cadrans d'horlogerie viennoise. La matière tombe droite, sans effort — comme une aiguille qui trouve sa seconde.",
     details: [],
+    shopifyHandle: "drop-ii-cypres",
   },
   {
     ref: "DVS-II-250-T",
@@ -108,6 +112,7 @@ export const PIECES: Piece[] = [
     description:
       "Terre cuite, brûlée par le temps. Une chaleur mate qui rappelle le cuir des bracelets patinés par des décennies de poignets.",
     details: [],
+    shopifyHandle: "drop-ii-terre",
   },
   {
     ref: "DVS-III-963-I",
@@ -125,6 +130,7 @@ export const PIECES: Piece[] = [
     description:
       "963 exemplaires, comme les 963 chevaux du moteur. Un hommage à la mécanique italienne, coulé dans la douceur du cachemire parisien.",
     details: [],
+    shopifyHandle: "drop-iii-travertin",
   },
   {
     ref: "DVS-III-963-II",
@@ -142,6 +148,7 @@ export const PIECES: Piece[] = [
     description:
       "Le charbon profond du Drop III — absolue matité, presque une absence. La pièce se lit à la main, jamais à l'œil.",
     details: [],
+    shopifyHandle: "drop-iii-charbon",
   },
   {
     ref: "DVS-III-963-III",
@@ -159,6 +166,7 @@ export const PIECES: Piece[] = [
     description:
       "Vert cyprès, hommage aux jardins de la Villa d'Este. Une pièce contemplative, taillée pour la lumière méridionale.",
     details: [],
+    shopifyHandle: "drop-iii-cypres",
   },
   {
     ref: "DVS-III-963-IV",
@@ -176,6 +184,7 @@ export const PIECES: Piece[] = [
     description:
       "Terre profonde et minérale, presque bronze. La dernière déclinaison du Drop III, réservée aux commandes tardives.",
     details: [],
+    shopifyHandle: "drop-iii-terre",
   },
   {
     ref: "DVS-IV",
