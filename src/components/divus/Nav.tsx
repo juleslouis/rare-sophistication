@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useLang } from "@/lib/i18n";
-import { CartDrawer } from "@/components/divus/CartDrawer";
+
 
 /**
  * DIVUS — Navigation

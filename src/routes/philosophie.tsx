@@ -87,37 +87,26 @@ function PhilosophiePage() {
 
         {/* ————— RARETÉ ————— */}
         <section className="border-t border-border">
-          <div className="mx-auto grid max-w-[1600px] items-center gap-16 px-6 py-32 md:grid-cols-12 md:gap-24 md:px-12 md:py-48">
-            <div className="md:col-span-5 md:order-2">
-              <img
-                src={piece02}
-                alt={t("Pièce Primus — Travertin")}
-                loading="lazy"
-                width={1408}
-                height={1760}
-                className="w-full bg-blanc"
-              />
-            </div>
-            <div className="md:col-span-6 md:col-start-1 md:row-start-1">
-              <p className="label text-muted-foreground">{t("Rareté contractuelle")}</p>
-              <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                {t("Le nombre est dicté, jamais choisi.")}
-              </h2>
-              <div className="mt-10 space-y-6 text-base leading-relaxed text-muted-foreground">
-                <p>
-                  {t(
-                    "Chaque série DIVUS célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé.",
-                  )}
-                </p>
-                <p>
-                  {t(
-                    "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.",
-                  )}
-                </p>
-              </div>
+          <div className="mx-auto max-w-3xl px-6 py-32 text-center md:px-12 md:py-48">
+            <p className="label text-muted-foreground">{t("Rareté contractuelle")}</p>
+            <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
+              {t("Le nombre est dicté, jamais choisi.")}
+            </h2>
+            <div className="mx-auto mt-12 max-w-xl space-y-6 text-base leading-relaxed text-muted-foreground">
+              <p>
+                {t(
+                  "Chaque série DIVUS célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé.",
+                )}
+              </p>
+              <p>
+                {t(
+                  "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.",
+                )}
+              </p>
             </div>
           </div>
         </section>
+
 
         {/* ————— CERTIFICATION ————— */}
         <section id="certification" className="border-t border-border">
