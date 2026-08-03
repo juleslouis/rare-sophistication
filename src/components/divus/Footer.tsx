@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
+import { LEGAL_DOCS } from "@/lib/legal";
+
 
 /**
  * DIVUS — Footer minimal.
