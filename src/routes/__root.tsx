@@ -114,7 +114,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
   useCartSync();
+
+  useEffect(() => {
+    initAnalytics();
+    const unsubscribe = router.subscribe("onResolved", () => {
+      trackPageView(window.location.pathname);
+    });
+    return unsubscribe;
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -125,3 +134,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
