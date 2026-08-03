@@ -60,6 +60,11 @@ function WaitlistPage() {
   const [touched, setTouched] = useState(false);
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    waitlistAnalytics.view(lang);
+  }, [lang]);
 
   const validate = (value: string) => {
     const parsed = emailSchema.safeParse(value);
@@ -71,9 +76,11 @@ function WaitlistPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
+    waitlistAnalytics.submit(lang);
     const message = validate(email);
     if (message) {
       setError(message);
+      waitlistAnalytics.validationError(lang, message);
       return;
     }
     setError(null);
@@ -84,15 +91,19 @@ function WaitlistPage() {
       });
       if (!result.ok) {
         setError("Inscription momentanément indisponible. Réessayez.");
+        waitlistAnalytics.error(lang);
         return;
       }
       setDone(true);
+      waitlistAnalytics.signup(lang);
     } catch {
       setError("Inscription momentanément indisponible. Réessayez.");
+      waitlistAnalytics.error(lang);
     } finally {
       setPending(false);
     }
   };
+
 
   return (
     <>
