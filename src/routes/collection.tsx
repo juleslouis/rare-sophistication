@@ -160,6 +160,10 @@ function WaitlistPage() {
                     setError(validate(email));
                   }}
                   onChange={(e) => {
+                    if (!startedRef.current && e.target.value.length > 0) {
+                      startedRef.current = true;
+                      waitlistAnalytics.start(lang);
+                    }
                     setEmail(e.target.value);
                     if (touched) setError(validate(e.target.value));
                   }}
