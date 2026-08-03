@@ -465,3 +465,35 @@ export function isCartNotFoundError(
       e.message.toLowerCase().includes("does not exist"),
   );
 }
+
+// ---------- Shop policies (legal documents) ----------
+
+export const SHOP_POLICIES_QUERY = `
+  query ShopPolicies {
+    shop {
+      privacyPolicy { title handle body url }
+      refundPolicy { title handle body url }
+      termsOfService { title handle body url }
+      shippingPolicy { title handle body url }
+      subscriptionPolicy { title handle body url }
+    }
+  }
+`;
+
+export interface ShopifyPolicy {
+  title: string;
+  handle: string;
+  body: string;
+  url: string;
+}
+
+/** Strip anything executable/style-bearing from merchant-authored HTML. */
+export function sanitizePolicyHtml(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
+    .replace(/ on[a-z]+="[^"]*"/gi, "")
+    .replace(/ on[a-z]+='[^']*'/gi, "")
+    .replace(/javascript:/gi, "");
+}

@@ -8,10 +8,13 @@ import {
   CART_LINES_UPDATE_MUTATION,
   CART_LINES_REMOVE_MUTATION,
   CART_QUERY,
+  SHOP_POLICIES_QUERY,
+  sanitizePolicyHtml,
   formatCheckoutUrl,
   isCartNotFoundError,
   type ShopifyProductNode,
   type ShopifyCart,
+  type ShopifyPolicy,
 } from "./shopify.server";
 
 // ---------- Products ----------
@@ -233,3 +236,27 @@ export const getShopifyCart = createServerFn({ method: "POST" })
 });
 
 export type { ShopifyProductNode, ShopifyCart } from "./shopify.server";
+
+// ---------- Legal documents (Shopify shop policies) ----------
+
+export const getShopPolicies = createServerFn({ method: "GET" }).handler(
+  async () => {
+    const result = await storefrontApiRequest<{
+      data?: { shop?: Record<string, ShopifyPolicy | null> };
+      errors?: Array<{ message: string }>;
+    }>(SHOP_POLICIES_QUERY);
+
+    if (result.errors?.length) {
+      throw new Error(result.errors.map((e) => e.message).join(", "));
+    }
+
+    const shop = result.data?.shop ?? {};
+    return Object.values(shop)
+      .filter((p): p is ShopifyPolicy => Boolean(p?.handle && p?.body))
+      .map((p) => ({
+        title: p.title,
+        handle: p.handle,
+        body: sanitizePolicyHtml(p.body),
+      }));
+  },
+);
