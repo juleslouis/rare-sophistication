@@ -539,15 +539,37 @@ const CUSTOMER_CREATE_MUTATION = `
 `;
 
 /**
- * Crée le contact dans la base clients Shopify (consentement marketing e-mail),
- * avec l'étiquette « waitlist » pour segmenter les inscrits.
+ * Crée le contact dans la base clients Shopify avec l'étiquette « waitlist ».
+ * Le consentement marketing n'est transmis à Shopify que s'il a été recueilli
+ * explicitement (case à cocher). La preuve de consentement (texte accepté,
+ * version, horodatage, IP, navigateur) est inscrite dans la note du client.
  * Ne jette jamais : l'inscription en base reste la source de vérité.
  */
 export async function createWaitlistCustomer(
   email: string,
   locale: string,
+  consent?: {
+    granted: boolean;
+    text: string;
+    version: string;
+    at: string;
+    ip: string;
+    userAgent: string;
+  },
 ): Promise<{ ok: boolean; reason?: string }> {
   try {
+    const granted = consent?.granted === true;
+    const note = consent
+      ? [
+          `RGPD — consentement marketing : ${granted ? "accordé" : "refusé"}`,
+          `Version : ${consent.version}`,
+          `Date : ${consent.at}`,
+          `IP : ${consent.ip}`,
+          `Navigateur : ${consent.userAgent.slice(0, 200)}`,
+          `Texte accepté : ${consent.text}`,
+        ].join("\n")
+      : undefined;
+
     const result = await adminApiRequest<{
       data?: {
         customerCreate?: {
@@ -560,14 +582,22 @@ export async function createWaitlistCustomer(
       input: {
         email,
         locale: locale === "en" ? "en" : "fr",
-        tags: ["waitlist", "divus-waitlist"],
+        tags: [
+          "waitlist",
+          "divus-waitlist",
+          granted
+            ? `consent-optin-${consent?.version ?? "v1"}`
+            : "consent-none",
+        ],
+        ...(note ? { note } : {}),
         emailMarketingConsent: {
-          marketingState: "SUBSCRIBED",
-          marketingOptInLevel: "SINGLE_OPT_IN",
-          consentUpdatedAt: new Date().toISOString(),
+          marketingState: granted ? "SUBSCRIBED" : "NOT_SUBSCRIBED",
+          ...(granted ? { marketingOptInLevel: "SINGLE_OPT_IN" } : {}),
+          consentUpdatedAt: consent?.at ?? new Date().toISOString(),
         },
       },
     });
+
 
     const userErrors = result.data?.customerCreate?.userErrors ?? [];
     if (result.errors || userErrors.length > 0) {
