@@ -2,16 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
 import { useLang } from "@/lib/i18n";
-import { getShopPolicies } from "@/lib/shopify.functions";
 import { LEGAL_DOCS } from "@/lib/legal";
+import { LEGAL_CONTENT, LEGAL_UPDATED } from "@/lib/legal-content";
 
 export const Route = createFileRoute("/legal/$handle")({
-  loader: async ({ params }) => {
-    const policies = await getShopPolicies();
-    const policy = policies.find((p) => p.handle === params.handle);
-    if (!policy) throw notFound();
-    return { policy };
+  loader: ({ params }) => {
+    if (!LEGAL_CONTENT[params.handle]) throw notFound();
+    return null;
   },
+
   head: ({ params }) => {
     const doc = LEGAL_DOCS.find((d) => d.handle === params.handle);
     const title = `${doc?.fr ?? "Informations légales"} — DIVUS Paris`;
