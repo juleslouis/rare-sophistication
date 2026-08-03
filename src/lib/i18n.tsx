@@ -58,6 +58,10 @@ const EN: Record<string, string> = {
   "S'inscrire": "Sign up",
   "Adresse e-mail invalide.": "Invalid email address.",
   "Adresse trop longue.": "Address too long.",
+  "Renseignez une adresse e-mail.": "Please enter an email address.",
+  "Inscription confirmée": "Registration confirmed",
+  "Inscription momentanément indisponible. Réessayez.":
+    "Registration temporarily unavailable. Please try again.",
   "Inscription enregistrée. Vous disposerez d'un accès prioritaire à l'ouverture — aucune communication superflue avant cela.": "You are on the list. You will have priority access at opening — no unnecessary communication before then.",
   "La rareté héritée.": "Rarity, inherited.",
   Signature: "Signature",
