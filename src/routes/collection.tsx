@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { joinWaitlist } from "@/lib/waitlist.functions";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { waitlistAnalytics } from "@/lib/analytics";
 
 import { z } from "zod";
 import { Nav } from "@/components/divus/Nav";
