@@ -60,7 +60,7 @@ function LegalIndexPage() {
                     {d.numeral}
                   </span>
                   <span className="flex-1">
-                    <span className="block font-[var(--font-display,'Fraunces',serif)] text-lg leading-snug tracking-[0.01em] md:text-2xl">
+                    <span className="display block text-xl leading-snug md:text-[1.75rem]">
                       {t(d.fr)}
                     </span>
                     <span className="mt-3 block text-xs leading-relaxed text-muted-foreground md:text-sm">
