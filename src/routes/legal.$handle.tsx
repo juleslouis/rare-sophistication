@@ -97,11 +97,34 @@ function LegalPage() {
             </div>
           </aside>
 
-          <article
-            className="legal-prose"
-            // Contenu rédigé par la maison dans Shopify, nettoyé côté serveur.
-            dangerouslySetInnerHTML={{ __html: policy.body }}
-          />
+          <article className="legal-prose">
+            {sections.map((s, i) => (
+              <section key={s.title.fr} className={i > 0 ? "mt-16" : ""}>
+                <div className="flex items-baseline gap-5">
+                  <span className="label-sm shrink-0 tabular-nums text-muted-foreground">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="display text-lg leading-snug md:text-xl">
+                    {s.title[lang]}
+                  </h2>
+                </div>
+                {s.bullets?.length ? (
+                  <ul className="mt-6">
+                    {s.bullets.map((b) => (
+                      <li key={b.fr}>{b[lang]}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                {s.paragraphs?.map((p) => (
+                  <p key={p.fr}>{p[lang]}</p>
+                ))}
+              </section>
+            ))}
+            <p className="mt-20 border-t border-border pt-8 text-[0.7rem] tracking-[0.14em] uppercase text-muted-foreground">
+              {t("Dernière mise à jour")} — {LEGAL_UPDATED[lang]}
+            </p>
+          </article>
+
         </div>
 
         <nav className="mx-auto mb-40 flex max-w-[62ch] flex-col items-center gap-8 border-t border-border px-6 pt-12 md:px-0">
