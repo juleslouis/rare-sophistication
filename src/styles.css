@@ -237,7 +237,6 @@
 .legal-prose {
   font-size: 0.9rem;
   line-height: 1.9;
-  color: hsl(var(--muted-foreground, 0 0% 40%));
   color: var(--muted-foreground);
 }
 .legal-prose h1,
