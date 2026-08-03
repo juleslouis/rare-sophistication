@@ -156,45 +156,7 @@ function PhilosophiePage() {
         </section>
 
 
-        {/* ————— ÉDITIONS ————— */}
-        <section className="border-t border-border">
-          <div className="mx-auto max-w-[1600px] px-6 py-32 md:px-12 md:py-48">
-            <div className="text-center">
-              <p className="label text-muted-foreground">{t("Éditions")}</p>
-              <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                {t("Trois séries, une seule maison.")}
-              </h2>
-            </div>
-            <div className="mt-20 grid gap-16 md:mt-28 md:grid-cols-3 md:gap-12">
-              {[
-                {
-                  n: "I",
-                  nom: "Primus",
-                  desc: "L'édition fondatrice. Point de départ, sans partenaire, se légitime par elle-même.",
-                },
-                {
-                  n: "II",
-                  nom: "Meridian",
-                  desc: "Le savoir-faire. Une collaboration avec un horloger indépendant français, à tirage documenté.",
-                },
-                {
-                  n: "III",
-                  nom: "SVJ · Ultima",
-                  desc: "L'hommage. 963 exemplaires, en écho au flagship célébré. Livraison MMXXVI.",
-                },
-              ].map((s) => (
-                <div key={s.n} className="text-center">
-                  <p className="display text-6xl text-muted-foreground md:text-7xl">{s.n}</p>
-                  <p className="label mt-6">{t("Série")} {s.n}</p>
-                  <p className="display mt-4 text-2xl md:text-3xl">{s.nom}</p>
-                  <p className="mx-auto mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
-                    {t(s.desc)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+
 
         {/* ————— CONTACT ————— */}
         <section id="contact" className="border-t border-border">
