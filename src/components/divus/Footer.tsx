@@ -43,6 +43,12 @@ export function Footer() {
 
         {/* ————— Documents légaux (rédigés dans Shopify) ————— */}
         <nav className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-10">
+          <Link
+            to="/legal"
+            className="label-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t("Informations légales")}
+          </Link>
           {LEGAL_DOCS.map((d) => (
             <Link
               key={d.handle}

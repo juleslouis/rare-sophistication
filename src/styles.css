@@ -236,7 +236,7 @@
 /* ————— Documents légaux : prose sobre, rythme typographique de la maison ————— */
 .legal-prose {
   font-size: 0.9rem;
-  line-height: 1.9;
+  line-height: 1.95;
   color: var(--muted-foreground);
 }
 .legal-prose h1,
@@ -245,10 +245,25 @@
 .legal-prose h4 {
   font-family: var(--font-display, "Fraunces", serif);
   color: var(--foreground);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
+  font-weight: 400;
   letter-spacing: 0.02em;
-  margin-top: 3rem;
-  margin-bottom: 0.75rem;
+  margin-top: 4rem;
+  margin-bottom: 1.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+}
+.legal-prose > *:first-child {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+.legal-prose h3,
+.legal-prose h4 {
+  border-top: 0;
+  padding-top: 0;
+  font-size: 1rem;
+  margin-top: 2.5rem;
 }
 .legal-prose p,
 .legal-prose ul,
@@ -264,7 +279,24 @@
   list-style: decimal;
 }
 .legal-prose li {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.55rem;
+}
+.legal-prose ul {
+  list-style: none;
+  padding-left: 0;
+}
+.legal-prose ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.legal-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.9em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--border);
 }
 .legal-prose strong {
   color: var(--foreground);
