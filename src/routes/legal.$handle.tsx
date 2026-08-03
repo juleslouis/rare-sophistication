@@ -32,10 +32,11 @@ export const Route = createFileRoute("/legal/$handle")({
 });
 
 function LegalPage() {
-  const { policy } = Route.useLoaderData();
   const { handle } = Route.useParams();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const doc = LEGAL_DOCS.find((d) => d.handle === handle);
+  const sections = LEGAL_CONTENT[handle] ?? [];
+
 
   return (
     <>
