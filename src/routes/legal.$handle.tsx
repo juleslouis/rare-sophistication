@@ -99,7 +99,7 @@ function LegalPage() {
 
           <article className="legal-prose">
             {sections.map((s, i) => (
-              <section key={s.title.fr} className={i > 0 ? "mt-16" : ""}>
+              <section key={s.title.fr} className="">
                 <div className="flex items-baseline gap-5">
                   <span className="label-sm shrink-0 tabular-nums text-muted-foreground">
                     {String(i + 1).padStart(2, "0")}
