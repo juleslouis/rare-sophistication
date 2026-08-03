@@ -38,12 +38,12 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             : "bg-transparent border-b border-transparent text-foreground"
         }`}
       >
-        <div className="mx-auto grid h-20 max-w-[1600px] grid-cols-3 items-center px-6 md:h-24 md:px-12">
+        <div className="mx-auto grid h-20 max-w-[1600px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 md:h-24 md:grid-cols-3 md:gap-6 md:px-12">
           {/* Menu */}
           <div className="flex items-center">
             <button
               onClick={() => setOpen(true)}
-              className="group flex items-center gap-3"
+              className="group flex shrink-0 items-center gap-3"
               aria-label={t("Ouvrir le menu")}
             >
               <span className="flex flex-col gap-[5px]" aria-hidden>
@@ -60,10 +60,10 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             className="justify-self-center text-center"
             aria-label={t("DIVUS Paris — Accueil")}
           >
-            <span className="display block text-[1.35rem] leading-none tracking-[0.28em] md:text-[1.6rem]">
+            <span className="display block text-[1.2rem] leading-none tracking-[0.24em] md:text-[1.6rem] md:tracking-[0.28em]">
               DIVUS
             </span>
-            <span className="mt-1.5 block text-[0.55rem] font-medium tracking-[0.42em] text-muted-foreground md:text-[0.6rem]">
+            <span className="mt-1.5 block text-[0.5rem] font-medium tracking-[0.34em] text-muted-foreground md:text-[0.6rem] md:tracking-[0.42em]">
               PARIS
             </span>
           </Link>
@@ -72,17 +72,12 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
           <div className="flex items-center justify-end">
             <Link
               to="/collection"
-              className="label hidden transition-opacity hover:opacity-60 md:inline"
+              className="label-sm shrink-0 whitespace-nowrap text-[0.55rem] tracking-[0.16em] transition-opacity hover:opacity-60 md:text-[0.65rem] md:tracking-[0.22em]"
             >
               {t("Liste d'attente")}
             </Link>
-            <Link
-              to="/collection"
-              className="label-sm transition-opacity hover:opacity-60 md:hidden"
-            >
-              {t("Accès")}
-            </Link>
           </div>
+
 
         </div>
       </header>
