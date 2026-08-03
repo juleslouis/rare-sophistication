@@ -277,7 +277,7 @@ function WaitlistPage() {
             <span className="rule max-w-[2rem]" />
             <p className="label mt-8 text-muted-foreground">
               <span className="tabular-nums tracking-[0.3em]">
-                {String(count).padStart(3, "0")}
+                {String(count).padStart(4, "0")}
               </span>
               <span className="ml-4">
                 {t(count === 1 ? "inscription" : "inscriptions")}
