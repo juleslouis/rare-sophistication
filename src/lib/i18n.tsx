@@ -62,6 +62,8 @@ const EN: Record<string, string> = {
     "Write to the maison",
   "Retour au sommaire":
     "Back to contents",
+  "Dernière mise à jour": "Last updated",
+
   "Conditions générales de vente": "Terms of sale",
   "Politique de confidentialité": "Privacy policy",
   Livraison: "Shipping",
