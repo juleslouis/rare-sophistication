@@ -261,7 +261,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
       if (lang !== "en") return fr;
       const direct = EN[fr];
       if (direct) return direct;
-      // Chaînes dynamiques (ex. « 963 exemplaires numérotés »)
+      // Chaînes dynamiques (ex. « N exemplaires numérotés »)
       const numbered = fr.match(/^(\d+) exemplaires numérotés$/);
       if (numbered) return `${numbered[1]} numbered examples`;
       return fr;
