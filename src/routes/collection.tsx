@@ -116,8 +116,12 @@ function WaitlistPage() {
                 {error && (
                   <p className="mt-4 text-xs text-muted-foreground">{t(error)}</p>
                 )}
-                <button type="submit" className="btn-line btn-line-hover mt-12">
-                  {t("S'inscrire")}
+                <button
+                  type="submit"
+                  disabled={pending}
+                  className="btn-line btn-line-hover mt-12 disabled:opacity-40"
+                >
+                  {t(pending ? "Envoi…" : "S'inscrire")}
                 </button>
               </form>
             )}

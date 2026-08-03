@@ -34,6 +34,9 @@ const EN: Record<string, string> = {
   "© MMXXV · Fabricatum in Gallia": "© MMXXV · Fabricatum in Gallia",
   "Certification NFC · AES-128": "NFC certification · AES-128",
   Langue: "Language",
+  "Envoi…": "Sending…",
+  "Inscription momentanément indisponible. Réessayez.":
+    "Signup temporarily unavailable. Please try again.",
   "Informations légales": "Legal information",
   "Conditions générales de vente": "Terms of sale",
   "Politique de confidentialité": "Privacy policy",
