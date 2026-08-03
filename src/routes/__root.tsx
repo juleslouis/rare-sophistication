@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LangProvider } from "../lib/i18n";
 import { useCartSync } from "@/hooks/useCartSync";
+import { initAnalytics, trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -114,7 +115,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
   useCartSync();
+
+  useEffect(() => {
+    initAnalytics();
+    const unsubscribe = router.subscribe("onResolved", () => {
+      trackPageView(window.location.pathname);
+    });
+    return unsubscribe;
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -125,3 +135,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+

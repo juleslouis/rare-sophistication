@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { joinWaitlist } from "@/lib/waitlist.functions";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { waitlistAnalytics } from "@/lib/analytics";
 
 import { z } from "zod";
 import { Nav } from "@/components/divus/Nav";
@@ -60,6 +61,11 @@ function WaitlistPage() {
   const [touched, setTouched] = useState(false);
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    waitlistAnalytics.view(lang);
+  }, [lang]);
 
   const validate = (value: string) => {
     const parsed = emailSchema.safeParse(value);
@@ -71,9 +77,11 @@ function WaitlistPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
+    waitlistAnalytics.submit(lang);
     const message = validate(email);
     if (message) {
       setError(message);
+      waitlistAnalytics.validationError(lang, message);
       return;
     }
     setError(null);
@@ -84,15 +92,19 @@ function WaitlistPage() {
       });
       if (!result.ok) {
         setError("Inscription momentanément indisponible. Réessayez.");
+        waitlistAnalytics.error(lang);
         return;
       }
       setDone(true);
+      waitlistAnalytics.signup(lang);
     } catch {
       setError("Inscription momentanément indisponible. Réessayez.");
+      waitlistAnalytics.error(lang);
     } finally {
       setPending(false);
     }
   };
+
 
   return (
     <>
@@ -148,6 +160,10 @@ function WaitlistPage() {
                     setError(validate(email));
                   }}
                   onChange={(e) => {
+                    if (!startedRef.current && e.target.value.length > 0) {
+                      startedRef.current = true;
+                      waitlistAnalytics.start(lang);
+                    }
                     setEmail(e.target.value);
                     if (touched) setError(validate(e.target.value));
                   }}
