@@ -73,10 +73,39 @@ function WaitlistPage() {
   const [honeypot, setHoneypot] = useState("");
   const [consent, setConsent] = useState(false);
 
+  const refreshCount = useServerFn(getWaitlistCount);
+
   useEffect(() => {
     renderedAtRef.current = Date.now();
     waitlistAnalytics.view(lang);
   }, [lang]);
+
+  // Compteur en temps réel : rafraîchissement régulier + au retour sur l'onglet.
+  useEffect(() => {
+    let active = true;
+    const sync = async () => {
+      if (typeof document !== "undefined" && document.hidden) return;
+      try {
+        const result = await refreshCount();
+        if (active && typeof result?.count === "number") setCount(result.count);
+      } catch {
+        /* silencieux : le compteur garde sa dernière valeur */
+      }
+    };
+    const interval = window.setInterval(sync, 10000);
+    const onVisible = () => {
+      if (!document.hidden) void sync();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
+    void sync();
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
+    };
+  }, [refreshCount]);
 
   const validate = (value: string) => {
     const parsed = emailSchema.safeParse(value);
