@@ -73,39 +73,48 @@ function WaitlistPage() {
   const [honeypot, setHoneypot] = useState("");
   const [consent, setConsent] = useState(false);
 
-  const refreshCount = useServerFn(getWaitlistCount);
-
   useEffect(() => {
     renderedAtRef.current = Date.now();
     waitlistAnalytics.view(lang);
   }, [lang]);
 
-  // Compteur en temps réel : rafraîchissement régulier + au retour sur l'onglet.
+  // Compteur en temps réel : flux SSE (reconnexion automatique gérée par EventSource).
   useEffect(() => {
-    let active = true;
-    const sync = async () => {
-      if (typeof document !== "undefined" && document.hidden) return;
-      try {
-        const result = await refreshCount();
-        if (active && typeof result?.count === "number") setCount(result.count);
-      } catch {
-        /* silencieux : le compteur garde sa dernière valeur */
-      }
+    if (typeof window === "undefined" || !("EventSource" in window)) return;
+    let source: EventSource | null = null;
+    let retry: number | undefined;
+    let disposed = false;
+
+    const connect = () => {
+      if (disposed) return;
+      source = new EventSource("/api/public/waitlist-count");
+      source.addEventListener("count", (event) => {
+        try {
+          const payload = JSON.parse((event as MessageEvent).data) as {
+            count?: number;
+          };
+          if (typeof payload.count === "number") setCount(payload.count);
+        } catch {
+          /* charge utile invalide : ignorée */
+        }
+      });
+      source.onerror = () => {
+        source?.close();
+        source = null;
+        if (disposed) return;
+        // le flux se termine après quelques minutes : on rouvre la connexion
+        retry = window.setTimeout(connect, 3000);
+      };
     };
-    const interval = window.setInterval(sync, 10000);
-    const onVisible = () => {
-      if (!document.hidden) void sync();
-    };
-    document.addEventListener("visibilitychange", onVisible);
-    window.addEventListener("focus", onVisible);
-    void sync();
+
+    connect();
+
     return () => {
-      active = false;
-      window.clearInterval(interval);
-      document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("focus", onVisible);
+      disposed = true;
+      if (retry) window.clearTimeout(retry);
+      source?.close();
     };
-  }, [refreshCount]);
+  }, []);
 
   const validate = (value: string) => {
     const parsed = emailSchema.safeParse(value);
