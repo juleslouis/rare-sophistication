@@ -9,7 +9,14 @@ const signupSchema = z.object({
   company: z.string().max(255).optional().default(""),
   /** Horodatage d'affichage du formulaire (ms epoch, côté client). */
   renderedAt: z.number().int().nonnegative().optional().default(0),
+  /** Consentement RGPD explicite à recevoir les communications de la maison. */
+  marketingConsent: z.boolean().optional().default(false),
+  /** Texte exact de la case cochée, conservé comme preuve. */
+  consentText: z.string().trim().max(1000).optional().default(""),
 });
+
+/** Version du texte de consentement affiché (à incrémenter si le texte change). */
+export const CONSENT_VERSION = "2026-08-v1";
 
 /** Délai minimal humain entre l'affichage du formulaire et l'envoi. */
 const MIN_ELAPSED_MS = 1500;
@@ -63,10 +70,19 @@ export const joinWaitlist = createServerFn({ method: "POST" })
       "@/integrations/supabase/client.server"
     );
 
+    const consentAt = new Date().toISOString();
+    const consentText = data.consentText.slice(0, 1000);
+
     const { error } = await supabaseAdmin.from("waitlist_signups").insert({
       email: data.email,
       locale: data.locale,
       source: "waitlist",
+      marketing_consent: data.marketingConsent,
+      consent_text: consentText || null,
+      consent_version: CONSENT_VERSION,
+      consent_at: consentAt,
+      consent_ip: ip,
+      consent_user_agent: ua.slice(0, 500),
     });
 
     // Doublon : on considère l'inscription comme déjà acquise.
@@ -78,7 +94,20 @@ export const joinWaitlist = createServerFn({ method: "POST" })
     // Miroir dans la base clients Shopify (consentement e-mail, étiquette waitlist).
     if (!error) {
       const { createWaitlistCustomer } = await import("./shopify.server");
-      await createWaitlistCustomer(data.email, data.locale);
+      const synced = await createWaitlistCustomer(data.email, data.locale, {
+        granted: data.marketingConsent,
+        text: consentText,
+        version: CONSENT_VERSION,
+        at: consentAt,
+        ip,
+        userAgent: ua,
+      });
+      if (synced.ok) {
+        await supabaseAdmin
+          .from("waitlist_signups")
+          .update({ shopify_consent_synced_at: new Date().toISOString() })
+          .eq("email", data.email);
+      }
     }
 
     const { count } = await supabaseAdmin
