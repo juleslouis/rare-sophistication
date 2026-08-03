@@ -2,16 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
 import { useLang } from "@/lib/i18n";
-import { getShopPolicies } from "@/lib/shopify.functions";
 import { LEGAL_DOCS } from "@/lib/legal";
+import { LEGAL_CONTENT, LEGAL_UPDATED } from "@/lib/legal-content";
 
 export const Route = createFileRoute("/legal/$handle")({
-  loader: async ({ params }) => {
-    const policies = await getShopPolicies();
-    const policy = policies.find((p) => p.handle === params.handle);
-    if (!policy) throw notFound();
-    return { policy };
+  loader: ({ params }) => {
+    if (!LEGAL_CONTENT[params.handle]) throw notFound();
+    return null;
   },
+
   head: ({ params }) => {
     const doc = LEGAL_DOCS.find((d) => d.handle === params.handle);
     const title = `${doc?.fr ?? "Informations légales"} — DIVUS Paris`;
@@ -33,40 +32,120 @@ export const Route = createFileRoute("/legal/$handle")({
 });
 
 function LegalPage() {
-  const { policy } = Route.useLoaderData();
   const { handle } = Route.useParams();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const doc = LEGAL_DOCS.find((d) => d.handle === handle);
+  const sections = LEGAL_CONTENT[handle] ?? [];
+
 
   return (
     <>
       <Nav variant="solid" />
 
       <main className="bg-background text-foreground">
-        <header className="px-6 pb-16 pt-40 text-center md:px-12 md:pt-48">
-          <p className="label text-muted-foreground">{t("Informations légales")}</p>
-          <h1 className="display mx-auto mt-8 max-w-[22ch] text-[2.1rem] leading-[1.1] tracking-[0.02em] md:text-[3rem]">
-            {doc?.fr ?? policy.title}
+        <header className="px-6 pb-16 pt-40 text-center md:px-12 md:pt-52">
+          <Link
+            to="/legal"
+            className="label text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t("Informations légales")}
+          </Link>
+          <p className="label-sm mt-10 tabular-nums text-muted-foreground">
+            {doc?.numeral}
+          </p>
+          <h1 className="display mx-auto mt-6 max-w-[22ch] text-[2.1rem] leading-[1.1] tracking-[0.02em] md:text-[3.2rem]">
+            {doc?.fr ? t(doc.fr) : t("Informations légales")}
+
           </h1>
+          {doc?.summary ? (
+            <p className="mx-auto mt-10 max-w-lg text-xs leading-relaxed text-muted-foreground md:text-sm">
+              {t(doc.summary)}
+            </p>
+          ) : null}
+          <span className="rule mx-auto mt-14 max-w-[2rem]" />
         </header>
 
-        <article
-          className="legal-prose mx-auto max-w-[62ch] px-6 pb-24 md:px-0"
-          // Contenu rédigé par la maison dans Shopify, nettoyé côté serveur.
-          dangerouslySetInnerHTML={{ __html: policy.body }}
-        />
+        <div className="mx-auto grid max-w-6xl gap-16 px-6 pb-28 md:grid-cols-[14rem_minmax(0,62ch)] md:justify-center md:gap-20 md:px-12">
+          {/* ————— Sommaire latéral, discret et fixe ————— */}
+          <aside className="hidden md:block">
+            <div className="sticky top-32">
+              <p className="label-sm text-muted-foreground">{t("Sommaire")}</p>
+              <ul className="mt-8 space-y-5">
+                {LEGAL_DOCS.map((d) => {
+                  const active = d.handle === handle;
+                  return (
+                    <li key={d.handle} className="flex gap-4">
+                      <span className="label-sm w-4 shrink-0 tabular-nums text-muted-foreground">
+                        {d.numeral}
+                      </span>
+                      <Link
+                        to="/legal/$handle"
+                        params={{ handle: d.handle }}
+                        aria-current={active ? "page" : undefined}
+                        className={`text-xs leading-relaxed transition-colors ${
+                          active
+                            ? "text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {t(d.fr)}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </aside>
 
-        <nav className="mx-auto mb-40 flex max-w-[62ch] flex-wrap items-center justify-center gap-x-10 gap-y-4 border-t border-border px-6 pt-12 md:px-0">
-          {LEGAL_DOCS.filter((d) => d.handle !== handle).map((d) => (
-            <Link
-              key={d.handle}
-              to="/legal/$handle"
-              params={{ handle: d.handle }}
-              className="label text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t(d.fr)}
-            </Link>
-          ))}
+          <article className="legal-prose">
+            {sections.map((s, i) => (
+              <section key={s.title.fr} className="">
+                <div className="flex items-baseline gap-5">
+                  <span className="label-sm shrink-0 tabular-nums text-muted-foreground">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="display text-lg leading-snug md:text-xl">
+                    {s.title[lang]}
+                  </h2>
+                </div>
+                {s.bullets?.length ? (
+                  <ul className="mt-6">
+                    {s.bullets.map((b) => (
+                      <li key={b.fr}>{b[lang]}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                {s.paragraphs?.map((p) => (
+                  <p key={p.fr}>{p[lang]}</p>
+                ))}
+              </section>
+            ))}
+            <p className="mt-20 border-t border-border pt-8 text-[0.7rem] tracking-[0.14em] uppercase text-muted-foreground">
+              {t("Dernière mise à jour")} — {LEGAL_UPDATED[lang]}
+            </p>
+          </article>
+
+        </div>
+
+        <nav className="mx-auto mb-40 flex max-w-[62ch] flex-col items-center gap-8 border-t border-border px-6 pt-12 md:px-0">
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:hidden">
+            {LEGAL_DOCS.filter((d) => d.handle !== handle).map((d) => (
+              <Link
+                key={d.handle}
+                to="/legal/$handle"
+                params={{ handle: d.handle }}
+                className="label-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {t(d.fr)}
+              </Link>
+            ))}
+          </div>
+          <Link
+            to="/legal"
+            className="label-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t("Retour au sommaire")}
+          </Link>
         </nav>
       </main>
 
@@ -74,3 +153,4 @@ function LegalPage() {
     </>
   );
 }
+

@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
-import { LEGAL_DOCS } from "@/lib/legal";
 
 
 /**
@@ -41,18 +40,14 @@ export function Footer() {
           ))}
         </nav>
 
-        {/* ————— Documents légaux (rédigés dans Shopify) ————— */}
-        <nav className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-10">
-          {LEGAL_DOCS.map((d) => (
-            <Link
-              key={d.handle}
-              to="/legal/$handle"
-              params={{ handle: d.handle }}
-              className="label-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t(d.fr)}
-            </Link>
-          ))}
+        {/* ————— Documents légaux (sommaire unique, rédigés dans Shopify) ————— */}
+        <nav className="mt-10 flex items-center justify-center">
+          <Link
+            to="/legal"
+            className="label-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t("Informations légales")}
+          </Link>
         </nav>
 
 
