@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { joinWaitlist } from "@/lib/waitlist.functions";
 import { useState } from "react";
+
 import { z } from "zod";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
