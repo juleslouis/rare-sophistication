@@ -62,8 +62,11 @@ function WaitlistPage() {
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
   const startedRef = useRef(false);
+  const renderedAtRef = useRef(0);
+  const [honeypot, setHoneypot] = useState("");
 
   useEffect(() => {
+    renderedAtRef.current = Date.now();
     waitlistAnalytics.view(lang);
   }, [lang]);
 
@@ -88,7 +91,12 @@ function WaitlistPage() {
     setPending(true);
     try {
       const result = await submitSignup({
-        data: { email: email.trim(), locale: lang },
+        data: {
+          email: email.trim(),
+          locale: lang,
+          company: honeypot,
+          renderedAt: renderedAtRef.current,
+        },
       });
       if (!result.ok) {
         setError("Inscription momentanément indisponible. Réessayez.");
@@ -143,6 +151,20 @@ function WaitlistPage() {
                 noValidate
                 className="flex flex-col items-center"
               >
+                {/* Champ leurre anti-bot : invisible et ignoré des humains. */}
+                <div aria-hidden="true" className="hidden">
+                  <label htmlFor="waitlist-company">Company</label>
+                  <input
+                    id="waitlist-company"
+                    name="company"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
                 <label htmlFor="waitlist-email" className="sr-only">
                   {t("Adresse e-mail")}
                 </label>
