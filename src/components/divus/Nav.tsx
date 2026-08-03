@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useLang } from "@/lib/i18n";
+import { CartDrawer } from "@/components/divus/CartDrawer";
 
 /**
  * DIVUS — Navigation
@@ -67,7 +68,7 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             </span>
           </Link>
 
-          {/* Recherche */}
+          {/* Recherche + Panier */}
           <div className="flex items-center justify-end gap-7 md:gap-9">
             <Link
               to="/collection"
@@ -79,6 +80,7 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
                 <path d="m20 20-3.5-3.5" strokeLinecap="round" />
               </svg>
             </Link>
+            <CartDrawer />
           </div>
         </div>
       </header>

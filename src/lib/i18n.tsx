@@ -202,6 +202,23 @@ const EN: Record<string, string> = {
   "L'édition suivante ne sera pas annoncée. Elle sera reçue — par lettre, en écrin scellé.":
     "The next edition will not be announced. It will be received — by letter, in a sealed case.",
   Vue: "View",
+
+  // ——— Panier
+  Panier: "Cart",
+  "Votre sélection": "Your selection",
+  "Votre sélection est vide": "Your selection is empty",
+  "Aucune pièce dans votre sélection": "No piece in your selection",
+  pièce: "piece",
+  pièces: "pieces",
+  sélectionnée: "selected",
+  Total: "Total",
+  "Procéder au paiement": "Proceed to payment",
+  "Paiement sécurisé par Shopify": "Secure payment by Shopify",
+  "Ajouter à ma sélection": "Add to my selection",
+  "Ajouter au panier": "Add to cart",
+  "Supprimer de la sélection": "Remove from selection",
+  Quantité: "Quantity",
+  "Continuer mes achats": "Continue shopping",
 };
 
 type Ctx = {
