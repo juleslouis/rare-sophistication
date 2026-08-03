@@ -16,24 +16,45 @@ export type Database = {
     Tables: {
       waitlist_signups: {
         Row: {
+          consent_at: string | null
+          consent_ip: string | null
+          consent_text: string | null
+          consent_user_agent: string | null
+          consent_version: string | null
           created_at: string
           email: string
           id: string
           locale: string
+          marketing_consent: boolean
+          shopify_consent_synced_at: string | null
           source: string
         }
         Insert: {
+          consent_at?: string | null
+          consent_ip?: string | null
+          consent_text?: string | null
+          consent_user_agent?: string | null
+          consent_version?: string | null
           created_at?: string
           email: string
           id?: string
           locale?: string
+          marketing_consent?: boolean
+          shopify_consent_synced_at?: string | null
           source?: string
         }
         Update: {
+          consent_at?: string | null
+          consent_ip?: string | null
+          consent_text?: string | null
+          consent_user_agent?: string | null
+          consent_version?: string | null
           created_at?: string
           email?: string
           id?: string
           locale?: string
+          marketing_consent?: boolean
+          shopify_consent_synced_at?: string | null
           source?: string
         }
         Relationships: []
