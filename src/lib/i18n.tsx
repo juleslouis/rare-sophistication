@@ -35,6 +35,8 @@ const EN: Record<string, string> = {
   "Certification NFC · AES-128": "NFC certification · AES-128",
   Langue: "Language",
   "Envoi…": "Sending…",
+  inscription: "registration",
+  inscriptions: "registrations",
   "Inscription momentanément indisponible. Réessayez.":
     "Signup temporarily unavailable. Please try again.",
   "Informations légales": "Legal information",

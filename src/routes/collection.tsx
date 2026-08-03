@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { joinWaitlist } from "@/lib/waitlist.functions";
+import { joinWaitlist, getWaitlistCount } from "@/lib/waitlist.functions";
 import { useEffect, useRef, useState } from "react";
 import { waitlistAnalytics } from "@/lib/analytics";
 
@@ -10,6 +10,8 @@ import { Footer } from "@/components/divus/Footer";
 import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/collection")({
+  loader: async () => await getWaitlistCount(),
+
   head: () => ({
     meta: [
       { title: "Accès anticipé — DIVUS Paris" },
@@ -55,6 +57,8 @@ const emailSchema = z
 
 function WaitlistPage() {
   const { t, lang } = useLang();
+  const { count: initialCount } = Route.useLoaderData();
+  const [count, setCount] = useState(initialCount);
   const submitSignup = useServerFn(joinWaitlist);
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -103,6 +107,8 @@ function WaitlistPage() {
         waitlistAnalytics.error(lang);
         return;
       }
+      if (typeof result.count === "number") setCount(result.count);
+      else if (!result.alreadyRegistered) setCount((c: number) => c + 1);
       setDone(true);
       waitlistAnalytics.signup(lang);
     } catch {
@@ -213,6 +219,18 @@ function WaitlistPage() {
                 </button>
               </form>
             )}
+          </div>
+
+          <div className="mt-24 flex flex-col items-center">
+            <span className="rule max-w-[2rem]" />
+            <p className="label mt-8 text-muted-foreground">
+              <span className="tabular-nums tracking-[0.3em]">
+                {String(count).padStart(3, "0")}
+              </span>
+              <span className="ml-4">
+                {t(count === 1 ? "inscription" : "inscriptions")}
+              </span>
+            </p>
           </div>
         </section>
       </main>

@@ -497,3 +497,92 @@ export function sanitizePolicyHtml(html: string): string {
     .replace(/ on[a-z]+='[^']*'/gi, "")
     .replace(/javascript:/gi, "");
 }
+
+// ---------- Admin API (customers) ----------
+
+const ADMIN_API_VERSION = "2025-07";
+
+async function adminApiRequest<T = unknown>(
+  query: string,
+  variables: Record<string, unknown> = {},
+): Promise<T> {
+  const token = process.env["SHOPIFY_ACCESS_TOKEN"];
+  if (!token) throw new Error("SHOPIFY_ACCESS_TOKEN is not configured");
+
+  const response = await fetch(
+    `https://${getStoreDomain()}/admin/api/${ADMIN_API_VERSION}/graphql.json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Access-Token": token,
+      },
+      body: JSON.stringify({ query, variables }),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Shopify Admin API error: ${response.status} ${await response.text()}`,
+    );
+  }
+  return (await response.json()) as T;
+}
+
+const CUSTOMER_CREATE_MUTATION = `
+  mutation CustomerCreate($input: CustomerInput!) {
+    customerCreate(input: $input) {
+      customer { id email }
+      userErrors { field message }
+    }
+  }
+`;
+
+/**
+ * Crée le contact dans la base clients Shopify (consentement marketing e-mail),
+ * avec l'étiquette « waitlist » pour segmenter les inscrits.
+ * Ne jette jamais : l'inscription en base reste la source de vérité.
+ */
+export async function createWaitlistCustomer(
+  email: string,
+  locale: string,
+): Promise<{ ok: boolean; reason?: string }> {
+  try {
+    const result = await adminApiRequest<{
+      data?: {
+        customerCreate?: {
+          customer?: { id: string } | null;
+          userErrors?: Array<{ field: string[] | null; message: string }>;
+        };
+      };
+      errors?: unknown;
+    }>(CUSTOMER_CREATE_MUTATION, {
+      input: {
+        email,
+        locale: locale === "en" ? "en" : "fr",
+        tags: ["waitlist", "divus-waitlist"],
+        emailMarketingConsent: {
+          marketingState: "SUBSCRIBED",
+          marketingOptInLevel: "SINGLE_OPT_IN",
+          consentUpdatedAt: new Date().toISOString(),
+        },
+      },
+    });
+
+    const userErrors = result.data?.customerCreate?.userErrors ?? [];
+    if (result.errors || userErrors.length > 0) {
+      const reason = userErrors.map((e) => e.message).join("; ") || "api error";
+      // Doublon = contact déjà présent : ce n'est pas une erreur métier.
+      console.warn(`[waitlist] shopify customer not created: ${reason}`);
+      return { ok: false, reason };
+    }
+    return { ok: true };
+  } catch (error) {
+    console.warn(
+      `[waitlist] shopify customer sync failed: ${
+        error instanceof Error ? error.message : "unknown"
+      }`,
+    );
+    return { ok: false, reason: "request failed" };
+  }
+}
