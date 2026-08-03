@@ -24,9 +24,24 @@ export const Route = createFileRoute("/collection")({
           "La rareté héritée, jamais fabriquée. Accès prioritaire à l'ouverture de la première série.",
       },
       { property: "og:type", content: "website" },
+      {
+        property: "og:url",
+        content: "https://maisondivus.com/collection",
+      },
+      { property: "og:site_name", content: "DIVUS Paris" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Accès anticipé — DIVUS Paris" },
+      {
+        name: "twitter:description",
+        content:
+          "La rareté héritée, jamais fabriquée. Accès prioritaire à l'ouverture de la première série.",
+      },
+    ],
+    links: [
+      { rel: "canonical", href: "https://maisondivus.com/collection" },
     ],
   }),
+
   component: WaitlistPage,
 });
 
