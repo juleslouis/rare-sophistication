@@ -68,20 +68,22 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             </span>
           </Link>
 
-          {/* Recherche + Panier */}
-          <div className="flex items-center justify-end gap-7 md:gap-9">
+          {/* Accès anticipé */}
+          <div className="flex items-center justify-end">
             <Link
               to="/collection"
-              className="opacity-90 transition-opacity hover:opacity-60"
-              aria-label={t("Rechercher")}
+              className="label hidden transition-opacity hover:opacity-60 md:inline"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-3.5-3.5" strokeLinecap="round" />
-              </svg>
+              {t("Liste d'attente")}
             </Link>
-            <CartDrawer />
+            <Link
+              to="/collection"
+              className="label-sm transition-opacity hover:opacity-60 md:hidden"
+            >
+              {t("Accès")}
+            </Link>
           </div>
+
         </div>
       </header>
 
@@ -117,11 +119,12 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
             <ul className="col-span-8 space-y-2">
               {[
                 { to: "/", label: "Accueil" },
-                { to: "/collection", label: "Collection" },
+                { to: "/collection", label: "Liste d'attente" },
                 { to: "/philosophie", label: "Philosophie" },
                 { to: "/philosophie", label: "Atelier", hash: "atelier" },
                 { to: "/philosophie", label: "Certification", hash: "certification" },
                 { to: "/philosophie", label: "Contact", hash: "contact" },
+
               ].map((item, i) => (
                 <li key={`${item.label}-${i}`}>
                   <Link
