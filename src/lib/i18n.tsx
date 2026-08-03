@@ -135,8 +135,8 @@ const EN: Record<string, string> = {
   "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.":
     "This principle makes any reissue impossible. It turns every piece into an archive piece from the moment it is delivered.",
   "Une identité chiffrée.": "An encrypted identity.",
-  "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure de chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel — et inscrit l'objet dans une archive vérifiable et transmissible.":
-    "A non-clonable NTAG424 DNA NFC chip, AES-128 encryption, is sewn into the lining of every piece. It attests to the origin, the series and the individual number — and inscribes the object in a verifiable, transmissible archive.",
+  "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure de chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel, et inscrit l'objet dans une archive vérifiable et transmissible.":
+    "A non-clonable NTAG424 DNA NFC chip, AES-128 encryption, is sewn into the lining of every piece. It attests to the origin, the series and the individual number, and inscribes the object in a verifiable, transmissible archive.",
   Approchez: "Come closer",
   "Placez votre téléphone à moins de deux centimètres de la doublure. La puce s'active sans contact, sans application.":
     "Hold your phone less than two centimetres from the lining. The chip activates contactlessly, with no application.",
