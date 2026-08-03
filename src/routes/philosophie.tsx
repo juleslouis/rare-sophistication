@@ -3,7 +3,6 @@ import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
 import { NfcScan } from "@/components/divus/NfcScan";
 import atelier from "@/assets/atelier.jpg";
-import piece02 from "@/assets/piece-02.jpg";
 import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/philosophie")({
@@ -87,37 +86,26 @@ function PhilosophiePage() {
 
         {/* ————— RARETÉ ————— */}
         <section className="border-t border-border">
-          <div className="mx-auto grid max-w-[1600px] items-center gap-16 px-6 py-32 md:grid-cols-12 md:gap-24 md:px-12 md:py-48">
-            <div className="md:col-span-5 md:order-2">
-              <img
-                src={piece02}
-                alt={t("Pièce Primus — Travertin")}
-                loading="lazy"
-                width={1408}
-                height={1760}
-                className="w-full bg-blanc"
-              />
-            </div>
-            <div className="md:col-span-6 md:col-start-1 md:row-start-1">
-              <p className="label text-muted-foreground">{t("Rareté contractuelle")}</p>
-              <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                {t("Le nombre est dicté, jamais choisi.")}
-              </h2>
-              <div className="mt-10 space-y-6 text-base leading-relaxed text-muted-foreground">
-                <p>
-                  {t(
-                    "Chaque série DIVUS célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé.",
-                  )}
-                </p>
-                <p>
-                  {t(
-                    "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.",
-                  )}
-                </p>
-              </div>
+          <div className="mx-auto max-w-3xl px-6 py-32 text-center md:px-12 md:py-48">
+            <p className="label text-muted-foreground">{t("Rareté contractuelle")}</p>
+            <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
+              {t("Le nombre est dicté, jamais choisi.")}
+            </h2>
+            <div className="mx-auto mt-12 max-w-xl space-y-6 text-base leading-relaxed text-muted-foreground">
+              <p>
+                {t(
+                  "Chaque série DIVUS célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé.",
+                )}
+              </p>
+              <p>
+                {t(
+                  "Ce principe rend impossible toute réédition. Il transforme chaque pièce en pièce d'archive dès sa livraison.",
+                )}
+              </p>
             </div>
           </div>
         </section>
+
 
         {/* ————— CERTIFICATION ————— */}
         <section id="certification" className="border-t border-border">
@@ -167,45 +155,7 @@ function PhilosophiePage() {
         </section>
 
 
-        {/* ————— ÉDITIONS ————— */}
-        <section className="border-t border-border">
-          <div className="mx-auto max-w-[1600px] px-6 py-32 md:px-12 md:py-48">
-            <div className="text-center">
-              <p className="label text-muted-foreground">{t("Éditions")}</p>
-              <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                {t("Trois séries, une seule maison.")}
-              </h2>
-            </div>
-            <div className="mt-20 grid gap-16 md:mt-28 md:grid-cols-3 md:gap-12">
-              {[
-                {
-                  n: "I",
-                  nom: "Primus",
-                  desc: "L'édition fondatrice. Point de départ, sans partenaire, se légitime par elle-même.",
-                },
-                {
-                  n: "II",
-                  nom: "Meridian",
-                  desc: "Le savoir-faire. Une collaboration avec un horloger indépendant français, à tirage documenté.",
-                },
-                {
-                  n: "III",
-                  nom: "SVJ · Ultima",
-                  desc: "L'hommage. 963 exemplaires, en écho au flagship célébré. Livraison MMXXVI.",
-                },
-              ].map((s) => (
-                <div key={s.n} className="text-center">
-                  <p className="display text-6xl text-muted-foreground md:text-7xl">{s.n}</p>
-                  <p className="label mt-6">{t("Série")} {s.n}</p>
-                  <p className="display mt-4 text-2xl md:text-3xl">{s.nom}</p>
-                  <p className="mx-auto mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
-                    {t(s.desc)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+
 
         {/* ————— CONTACT ————— */}
         <section id="contact" className="border-t border-border">

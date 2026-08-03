@@ -4,13 +4,14 @@ import { useLang } from "@/lib/i18n";
 const CERT_LINES = [
   "MAISON DIVUS · PARIS",
   "",
-  "Série       : DROP III · SVJ · ULTIMA",
-  "Référence   : DVS-III-963-II",
-  "Numéro      : 042 / 963",
+  "Série       : ——",
+  "Référence   : DVS-000-000",
+  "Numéro      : 000 / 000",
   "Matière     : Cachemire · Supima 400 g/m²",
   "Coloris     : Charbon",
   "Atelier     : Paris, VIIIᵉ",
   "Année       : MMXXVI",
+
   "",
   "Puce        : NTAG424 DNA",
   "Chiffrement : AES-128 · SUN",
