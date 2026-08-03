@@ -108,7 +108,7 @@ function WaitlistPage() {
         return;
       }
       if (typeof result.count === "number") setCount(result.count);
-      else if (!result.alreadyRegistered) setCount((c) => c + 1);
+      else if (!result.alreadyRegistered) setCount((c: number) => c + 1);
       setDone(true);
       waitlistAnalytics.signup(lang);
     } catch {
