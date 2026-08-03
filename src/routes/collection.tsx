@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { joinWaitlist } from "@/lib/waitlist.functions";
 import { useState } from "react";
+
 import { z } from "zod";
 import { Nav } from "@/components/divus/Nav";
 import { Footer } from "@/components/divus/Footer";
@@ -34,12 +37,14 @@ const emailSchema = z
   .email({ message: "Adresse e-mail invalide." });
 
 function WaitlistPage() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const submitSignup = useServerFn(joinWaitlist);
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
@@ -47,8 +52,23 @@ function WaitlistPage() {
       return;
     }
     setError(null);
-    setDone(true);
+    setPending(true);
+    try {
+      const result = await submitSignup({
+        data: { email: parsed.data, locale: lang },
+      });
+      if (!result.ok) {
+        setError("Inscription momentanément indisponible. Réessayez.");
+        return;
+      }
+      setDone(true);
+    } catch {
+      setError("Inscription momentanément indisponible. Réessayez.");
+    } finally {
+      setPending(false);
+    }
   };
+
 
   return (
     <>
@@ -96,8 +116,12 @@ function WaitlistPage() {
                 {error && (
                   <p className="mt-4 text-xs text-muted-foreground">{t(error)}</p>
                 )}
-                <button type="submit" className="btn-line btn-line-hover mt-12">
-                  {t("S'inscrire")}
+                <button
+                  type="submit"
+                  disabled={pending}
+                  className="btn-line btn-line-hover mt-12 disabled:opacity-40"
+                >
+                  {t(pending ? "Envoi…" : "S'inscrire")}
                 </button>
               </form>
             )}

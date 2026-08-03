@@ -34,6 +34,9 @@ const EN: Record<string, string> = {
   "© MMXXV · Fabricatum in Gallia": "© MMXXV · Fabricatum in Gallia",
   "Certification NFC · AES-128": "NFC certification · AES-128",
   Langue: "Language",
+  "Envoi…": "Sending…",
+  "Inscription momentanément indisponible. Réessayez.":
+    "Signup temporarily unavailable. Please try again.",
   "Informations légales": "Legal information",
   "Conditions générales de vente": "Terms of sale",
   "Politique de confidentialité": "Privacy policy",
@@ -199,7 +202,6 @@ const EN: Record<string, string> = {
   "Puce NFC chiffrée, cousue en doublure":
     "Encrypted NFC chip, sewn into the lining",
   Année: "Year",
-  Livraison: "Delivery",
   "Écrin de bois massif, main propre":
     "Solid wood case, hand-delivered",
   "La première pièce de la Maison. Coupe oversized, épaules tombées, coutures rabattues à la main. Une déclaration silencieuse — la genèse d'un vocabulaire.":
