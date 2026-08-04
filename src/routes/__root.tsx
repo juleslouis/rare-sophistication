@@ -82,6 +82,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/69b45fa5-1fd3-405e-aacc-25e8b7174e0f" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "DIVUS Paris" },
+      { property: "og:locale", content: "fr_FR" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -90,6 +93,41 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..500,0..100&family=Inter:wght@300;400;500;600&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://maisondivus.com/#organization",
+              name: "DIVUS Paris",
+              alternateName: "Maison DIVUS",
+              url: "https://maisondivus.com",
+              email: "contact@maisondivus.com",
+              slogan: "La rareté héritée.",
+              description:
+                "Maison de collection française. Éditions strictement numérotées, confection haute couture parisienne, certification NFC chiffrée.",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Paris",
+                addressCountry: "FR",
+              },
+              knowsLanguage: ["fr", "en"],
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://maisondivus.com/#website",
+              url: "https://maisondivus.com",
+              name: "DIVUS Paris",
+              inLanguage: "fr-FR",
+              publisher: { "@id": "https://maisondivus.com/#organization" },
+            },
+          ],
+        }),
       },
     ],
   }),

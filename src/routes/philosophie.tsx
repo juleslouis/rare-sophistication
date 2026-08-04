@@ -21,7 +21,60 @@ export const Route = createFileRoute("/philosophie")({
           "Rareté héritée, éditions numérotées, atelier haute couture parisien.",
       },
       { property: "og:type", content: "article" },
+      { property: "og:url", content: "https://maisondivus.com/philosophie" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Philosophie — DIVUS Paris" },
+      {
+        name: "twitter:description",
+        content:
+          "Rareté héritée, éditions numérotées, atelier haute couture parisien.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "https://maisondivus.com/philosophie" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "@id": "https://maisondivus.com/philosophie#page",
+          url: "https://maisondivus.com/philosophie",
+          name: "Philosophie — DIVUS Paris",
+          inLanguage: "fr-FR",
+          about: { "@id": "https://maisondivus.com/#organization" },
+          description:
+            "La philosophie DIVUS Paris : rareté héritée, confection haute couture parisienne, éditions strictement numérotées, certification NFC chiffrée.",
+          mainEntity: {
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Où les pièces DIVUS Paris sont-elles confectionnées ?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Chaque pièce naît d'un atelier de haute couture parisien. Les coutures chevauchées sont exécutées au fil doré et les finitions demandent quarante heures de main d'œuvre.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Comment le nombre d'exemplaires est-il déterminé ?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Chaque série célèbre un objet existant, documenté publiquement. Le nombre de pièces produites répond exactement au nombre d'exemplaires du sujet hommagé, ce qui rend toute réédition impossible.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Comment l'authenticité d'une pièce est-elle certifiée ?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure. Chaque lecture génère une signature unique et ouvre un certificat horodaté attestant l'origine, la série et le numéro individuel.",
+                },
+              },
+            ],
+          },
+        }),
+      },
     ],
   }),
   component: PhilosophiePage,

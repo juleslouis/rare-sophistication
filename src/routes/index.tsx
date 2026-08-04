@@ -20,8 +20,16 @@ export const Route = createFileRoute("/")({
           "DIVUS Paris. Éditions strictement numérotées, confection haute couture parisienne, certification NFC. La rareté héritée, l'élégance silencieuse.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://maisondivus.com/" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "DIVUS Paris — Maison de collection" },
+      {
+        name: "twitter:description",
+        content:
+          "DIVUS Paris. Éditions strictement numérotées, confection haute couture parisienne, certification NFC. La rareté héritée, l'élégance silencieuse.",
+      },
     ],
+    links: [{ rel: "canonical", href: "https://maisondivus.com/" }],
   }),
   component: Home,
 });
