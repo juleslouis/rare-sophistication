@@ -46,7 +46,7 @@ function Home() {
         <section className="relative min-h-[100svh] w-full overflow-hidden bg-secondary">
           <img
             src={heroImg}
-            alt=""
+            alt="Pièce DIVUS Paris présentée dans la lumière d'un atelier de haute couture parisien"
             width={1920}
             height={1200}
             className="absolute inset-0 h-full w-full object-cover"
