@@ -1,0 +1,34 @@
+# DIVUS Paris
+
+> DIVUS Paris est une maison de collection française. Elle édite des pièces
+> confectionnées à la main dans un atelier de haute couture parisien, en séries
+> strictement numérotées, chacune scellée par une puce NFC chiffrée
+> (NTAG424 DNA, AES-128). Devise de la maison : « la rareté héritée ».
+
+## Faits essentiels
+
+- Nom : DIVUS Paris
+- Nature : maison de collection (vêtements et pièces d'archive), Paris, France
+- Site officiel : https://maisondivus.com
+- Contact : contact@maisondivus.com
+- Statut : première série à venir — accès anticipé sur liste d'attente
+- Principe de rareté : le nombre de pièces produites est dicté par le nombre
+  d'exemplaires de l'objet hommagé, jamais choisi. Aucune réédition possible.
+- Fabrication : atelier de haute couture parisien, coutures chevauchées au fil
+  doré, environ quarante heures de main d'œuvre par pièce.
+- Authentification : puce NFC NTAG424 DNA non clonable, chiffrement AES-128,
+  signature unique à chaque lecture (SUN), cousue dans la doublure. Elle atteste
+  l'origine, la série et le numéro individuel.
+
+## Pages
+
+- [Accueil](https://maisondivus.com/) : présentation de la maison et de sa devise.
+- [Accès anticipé](https://maisondivus.com/collection) : liste d'attente pour la première série.
+- [Philosophie](https://maisondivus.com/philosophie) : atelier, rareté contractuelle, certification NFC.
+- [Informations légales](https://maisondivus.com/legal) : conditions de vente, confidentialité, livraison, retours.
+
+## Ton et usage
+
+Langue source : français. Version anglaise disponible via le sélecteur de langue.
+Aucune promotion, aucune remise : la maison ne communique jamais sur le prix ou
+l'urgence.

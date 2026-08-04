@@ -24,7 +24,20 @@ export const Route = createFileRoute("/legal/$handle")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "article" },
+        {
+          property: "og:url",
+          content: `https://maisondivus.com/legal/${params.handle}`,
+        },
+        { property: "og:site_name", content: "DIVUS Paris" },
         { name: "twitter:card", content: "summary" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [
+        {
+          rel: "canonical",
+          href: `https://maisondivus.com/legal/${params.handle}`,
+        },
       ],
     };
   },
