@@ -163,18 +163,6 @@ function PhilosophiePage() {
         {/* ————— CERTIFICATION ————— */}
         <section id="certification" className="border-t border-border">
           <div className="mx-auto max-w-[1600px] px-6 py-32 md:px-12 md:py-48">
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="label text-muted-foreground">{t("Certification")}</p>
-              <h2 className="display mt-10 text-4xl leading-[1.05] md:text-5xl">
-                {t("Une identité chiffrée.")}
-              </h2>
-              <p className="mt-12 text-base leading-relaxed text-muted-foreground md:text-lg">
-                {t(
-                  "Une puce NFC NTAG424 DNA non clonable, chiffrement AES-128, est cousue dans la doublure de chaque pièce. Elle atteste de l'origine, de la série et du numéro individuel, et inscrit l'objet dans une archive vérifiable et transmissible.",
-                )}
-              </p>
-            </div>
-
             <NfcScan />
 
             <div className="mx-auto mt-24 grid max-w-4xl gap-12 md:mt-32 md:grid-cols-3 md:gap-16">

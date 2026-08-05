@@ -156,18 +156,13 @@ const EN: Record<string, string> = {
     "For private circle, press or archive enquiries.",
 
   // ——— NFC
-  "Simulateur de scan NFC": "NFC scan simulator",
-  "Lecture en cours…": "Reading…",
-  Authentifié: "Authenticated",
-  "En attente d'un contact": "Awaiting contact",
-  "Rejouer le scan": "Replay the scan",
-  "Approcher la pièce": "Bring the piece closer",
-  Réinitialiser: "Reset",
-  "Certificat · Aperçu": "Certificate · Preview",
-  "Déchiffrement du contenu chiffré AES-128…":
-    "Decrypting AES-128 encrypted content…",
-  "Le certificat s'affichera après lecture de la puce.":
-    "The certificate will appear once the chip has been read.",
+  "Sceau de cire et puce NFC cousue dans la doublure":
+    "Wax seal and NFC chip sewn into the lining",
+  "Puce NTAG424 DNA · Sceau Maison": "NTAG424 DNA chip · Maison seal",
+  "Découvrir le certificat": "Discover the certificate",
+  "Fermer le certificat": "Close the certificate",
+  "Chaque lecture génère une signature unique. Aucune donnée n'est copiable, aucune session n'est rejouable.":
+    "Every read generates a unique signature. No data can be copied, no session can be replayed.",
   "— CERTIFICAT D'AUTHENTICITÉ —": "— CERTIFICATE OF AUTHENTICITY —",
   "Matière     : Cachemire · Supima 400 g/m²":
     "Material    : Cashmere · Supima 400 g/m²",
