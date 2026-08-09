@@ -23,6 +23,8 @@ export type Database = {
           consent_version: string | null
           created_at: string
           email: string
+          hint_1_sent_at: string | null
+          hint_2_sent_at: string | null
           id: string
           locale: string
           marketing_consent: boolean
@@ -37,6 +39,8 @@ export type Database = {
           consent_version?: string | null
           created_at?: string
           email: string
+          hint_1_sent_at?: string | null
+          hint_2_sent_at?: string | null
           id?: string
           locale?: string
           marketing_consent?: boolean
@@ -51,6 +55,8 @@ export type Database = {
           consent_version?: string | null
           created_at?: string
           email?: string
+          hint_1_sent_at?: string | null
+          hint_2_sent_at?: string | null
           id?: string
           locale?: string
           marketing_consent?: boolean
