@@ -22,6 +22,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as ApiPublicWaitlistCountRouteImport } from './routes/api/public/waitlist-count'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
+import { Route as ApiPublicHooksWaitlistHintsRouteImport } from './routes/api/public/hooks/waitlist-hints'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -92,6 +93,12 @@ const LovableEmailTransactionalPreviewRoute =
     path: '/lovable/email/transactional/preview',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksWaitlistHintsRoute =
+  ApiPublicHooksWaitlistHintsRouteImport.update({
+    id: '/api/public/hooks/waitlist-hints',
+    path: '/api/public/hooks/waitlist-hints',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/legal/': typeof LegalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/waitlist-count': typeof ApiPublicWaitlistCountRoute
+  '/api/public/hooks/waitlist-hints': typeof ApiPublicHooksWaitlistHintsRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
@@ -121,6 +129,7 @@ export interface FileRoutesByTo {
   '/legal': typeof LegalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/waitlist-count': typeof ApiPublicWaitlistCountRoute
+  '/api/public/hooks/waitlist-hints': typeof ApiPublicHooksWaitlistHintsRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
@@ -137,6 +146,7 @@ export interface FileRoutesById {
   '/legal/': typeof LegalIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/waitlist-count': typeof ApiPublicWaitlistCountRoute
+  '/api/public/hooks/waitlist-hints': typeof ApiPublicHooksWaitlistHintsRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/legal/'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/waitlist-count'
+    | '/api/public/hooks/waitlist-hints'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/legal'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/waitlist-count'
+    | '/api/public/hooks/waitlist-hints'
     | '/lovable/email/transactional/preview'
   id:
     | '__root__'
@@ -184,6 +196,7 @@ export interface FileRouteTypes {
     | '/legal/'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/waitlist-count'
+    | '/api/public/hooks/waitlist-hints'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
@@ -200,6 +213,7 @@ export interface RootRouteChildren {
   LegalIndexRoute: typeof LegalIndexRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicWaitlistCountRoute: typeof ApiPublicWaitlistCountRoute
+  ApiPublicHooksWaitlistHintsRoute: typeof ApiPublicHooksWaitlistHintsRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
@@ -296,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/waitlist-hints': {
+      id: '/api/public/hooks/waitlist-hints'
+      path: '/api/public/hooks/waitlist-hints'
+      fullPath: '/api/public/hooks/waitlist-hints'
+      preLoaderRoute: typeof ApiPublicHooksWaitlistHintsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -313,6 +334,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalIndexRoute: LegalIndexRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicWaitlistCountRoute: ApiPublicWaitlistCountRoute,
+  ApiPublicHooksWaitlistHintsRoute: ApiPublicHooksWaitlistHintsRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
