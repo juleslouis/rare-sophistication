@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PhilosophieRouteImport } from './routes/philosophie'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as HistoireRouteImport } from './routes/histoire'
 import { Route as CollectionRouteImport } from './routes/collection'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
@@ -34,6 +35,11 @@ const PhilosophieRoute = PhilosophieRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoireRoute = HistoireRouteImport.update({
+  id: '/histoire',
+  path: '/histoire',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionRoute = CollectionRouteImport.update({
@@ -83,6 +89,7 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/collection': typeof CollectionRoute
+  '/histoire': typeof HistoireRoute
   '/mcp': typeof McpRoute
   '/philosophie': typeof PhilosophieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/collection': typeof CollectionRoute
+  '/histoire': typeof HistoireRoute
   '/mcp': typeof McpRoute
   '/philosophie': typeof PhilosophieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/collection': typeof CollectionRoute
+  '/histoire': typeof HistoireRoute
   '/mcp': typeof McpRoute
   '/philosophie': typeof PhilosophieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/collection'
+    | '/histoire'
     | '/mcp'
     | '/philosophie'
     | '/sitemap.xml'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/collection'
+    | '/histoire'
     | '/mcp'
     | '/philosophie'
     | '/sitemap.xml'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/collection'
+    | '/histoire'
     | '/mcp'
     | '/philosophie'
     | '/sitemap.xml'
@@ -165,6 +177,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CollectionRoute: typeof CollectionRoute
+  HistoireRoute: typeof HistoireRoute
   McpRoute: typeof McpRoute
   PhilosophieRoute: typeof PhilosophieRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -197,6 +210,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/histoire': {
+      id: '/histoire'
+      path: '/histoire'
+      fullPath: '/histoire'
+      preLoaderRoute: typeof HistoireRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collection': {
@@ -261,6 +281,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CollectionRoute: CollectionRoute,
+  HistoireRoute: HistoireRoute,
   McpRoute: McpRoute,
   PhilosophieRoute: PhilosophieRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

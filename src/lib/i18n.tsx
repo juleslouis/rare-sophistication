@@ -21,6 +21,20 @@ const EN: Record<string, string> = {
   // ——— Navigation & Footer
   "J'accepte de recevoir les communications de la maison DIVUS Paris à l'adresse indiquée. Je peux retirer mon consentement à tout moment.":
     "I agree to receive communications from Maison DIVUS Paris at the address provided. I may withdraw my consent at any time.",
+  Histoire: "History",
+  "Le nom vient d'avant nous.": "The name comes from before us.",
+  "En latin classique, divus désigne celui qui s'élève au-delà de l'ordinaire — celui dont la mémoire survit au temps après avoir marqué son époque de façon irréversible. Ce n'était pas un titre qu'on s'accordait. C'était un état que d'autres reconnaissaient, après coup, jamais avant.":
+    "In classical Latin, divus designates the one who rises beyond the ordinary — the one whose memory outlives time after having marked their era irreversibly. It was not a title one granted oneself. It was a state others acknowledged, afterwards, never before.",
+  "Deux fondateurs, une conviction.": "Two founders, one conviction.",
+  "DIVUS est né d'un désaccord avec une idée reçue : que la rareté, dans la mode, est presque toujours fabriquée. Un chiffre choisi pour vendre plus vite, une édition « limitée » qui ne l'est jamais vraiment. Nous avons voulu l'inverse — une maison où le nombre de pièces ne serait jamais une décision commerciale, mais un fait hérité d'autre chose, plus grand que nous.":
+    "DIVUS was born of a disagreement with a received idea: that rarity, in fashion, is almost always manufactured. A number chosen to sell faster, a \u201climited\u201d edition that never truly is. We wanted the opposite — a maison where the number of pieces would never be a commercial decision, but a fact inherited from something else, greater than us.",
+  "La rencontre avec l'atelier.": "The meeting with the atelier.",
+  "Une maison de collection ne se construit pas seule. Il fallait des mains capables de tenir la promesse — un atelier de haute couture parisien, habitué à l'exigence des plus grandes maisons, prêt à consacrer le temps qu'il faut plutôt que celui qu'on voudrait. Cette rencontre a rendu possible ce que l'idée seule ne pouvait pas.":
+    "A collection maison is not built alone. It required hands able to keep the promise — a Parisian haute couture atelier, accustomed to the standards of the greatest houses, willing to devote the time required rather than the time one would wish for. That meeting made possible what the idea alone could not.",
+  "Ce que la maison refuse.": "What the maison refuses.",
+  "Jamais de réédition. Jamais de solde. Jamais un chiffre annoncé puis dépassé « pour répondre à la demande ». Une maison qui promet la rareté et la trahit à la première occasion n'a rien promis du tout. DIVUS préfère vendre lentement et tenir parole, plutôt que vite et se dédire.":
+    "Never a reissue. Never a sale. Never a number announced then exceeded \u201cto meet demand\u201d. A maison that promises rarity and betrays it at the first opportunity has promised nothing at all. DIVUS prefers to sell slowly and keep its word, rather than quickly and go back on it.",
+  "Le temps est le premier artisan du luxe.": "Time is the first artisan of luxury.",
   "Ouvrir le menu": "Open menu",
   Menu: "Menu",
   "DIVUS Paris — Accueil": "DIVUS Paris — Home",
