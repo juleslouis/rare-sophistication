@@ -121,6 +121,7 @@ export function Nav({ variant = "auto" }: { variant?: "auto" | "solid" }) {
                 { to: "/", label: "Accueil" },
                 { to: "/collection", label: "Liste d'attente" },
                 { to: "/philosophie", label: "Philosophie" },
+                { to: "/histoire", label: "Histoire" },
                 { to: "/philosophie", label: "Atelier", hash: "atelier" },
                 { to: "/philosophie", label: "Certification", hash: "certification" },
                 { to: "/philosophie", label: "Contact", hash: "contact" },
