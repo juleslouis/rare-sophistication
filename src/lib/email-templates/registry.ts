@@ -18,7 +18,11 @@ export interface TemplateEntry {
  *   // then add to TEMPLATES: 'welcome': welcomeTemplate
  */
 import { template as waitlistConfirmation } from './waitlist-confirmation'
+import { template as waitlistHint1 } from './waitlist-hint-1'
+import { template as waitlistHint2 } from './waitlist-hint-2'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'waitlist-confirmation': waitlistConfirmation,
+  'waitlist-hint-1': waitlistHint1,
+  'waitlist-hint-2': waitlistHint2,
 }
