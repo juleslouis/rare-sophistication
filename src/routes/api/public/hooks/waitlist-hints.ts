@@ -73,12 +73,15 @@ export const Route = createFileRoute("/api/public/hooks/waitlist-hints")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const expected = process.env["SUPABASE_ANON_KEY"];
+        const accepted = [
+          process.env["SUPABASE_ANON_KEY"],
+          process.env["SUPABASE_PUBLISHABLE_KEY"],
+        ].filter((v): v is string => Boolean(v));
         const provided =
           request.headers.get("apikey") ??
           request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
 
-        if (!expected || !provided || provided !== expected) {
+        if (!provided || !accepted.includes(provided)) {
           return new Response("Unauthorized", { status: 401 });
         }
 
