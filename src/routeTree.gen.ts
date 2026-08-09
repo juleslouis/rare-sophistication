@@ -14,6 +14,7 @@ import { Route as PhilosophieRouteImport } from './routes/philosophie'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as HistoireRouteImport } from './routes/histoire'
 import { Route as CollectionRouteImport } from './routes/collection'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as LegalHandleRouteImport } from './routes/legal.$handle'
@@ -47,6 +48,11 @@ const HistoireRoute = HistoireRouteImport.update({
 const CollectionRoute = CollectionRouteImport.update({
   id: '/collection',
   path: '/collection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -102,6 +108,7 @@ const ApiPublicHooksWaitlistHintsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/collection': typeof CollectionRoute
   '/histoire': typeof HistoireRoute
   '/mcp': typeof McpRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/collection': typeof CollectionRoute
   '/histoire': typeof HistoireRoute
   '/mcp': typeof McpRoute
@@ -135,6 +143,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/collection': typeof CollectionRoute
   '/histoire': typeof HistoireRoute
   '/mcp': typeof McpRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/collection'
     | '/histoire'
     | '/mcp'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/collection'
     | '/histoire'
     | '/mcp'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/collection'
     | '/histoire'
     | '/mcp'
@@ -202,6 +214,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   CollectionRoute: typeof CollectionRoute
   HistoireRoute: typeof HistoireRoute
   McpRoute: typeof McpRoute
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/collection'
       fullPath: '/collection'
       preLoaderRoute: typeof CollectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -322,6 +342,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   CollectionRoute: CollectionRoute,
   HistoireRoute: HistoireRoute,
   McpRoute: McpRoute,
