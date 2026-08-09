@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
 # Assistants et moteurs de réponse (Gemini, ChatGPT, Perplexity, Claude…)
 User-agent: Google-Extended
