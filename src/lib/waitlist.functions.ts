@@ -108,7 +108,24 @@ export const joinWaitlist = createServerFn({ method: "POST" })
           .update({ shopify_consent_synced_at: new Date().toISOString() })
           .eq("email", data.email);
       }
+
+      // Confirmation d'inscription (envoi géré côté serveur uniquement).
+      try {
+        const { sendTemplateEmail } = await import(
+          "./email-templates/send-email"
+        );
+        await sendTemplateEmail("waitlist-confirmation", data.email, {
+          templateData: { locale: data.locale },
+          idempotencyKey: `waitlist-confirmation-${data.email}`,
+        });
+      } catch (mailError) {
+        console.error(
+          "[waitlist] confirmation email failed",
+          mailError instanceof Error ? mailError.message : mailError,
+        );
+      }
     }
+
 
     const { count } = await supabaseAdmin
       .from("waitlist_signups")
