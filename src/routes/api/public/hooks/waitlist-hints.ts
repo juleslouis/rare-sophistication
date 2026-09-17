@@ -4,22 +4,40 @@ import { createFileRoute } from "@tanstack/react-router";
  * Envoi programmé des indices de la liste d'accès anticipé.
  * Appelé périodiquement par le planificateur de la base.
  *
- * Indice n°1 : 18 jours après l'inscription (fenêtre 2–3 semaines)
- * Indice n°2 : 32 jours après l'inscription (fenêtre 4–5 semaines)
+ * Indice visuel : 18 jours après l'inscription
+ * Indice textuel : 32 jours après l'inscription
+ * Question : 45 jours après l'inscription
  */
 const HINT_1_DELAY_DAYS = 18;
 const HINT_2_DELAY_DAYS = 32;
+const QUESTION_DELAY_DAYS = 45;
 const BATCH_SIZE = 50;
 
-type Stage = 1 | 2;
+type Stage = 1 | 2 | 3;
+
+const STAGES = {
+  1: {
+    delayDays: HINT_1_DELAY_DAYS,
+    column: "hint_1_sent_at",
+    template: "waitlist-hint-1",
+  },
+  2: {
+    delayDays: HINT_2_DELAY_DAYS,
+    column: "hint_2_sent_at",
+    template: "waitlist-hint-2",
+  },
+  3: {
+    delayDays: QUESTION_DELAY_DAYS,
+    column: "question_sent_at",
+    template: "waitlist-question",
+  },
+} as const;
 
 async function sendStage(stage: Stage) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
 
-  const delayDays = stage === 1 ? HINT_1_DELAY_DAYS : HINT_2_DELAY_DAYS;
-  const column = stage === 1 ? "hint_1_sent_at" : "hint_2_sent_at";
-  const template = stage === 1 ? "waitlist-hint-1" : "waitlist-hint-2";
+  const { delayDays, column, template } = STAGES[stage];
   const dueBefore = new Date(
     Date.now() - delayDays * 24 * 60 * 60 * 1000,
   ).toISOString();
@@ -53,9 +71,7 @@ async function sendStage(stage: Stage) {
       const stamp = new Date().toISOString();
       await supabaseAdmin
         .from("waitlist_signups")
-        .update(
-          stage === 1 ? { hint_1_sent_at: stamp } : { hint_2_sent_at: stamp },
-        )
+        .update({ [column]: stamp })
         .eq("id", row.id);
     } catch (err) {
       failed += 1;
@@ -87,8 +103,9 @@ export const Route = createFileRoute("/api/public/hooks/waitlist-hints")({
 
         const hint1 = await sendStage(1);
         const hint2 = await sendStage(2);
+        const question = await sendStage(3);
 
-        return Response.json({ ok: true, hint1, hint2 });
+        return Response.json({ ok: true, hint1, hint2, question });
       },
     },
   },
