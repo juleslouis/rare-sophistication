@@ -14,8 +14,67 @@ export type Database = {
   }
   public: {
     Tables: {
+      private_orders: {
+        Row: {
+          amount_tax: number
+          amount_total: number
+          created_at: string
+          currency: string
+          customer_country: string | null
+          email: string
+          environment: string
+          id: string
+          status: string
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string
+          updated_at: string
+          waitlist_signup_id: string
+        }
+        Insert: {
+          amount_tax?: number
+          amount_total?: number
+          created_at?: string
+          currency?: string
+          customer_country?: string | null
+          email: string
+          environment?: string
+          id?: string
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id: string
+          updated_at?: string
+          waitlist_signup_id: string
+        }
+        Update: {
+          amount_tax?: number
+          amount_total?: number
+          created_at?: string
+          currency?: string
+          customer_country?: string | null
+          email?: string
+          environment?: string
+          id?: string
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string
+          updated_at?: string
+          waitlist_signup_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "private_orders_waitlist_signup_id_fkey"
+            columns: ["waitlist_signup_id"]
+            isOneToOne: false
+            referencedRelation: "waitlist_signups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       waitlist_signups: {
         Row: {
+          access_granted_at: string | null
+          access_revoked_at: string | null
+          access_token_hash: string | null
           consent_at: string | null
           consent_ip: string | null
           consent_text: string | null
@@ -33,6 +92,9 @@ export type Database = {
           source: string
         }
         Insert: {
+          access_granted_at?: string | null
+          access_revoked_at?: string | null
+          access_token_hash?: string | null
           consent_at?: string | null
           consent_ip?: string | null
           consent_text?: string | null
@@ -50,6 +112,9 @@ export type Database = {
           source?: string
         }
         Update: {
+          access_granted_at?: string | null
+          access_revoked_at?: string | null
+          access_token_hash?: string | null
           consent_at?: string | null
           consent_ip?: string | null
           consent_text?: string | null
