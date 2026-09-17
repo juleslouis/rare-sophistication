@@ -6,9 +6,9 @@ import { TEMPLATES } from './registry'
 // Server-only: reads LOVABLE_API_KEY. Never import from client components.
 
 // Configuration baked in at scaffold time
-const SITE_NAME = "DIVUS PARIS"
-// SENDER_DOMAIN is the verified sender domain. From = contact@maisondivus.com
-// (the house address — never noreply).
+const SITE_NAME = "divus"
+// SENDER_DOMAIN is the verified sender subdomain FQDN (e.g., "notify.example.com").
+// It MUST match the subdomain delegated to Lovable's nameservers. NEVER use the root domain.
 const SENDER_DOMAIN = "notify.maisondivus.com"
 // FROM_DOMAIN is the domain shown in the From: header (e.g., "example.com").
 // Can be the root domain when display_from_root is enabled — this is cosmetic only.
