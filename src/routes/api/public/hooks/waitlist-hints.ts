@@ -69,9 +69,15 @@ async function sendStage(stage: Stage) {
       else skipped += 1;
       // Marqué dans les deux cas : un destinataire supprimé ne doit pas être réessayé.
       const stamp = new Date().toISOString();
+      const update =
+        stage === 1
+          ? { hint_1_sent_at: stamp }
+          : stage === 2
+            ? { hint_2_sent_at: stamp }
+            : { question_sent_at: stamp };
       await supabaseAdmin
         .from("waitlist_signups")
-        .update({ [column]: stamp })
+        .update(update)
         .eq("id", row.id);
     } catch (err) {
       failed += 1;
