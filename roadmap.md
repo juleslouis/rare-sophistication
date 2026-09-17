@@ -1,6 +1,8 @@
-# Séquence d’e-mails
+# Page privée — Série I
 
-- [x] Intégrer les cinq maquettes DIVUS en français et en anglais.
-- [x] Programmer l’indice textuel à J+32 et la question à J+45.
-- [x] Rendre l’e-mail d’ouverture disponible uniquement dans les tests admin.
-- [x] Vérifier la compilation et les modèles.
+- [ ] Créer le produit Stripe en mode test, sans publication.
+- [ ] Ajouter les accès individuels sécurisés et révocables.
+- [ ] Construire la page privée Série I avec le contenu fourni.
+- [ ] Ajouter l’attribution des accès dans l’administration.
+- [ ] Exclure entièrement la page du référencement public.
+- [ ] Vérifier la confidentialité, l’affichage mobile et ordinateur, puis la compilation.
