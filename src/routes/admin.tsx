@@ -5,7 +5,9 @@ import {
   TEST_TEMPLATES,
   adminLogin,
   adminLogout,
+  grantPrivateAccess,
   getAdminDashboard,
+  revokePrivateAccess,
   sendAdminTestEmail,
 } from "@/lib/admin.functions";
 
@@ -53,6 +55,8 @@ function AdminPage() {
   const logout = useServerFn(adminLogout);
   const load = useServerFn(getAdminDashboard);
   const sendTest = useServerFn(sendAdminTestEmail);
+  const grantAccess = useServerFn(grantPrivateAccess);
+  const revokeAccess = useServerFn(revokePrivateAccess);
 
   const [data, setData] = useState<Dashboard | null>(null);
   const [password, setPassword] = useState("");
@@ -64,6 +68,7 @@ function AdminPage() {
   const [testEmail, setTestEmail] = useState("");
   const [locale, setLocale] = useState<"fr" | "en">("fr");
   const [testResult, setTestResult] = useState<string | null>(null);
+  const [privateLink, setPrivateLink] = useState<string | null>(null);
 
   const refresh = async () => {
     setData(await load({ data: undefined }));
@@ -182,6 +187,67 @@ function AdminPage() {
               <p className="label mt-3 text-muted-foreground">{label}</p>
             </div>
           ))}
+        </section>
+
+        <section className="border-b border-border py-16">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="label text-muted-foreground">Série I · mode test</p>
+              <h2 className="display mt-4 text-xl md:text-2xl">Accès privés</h2>
+            </div>
+            <div className="text-right">
+              <p className="display text-2xl">
+                {(data.payments.total / 100).toLocaleString("fr-FR")} €
+              </p>
+              <p className="label mt-2 text-muted-foreground">
+                {data.payments.paid} paiement(s) · TVA {(data.payments.tax / 100).toLocaleString("fr-FR")} €
+              </p>
+            </div>
+          </div>
+
+          {privateLink && (
+            <div className="mt-8 border border-border p-5">
+              <p className="label text-muted-foreground">Lien généré — à copier maintenant</p>
+              <p className="mt-4 break-all text-xs">{privateLink}</p>
+            </div>
+          )}
+
+          <div className="mt-10 divide-y divide-border border-y border-border">
+            {data.privateAccess.map((recipient) => {
+              const active = Boolean(recipient.grantedAt && !recipient.revokedAt);
+              return (
+                <div key={recipient.id} className="flex flex-wrap items-center justify-between gap-4 py-5">
+                  <div>
+                    <p className="text-sm">{recipient.email}</p>
+                    <p className="label mt-2 text-muted-foreground">
+                      {active ? "Accès attribué" : recipient.revokedAt ? "Accès retiré" : "En attente"}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="label border-b border-foreground pb-1 disabled:opacity-30"
+                    disabled={busy}
+                    onClick={async () => {
+                      setBusy(true);
+                      setPrivateLink(null);
+                      if (active) {
+                        await revokeAccess({ data: { signupId: recipient.id } });
+                      } else {
+                        const result = await grantAccess({ data: { signupId: recipient.id } });
+                        if (!result.locked && result.ok) {
+                          setPrivateLink(`${window.location.origin}/acces/${result.token}`);
+                        }
+                      }
+                      setBusy(false);
+                      await refresh();
+                    }}
+                  >
+                    {active ? "Retirer" : "Attribuer"}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </section>
 
         {/* Test d'envoi */}
