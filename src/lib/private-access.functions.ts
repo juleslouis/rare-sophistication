@@ -1,7 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
+import type Stripe from "stripe";
 import { z } from "zod";
 
-const tokenSchema = z.string().regex(/^[a-f0-9]{64}$/);
+const tokenSchema = z.string().max(128);
 
 export const getPrivateAccess = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) =>
@@ -85,7 +86,7 @@ export const createPrivateCheckout = createServerFn({ method: "POST" })
         }
       }
 
-      const session = await stripe.checkout.sessions.create({
+      const sessionParams: Stripe.Checkout.SessionCreateParams = {
         line_items: [{ price: stripePrice.id, quantity: 1 }],
         mode: "payment",
         ui_mode: "embedded_page",
@@ -110,7 +111,6 @@ export const createPrivateCheckout = createServerFn({ method: "POST" })
             "GB",
           ],
         },
-        managed_payments: { enabled: true },
         metadata: {
           userId: access.signupId,
           privateAccess: "serie_i",
@@ -119,7 +119,9 @@ export const createPrivateCheckout = createServerFn({ method: "POST" })
           description: PRIVATE_PRODUCT.title,
           metadata: { userId: access.signupId },
         },
-      });
+      };
+      Object.assign(sessionParams, { managed_payments: { enabled: true } });
+      const session = await stripe.checkout.sessions.create(sessionParams);
 
       if (!session.client_secret) throw new Error("Missing client secret");
 
