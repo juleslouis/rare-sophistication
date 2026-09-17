@@ -28,6 +28,7 @@ export type Database = {
           id: string
           locale: string
           marketing_consent: boolean
+          question_sent_at: string | null
           shopify_consent_synced_at: string | null
           source: string
         }
@@ -44,6 +45,7 @@ export type Database = {
           id?: string
           locale?: string
           marketing_consent?: boolean
+          question_sent_at?: string | null
           shopify_consent_synced_at?: string | null
           source?: string
         }
@@ -60,6 +62,7 @@ export type Database = {
           id?: string
           locale?: string
           marketing_consent?: boolean
+          question_sent_at?: string | null
           shopify_consent_synced_at?: string | null
           source?: string
         }
