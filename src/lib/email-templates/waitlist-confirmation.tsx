@@ -1,59 +1,38 @@
 import React from "react";
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Hr,
-  Html,
-  Preview,
-  Section,
-  Text,
-} from "@react-email/components";
+import { Hr, Section, Text } from "@react-email/components";
+import { DivusLayout, rule, type EmailLocale } from "./divus-layout";
 import type { TemplateEntry } from "./registry";
 
 interface Props {
-  locale?: "fr" | "en";
+  locale?: EmailLocale;
 }
 
 const copy = {
   fr: {
-    preview: "Votre inscription à la liste d'accès anticipé DIVUS est enregistrée.",
-    eyebrow: "DIVUS PARIS",
-    heading: "Votre inscription est enregistrée.",
-    body: "Votre inscription à la liste d'accès anticipé DIVUS est enregistrée. Vous serez informé avant l'ouverture de la série.",
-    closing: "Le temps est le premier artisan du luxe.",
-    signature: "DIVUS — Paris",
+    preview: "Votre inscription est enregistrée.",
+    line1: "Votre inscription est enregistrée.",
+    line2: "Nous reviendrons vers vous.",
   },
   en: {
-    preview: "Your registration on the DIVUS early access list is recorded.",
-    eyebrow: "DIVUS PARIS",
-    heading: "Your registration is recorded.",
-    body: "Your registration on the DIVUS early access list is recorded. You will be informed before the series opens.",
-    closing: "Time is the first craftsman of luxury.",
-    signature: "DIVUS — Paris",
+    preview: "Your registration has been recorded.",
+    line1: "Your registration has been recorded.",
+    line2: "We will be in touch.",
   },
 };
 
 const Email = ({ locale = "fr" }: Props) => {
   const t = copy[locale] ?? copy.fr;
   return (
-    <Html lang={locale} dir="ltr">
-      <Head />
-      <Preview>{t.preview}</Preview>
-      <Body style={main}>
-        <Container style={container}>
-          <Text style={eyebrow}>{t.eyebrow}</Text>
-          <Hr style={rule} />
-          <Heading style={heading}>{t.heading}</Heading>
-          <Text style={paragraph}>{t.body}</Text>
-          <Section style={{ paddingTop: "24px" }}>
-            <Text style={closing}>{t.closing}</Text>
-            <Text style={signature}>{t.signature}</Text>
-          </Section>
-        </Container>
-      </Body>
-    </Html>
+    <DivusLayout locale={locale} preview={t.preview}>
+      <Text style={message}>
+        {t.line1}
+        <br />
+        {t.line2}
+      </Text>
+      <Section style={bottomRuleWrap}>
+        <Hr style={rule} />
+      </Section>
+    </DivusLayout>
   );
 };
 
@@ -67,52 +46,14 @@ export const template = {
   previewData: { locale: "fr" },
 } satisfies TemplateEntry;
 
-const main = {
-  backgroundColor: "#ffffff",
+const message = {
+  margin: "0",
+  paddingBottom: "56px",
+  textAlign: "center" as const,
   fontFamily: "Georgia, 'Times New Roman', serif",
-  color: "#1c1a17",
+  fontSize: "19px",
+  lineHeight: "1.75",
+  color: "#151515",
 };
 
-const container = { padding: "48px 32px", maxWidth: "560px" };
-
-const eyebrow = {
-  fontFamily: "Helvetica, Arial, sans-serif",
-  fontSize: "10px",
-  letterSpacing: "0.28em",
-  textTransform: "uppercase" as const,
-  color: "#7a7268",
-  margin: "0 0 16px",
-};
-
-const rule = { borderColor: "#e3ded6", margin: "0 0 32px" };
-
-const heading = {
-  fontSize: "26px",
-  fontWeight: 400,
-  lineHeight: "1.3",
-  margin: "0 0 24px",
-};
-
-const paragraph = {
-  fontFamily: "Helvetica, Arial, sans-serif",
-  fontSize: "14px",
-  lineHeight: "1.8",
-  color: "#3d382f",
-  margin: "0",
-};
-
-const closing = {
-  fontSize: "16px",
-  fontStyle: "italic" as const,
-  color: "#1c1a17",
-  margin: "0 0 8px",
-};
-
-const signature = {
-  fontFamily: "Helvetica, Arial, sans-serif",
-  fontSize: "10px",
-  letterSpacing: "0.24em",
-  textTransform: "uppercase" as const,
-  color: "#7a7268",
-  margin: "0",
-};
+const bottomRuleWrap = { paddingBottom: "64px" };

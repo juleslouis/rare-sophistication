@@ -30,6 +30,8 @@ const LABELS: Record<string, string> = {
   "waitlist-confirmation": "Confirmation d'inscription",
   "waitlist-hint-1": "Indice n°1",
   "waitlist-hint-2": "Indice n°2",
+  "waitlist-question": "Question — accès prioritaire",
+  "waitlist-opening": "Ouverture — test uniquement",
 };
 
 const EVENT_LABELS: Record<string, string> = {
@@ -165,12 +167,13 @@ function AdminPage() {
         </header>
 
         {/* Agrégats */}
-        <section className="grid grid-cols-2 gap-px border-b border-border md:grid-cols-4">
+        <section className="grid grid-cols-2 gap-px border-b border-border md:grid-cols-5">
           {[
             ["Inscriptions", waitlist.total],
             ["Consentements", waitlist.consented],
             ["Indice n°1 envoyé", waitlist.hint1Sent],
             ["Indice n°2 envoyé", waitlist.hint2Sent],
+            ["Question envoyée", waitlist.questionSent],
           ].map(([label, value]) => (
             <div key={label as string} className="py-10">
               <p className="display text-3xl">

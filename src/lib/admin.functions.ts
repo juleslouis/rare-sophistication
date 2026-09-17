@@ -8,6 +8,8 @@ export const TEST_TEMPLATES = [
   "waitlist-confirmation",
   "waitlist-hint-1",
   "waitlist-hint-2",
+  "waitlist-question",
+  "waitlist-opening",
 ] as const;
 
 type AdminSession = { unlocked?: boolean };
@@ -75,7 +77,7 @@ export const getAdminDashboard = createServerFn({ method: "POST" }).handler(
       "@/integrations/supabase/client.server"
     );
 
-    const [total, confirmed, hint1, hint2] = await Promise.all([
+    const [total, confirmed, hint1, hint2, question] = await Promise.all([
       supabaseAdmin
         .from("waitlist_signups")
         .select("id", { count: "exact", head: true }),
@@ -91,6 +93,10 @@ export const getAdminDashboard = createServerFn({ method: "POST" }).handler(
         .from("waitlist_signups")
         .select("id", { count: "exact", head: true })
         .not("hint_2_sent_at", "is", null),
+      supabaseAdmin
+        .from("waitlist_signups")
+        .select("id", { count: "exact", head: true })
+        .not("question_sent_at", "is", null),
     ]);
 
     let events: AdminEvent[] = [];
@@ -129,6 +135,7 @@ export const getAdminDashboard = createServerFn({ method: "POST" }).handler(
         consented: confirmed.count ?? 0,
         hint1Sent: hint1.count ?? 0,
         hint2Sent: hint2.count ?? 0,
+        questionSent: question.count ?? 0,
       },
       events,
       counts,
